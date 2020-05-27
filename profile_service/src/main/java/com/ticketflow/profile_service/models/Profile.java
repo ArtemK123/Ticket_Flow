@@ -8,32 +8,35 @@ public class Profile {
     private Long phoneNumber;
     private LocalDate birthday;
 
-	public Integer getId() {
+    public Profile(Integer id, String userEmail, Long phoneNumber, LocalDate birthday) {
+        this.id = id;
+        this.userEmail = userEmail;
+        this.phoneNumber = phoneNumber;
+        this.birthday = birthday;
+    }
+
+    public Integer getId() {
         return id;
     }
 
     public String getUserEmail() {
-		return userEmail;
+        return userEmail;
     }
-    
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
     public Long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
     public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
     }
 
     public void setBirthday(LocalDate birthday) {

@@ -65,13 +65,11 @@ public class ProfileRepository {
     }
 
     private Profile convertToProfile(ProfileDatabaseModel profileDatabaseModel) {
-        Profile profile = new Profile();
-        profile.setId(profileDatabaseModel.getId());
-        profile.setPhoneNumber(profileDatabaseModel.getPhoneNumber());
-        profile.setUserEmail(profileDatabaseModel.getUserEmail());
-        profile.setBirthday(profileDatabaseModel.getBirthday());
-
-        return profile;
+        return new Profile(
+            profileDatabaseModel.getId(),
+            profileDatabaseModel.getUserEmail(),
+            profileDatabaseModel.getPhoneNumber(),
+            profileDatabaseModel.getBirthday());
     }
 
     private ProfileDatabaseModel convertToProfileDatabaseModel(Profile profile) {
