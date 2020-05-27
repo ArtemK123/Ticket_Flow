@@ -1,3 +1,8 @@
 java -jar target/eureka-server-1.0.0.jar
 java -jar target/config-server-1.0.0.jar
 java -jar target/profile-service-1.0.0.jar
+
+
+Postgres:
+	Connect to profileService database(password=TicketFlow):	psql -U ProfileServiceUser -d ProfileServiceDatabase
+	Logs:	{postgres_root}\data\log
