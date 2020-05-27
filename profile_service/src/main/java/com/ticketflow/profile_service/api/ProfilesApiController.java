@@ -50,7 +50,6 @@ public class ProfilesApiController {
     @ResponseBody
     @PostMapping(value = "/profiles")
     public ResponseEntity<String> add(@RequestBody Profile profile) {
-        System.out.println(profile.getPhoneNumber().toString());
         Integer createdProfileId = this.profileService.add(profile);
         return ResponseEntity.ok().body(String.format("Added successfully. Id - %d", createdProfileId));
     }

@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProfileService {
-    private static final String NOT_FOUND_EXCEPTION_MESSAGE = "Profile with id=%d is not found";
-    
     private ProfileRepository profileRepository;
 
     @Autowired
@@ -25,12 +23,7 @@ public class ProfileService {
     }
 
     public Profile get(int id) throws NotFoundException {
-        Profile product = this.profileRepository.get(id);
-        if (product == null) {
-            throw new NotFoundException(String.format(NOT_FOUND_EXCEPTION_MESSAGE, id));            
-        }
-
-        return product;
+        return this.profileRepository.get(id);
     }
 
     public int add(Profile profile) {
@@ -38,21 +31,10 @@ public class ProfileService {
     }
 
     public void update(int id, Profile updatedProfile) throws NotFoundException {
-
-        Profile storedProfile = this.profileRepository.get(id);
-        if (storedProfile == null) {
-            throw new NotFoundException(String.format(NOT_FOUND_EXCEPTION_MESSAGE, id));   
-        }
-
         this.profileRepository.update(id, updatedProfile);
     }
 
     public void delete(int id) throws NotFoundException {
-        Profile storedProfile = this.profileRepository.get(id);
-        if (storedProfile == null) {
-            throw new NotFoundException(String.format(NOT_FOUND_EXCEPTION_MESSAGE, id));
-        }
-
         this.profileRepository.delete(id);
     }
 }
