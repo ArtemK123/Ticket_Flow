@@ -25,6 +25,9 @@ public class UserDatabaseModel {
     private String token;
     private Role role;
 
+    public UserDatabaseModel() {
+    }
+
     public UserDatabaseModel(String email, String password, Role role) {
         this.email = email;
         this.password = password;

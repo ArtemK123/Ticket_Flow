@@ -30,7 +30,7 @@ public class UserRepository {
     }
 
     public User getByEmail(String email) throws NotFoundException {
-        Optional<UserDatabaseModel> optionalUserDatabaseModel = Optional.ofNullable(userJpaRepository.findByEmail(email));
+        Optional<UserDatabaseModel> optionalUserDatabaseModel = userJpaRepository.findByEmail(email);
         if (optionalUserDatabaseModel.isEmpty()) {
             throw new NotFoundException(String.format(NOT_FOUND_BY_EMAIL_EXCEPTION_MESSAGE, email));            
         }
@@ -39,7 +39,7 @@ public class UserRepository {
     }
 
     public User getByToken(String token) throws NotFoundException {
-        Optional<UserDatabaseModel> optionalUserDatabaseModel = Optional.ofNullable(userJpaRepository.findByToken(token));
+        Optional<UserDatabaseModel> optionalUserDatabaseModel = userJpaRepository.findByToken(token);
         if (optionalUserDatabaseModel.isEmpty()) {
             throw new NotFoundException(String.format(NOT_FOUND_BY_TOKEN_EXCEPTION_MESSAGE, token));            
         }
@@ -48,7 +48,7 @@ public class UserRepository {
     }
 
     public void add(User user) throws NotUniqueEntityException {
-        Optional<UserDatabaseModel> optionalUserDatabaseModel = Optional.ofNullable(userJpaRepository.findByEmail(user.getEmail()));
+        Optional<UserDatabaseModel> optionalUserDatabaseModel = userJpaRepository.findByEmail(user.getEmail());
 
         if (optionalUserDatabaseModel.isPresent()) {
             throw new NotUniqueEntityException(String.format(NOT_UNIQUE_ENTITY_EXCEPTION_MESSAGE, user.getEmail()));
@@ -59,7 +59,7 @@ public class UserRepository {
     }
 
     public void update(User updatedUser) throws NotFoundException {
-        Optional<UserDatabaseModel> optionalUserDatabaseModel = Optional.ofNullable(userJpaRepository.findByEmail(updatedUser.getEmail()));
+        Optional<UserDatabaseModel> optionalUserDatabaseModel = userJpaRepository.findByEmail(updatedUser.getEmail());
         
         if (optionalUserDatabaseModel.isEmpty()) {
             throw new NotFoundException(String.format(NOT_FOUND_BY_EMAIL_EXCEPTION_MESSAGE, updatedUser.getEmail()));
@@ -74,7 +74,7 @@ public class UserRepository {
     }
 
     public void delete(String email) throws NotFoundException {
-        Optional<UserDatabaseModel> optionalUserDatabaseModel = Optional.ofNullable(userJpaRepository.findByEmail(email));
+        Optional<UserDatabaseModel> optionalUserDatabaseModel = userJpaRepository.findByEmail(email);
         if (optionalUserDatabaseModel.isEmpty()) {
             throw new NotFoundException(String.format(NOT_FOUND_BY_EMAIL_EXCEPTION_MESSAGE, email));
         }
