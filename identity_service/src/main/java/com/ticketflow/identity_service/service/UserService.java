@@ -40,7 +40,7 @@ public class UserService {
             throw new WrongPasswordException(String.format(WRONG_PASSWORD_EXCEPTION_MESSAGE, loginModel.getEmail()));
         }
 
-        String newJwtToken = jwtGenerator.generate();
+        String newJwtToken = jwtGenerator.generate(user);
         user.setToken(Optional.of(newJwtToken));
         userRepository.update(user);
         return newJwtToken;

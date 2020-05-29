@@ -50,7 +50,7 @@ public class UsersApiController {
     @PostMapping(value = "/users/register")
     public ResponseEntity<String> register(@RequestBody User user) throws NotUniqueEntityException {
         userService.register(user);
-        return ResponseEntity.status(201).body("Registered successfully");
+        return ResponseEntity.status(201).body(String.format("Registered successfully user with email=%s", user.getEmail()));
     }
 
     @PostMapping(value = "/users/logout")
