@@ -18,7 +18,6 @@ import io.jsonwebtoken.JwtBuilder;
 public class JwtGenerator {
     private static final int HOURS_IN_DAY = 24;
     private static final String SECRET_KEY = "top_secret";
-    private static final String JWT_ID = "";
     private static final String JWT_ISSUER_NAME = "IdetityService.JwtGenerator";
 
     public String generate(User user) {
@@ -26,7 +25,7 @@ public class JwtGenerator {
     }
 
     public String generate(User user, int expireHours) {
-        return createJWT(JWT_ID, JWT_ISSUER_NAME, user.getEmail(), convertHoursToMillSeconds(expireHours));
+        return createJWT(createRandomId(user), JWT_ISSUER_NAME, user.getEmail(), convertHoursToMillSeconds(expireHours));
     }
 
     public Claims decodeJWT(String jwt) {
@@ -72,5 +71,9 @@ public class JwtGenerator {
         int millSecondsInSecond = 1000;
         
         return hours * secondsInHour * millSecondsInSecond; 
+    }
+
+    private String createRandomId(User user) {
+        return String.valueOf(user.hashCode());
     }
 }
