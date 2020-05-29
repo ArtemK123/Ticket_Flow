@@ -29,14 +29,14 @@ public class UsersApiController {
         return ResponseEntity.ok().body("<span>Hello from TicketFlow Identity service</span>");
     }
 
-    @GetMapping(value = "/users/getByToken/{token}")
-    public ResponseEntity<User> getByToken(@PathVariable String token) throws NotFoundException {
+    @PostMapping(value = "/users/getByToken")
+    public ResponseEntity<User> getByToken(@RequestBody String token) throws NotFoundException {
         User user = userService.getByToken(token);
         return ResponseEntity.ok().body(user);
     }
 
-    @GetMapping(value = "/users/getByEmail/{email}")
-    public ResponseEntity<User> getByEmail(@PathVariable String email) throws NotFoundException {
+    @PostMapping(value = "/users/getByEmail")
+    public ResponseEntity<User> getByEmail(@RequestBody String email) throws NotFoundException {
         User user = userService.getByEmail(email);
         return ResponseEntity.ok().body(user);
     }
