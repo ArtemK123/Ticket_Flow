@@ -35,8 +35,9 @@ public class User {
         if (optionalToken.isPresent()) {
             this.token = optionalToken.get();
         }
-
-        this.token = null;
+        else {
+            this.token = null;
+        }
     }
 
     public Role getRole() {

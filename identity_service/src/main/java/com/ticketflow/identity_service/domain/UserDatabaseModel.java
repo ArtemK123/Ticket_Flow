@@ -58,8 +58,9 @@ public class UserDatabaseModel {
         if (token.isPresent()) {
             this.token = token.get();
         }
-        
-        this.token = null;
+        else {
+            this.token = null;
+        }
     }
 
     public Role getRole() {
