@@ -29,8 +29,7 @@ public class ProfilesApiController {
     @ResponseBody
     @GetMapping(value = "/")
     public ResponseEntity<String> home() {
-        return ResponseEntity.ok()
-            .body("<span>Hello from TicketFlow Profile service</span>");
+        return ResponseEntity.ok().body("<span>Hello from TicketFlow Profile service</span>");
     }
 
     @ResponseBody
@@ -51,14 +50,14 @@ public class ProfilesApiController {
     @PostMapping(value = "/profiles")
     public ResponseEntity<String> add(@RequestBody Profile profile) {
         Integer createdProfileId = this.profileService.add(profile);
-        return ResponseEntity.ok().body(String.format("Added successfully. Id - %d", createdProfileId));
+        return ResponseEntity.status(201).body(String.format("Added successfully. Id - %d", createdProfileId));
     }
 
     @ResponseBody
     @PutMapping(value = "/profiles/{id}")
     public ResponseEntity<String> update(@PathVariable Integer id, @RequestBody Profile profile) throws NotFoundException {
         this.profileService.update(id, profile);
-        return ResponseEntity.ok().body("Updated successfully");
+        return ResponseEntity.accepted().body("Updated successfully");
     }
 
     @ResponseBody

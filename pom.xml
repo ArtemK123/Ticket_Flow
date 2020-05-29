@@ -10,6 +10,7 @@
     <modules>
 		<module>./eureka_server</module>
 		<module>./config_server</module>
+		<module>./identity_service</module>
 		<module>./profile_service</module>
     </modules>
 </project>
