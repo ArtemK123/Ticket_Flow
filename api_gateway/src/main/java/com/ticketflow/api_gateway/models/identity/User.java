@@ -1,4 +1,4 @@
-package com.ticketflow.api_gateway.proxy.identity.models;
+package com.ticketflow.api_gateway.models.identity;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package com.ticketflow.api_gateway.proxy.identity.models.exceptions;
+package com.ticketflow.api_gateway.models.identity.exceptions;
 
 public class WrongPasswordException extends Exception {
     

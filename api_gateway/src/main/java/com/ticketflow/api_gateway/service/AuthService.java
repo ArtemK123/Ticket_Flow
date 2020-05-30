@@ -1,12 +1,12 @@
 package com.ticketflow.api_gateway.service;
 
-import com.ticketflow.api_gateway.proxy.common.models.NotFoundException;
-import com.ticketflow.api_gateway.proxy.identity.models.LoginModel;
-import com.ticketflow.api_gateway.proxy.identity.models.Role;
-import com.ticketflow.api_gateway.proxy.identity.models.User;
-import com.ticketflow.api_gateway.proxy.identity.models.exceptions.NotUniqueEntityException;
-import com.ticketflow.api_gateway.proxy.identity.models.exceptions.WrongPasswordException;
-import com.ticketflow.api_gateway.proxy.identity.service_proxy.IdentityServiceProxy;
+import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
+import com.ticketflow.api_gateway.models.identity.LoginModel;
+import com.ticketflow.api_gateway.models.identity.Role;
+import com.ticketflow.api_gateway.models.identity.User;
+import com.ticketflow.api_gateway.models.identity.exceptions.NotUniqueEntityException;
+import com.ticketflow.api_gateway.models.identity.exceptions.WrongPasswordException;
+import com.ticketflow.api_gateway.proxy.identity.IdentityServiceProxy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

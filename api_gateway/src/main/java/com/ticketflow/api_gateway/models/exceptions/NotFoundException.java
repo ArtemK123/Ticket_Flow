@@ -1,4 +1,4 @@
-package com.ticketflow.api_gateway.proxy.common.models;
+package com.ticketflow.api_gateway.models.exceptions;
 
 public class NotFoundException extends Exception {
 

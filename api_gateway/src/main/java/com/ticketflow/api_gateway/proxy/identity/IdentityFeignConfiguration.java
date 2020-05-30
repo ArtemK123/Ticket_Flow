@@ -1,4 +1,4 @@
-package com.ticketflow.api_gateway.proxy.identity.service_proxy;
+package com.ticketflow.api_gateway.proxy.identity;
 
 import com.ticketflow.api_gateway.proxy.common.parsers.ResponseBodyParser;
 

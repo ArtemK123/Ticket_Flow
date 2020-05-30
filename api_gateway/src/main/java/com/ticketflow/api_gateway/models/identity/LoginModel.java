@@ -1,4 +1,4 @@
-package com.ticketflow.api_gateway.proxy.identity.models;
+package com.ticketflow.api_gateway.models.identity;
 
 public class LoginModel {
     private String email;
