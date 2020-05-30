@@ -14,27 +14,26 @@ import com.ticketflow.api_gateway.models.identity_service.exceptions.WrongPasswo
 import com.ticketflow.api_gateway.models.profile_service.Profile;
 import com.ticketflow.api_gateway.proxy.identity.IdentityServiceProxy;
 import com.ticketflow.api_gateway.proxy.profile.ProfileServiceProxy;
+import com.ticketflow.api_gateway.service.validators.TokenValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private static final String EMPTY_TOKEN_EXCEPTION_MESSAGE = "Token is empty";
-
     private IdentityServiceProxy identityServiceProxy;
     private ProfileServiceProxy profileServiceProxy;
+    private TokenValidator tokenValidator;
 
     @Autowired
-    public UserService(IdentityServiceProxy identityServiceProxy, ProfileServiceProxy profileServiceProxy) {
+    public UserService(IdentityServiceProxy identityServiceProxy, ProfileServiceProxy profileServiceProxy, TokenValidator tokenValidator) {
         this.identityServiceProxy = identityServiceProxy;
         this.profileServiceProxy = profileServiceProxy;
+        this.tokenValidator = tokenValidator;
     }
 
     public ProfileResponseData getProfile(String token) throws NotFoundException, InvalidTokenException {
-        if (token == null || token.isEmpty()) {
-            throw new InvalidTokenException(String.format(EMPTY_TOKEN_EXCEPTION_MESSAGE));
-        }
+        tokenValidator.validate(token);
 
         User user = identityServiceProxy.getByToken(token);
         Profile profile = profileServiceProxy.getByUserEmail(user.getEmail());

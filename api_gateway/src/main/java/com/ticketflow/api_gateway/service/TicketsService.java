@@ -16,30 +16,33 @@ import com.ticketflow.api_gateway.proxy.identity.IdentityServiceProxy;
 import com.ticketflow.api_gateway.proxy.movie.MovieServiceProxy;
 import com.ticketflow.api_gateway.proxy.ticket.TicketServiceProxy;
 import com.ticketflow.api_gateway.service.factories.TicketClientModelFactory;
+import com.ticketflow.api_gateway.service.validators.TokenValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TicketsService {
-    private static final String EMPTY_TOKEN_EXCEPTION_MESSAGE = "Token is empty";
     private static final String USER_WITH_TOKEN_NOT_FOUND_EXCEPTION_MESSAGE = "User with given token is not found";
 
     private IdentityServiceProxy identityServiceProxy;
     private TicketServiceProxy ticketServiceProxy;
     private MovieServiceProxy movieServiceProxy;
     private TicketClientModelFactory ticketClientModelFactory;
+    private TokenValidator tokenValidator;
 
     @Autowired
     public TicketsService(
             IdentityServiceProxy identityServiceProxy,
             TicketServiceProxy ticketServiceProxy,
             MovieServiceProxy movieServiceProxy,
-            TicketClientModelFactory ticketClientModelFactory) {
+            TicketClientModelFactory ticketClientModelFactory,
+            TokenValidator tokenValidator) {
         this.identityServiceProxy = identityServiceProxy;
         this.ticketServiceProxy = ticketServiceProxy;
         this.movieServiceProxy = movieServiceProxy;
         this.ticketClientModelFactory = ticketClientModelFactory;
+        this.tokenValidator = tokenValidator;
     }
 
     public List<TicketClientModel> getTicketsByMovie(Integer id) throws NotFoundException {
@@ -49,9 +52,7 @@ public class TicketsService {
     }
 
     public List<TicketClientModel> getTicketsByUser(String token) throws InvalidTokenException, NotFoundException {
-        if (token == null || token.length() == 0) {
-            throw new InvalidTokenException(EMPTY_TOKEN_EXCEPTION_MESSAGE);
-        }
+        tokenValidator.validate(token);
         
         User user;
         try {
