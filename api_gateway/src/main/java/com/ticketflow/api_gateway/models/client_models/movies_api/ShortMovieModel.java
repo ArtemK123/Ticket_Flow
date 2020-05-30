@@ -2,13 +2,13 @@ package com.ticketflow.api_gateway.models.client_models.movies_api;
 
 import java.time.LocalDateTime;
 
-public class ShortMovieDescription {
+public class ShortMovieModel {
     private Integer id;
     private String title;
     private LocalDateTime startTime;
     private String cinemaHallName;
 
-    public ShortMovieDescription(Integer id, String title, LocalDateTime startTime, String cinemaHallName) {
+    public ShortMovieModel(Integer id, String title, LocalDateTime startTime, String cinemaHallName) {
         this.id = id;
         this.title = title;
         this.startTime = startTime;

@@ -2,7 +2,7 @@ package com.ticketflow.api_gateway.models.movie_service;
 
 import java.time.LocalDate;
 
-public class MovieDetails {
+public class Film {
     private Integer id;
     private String title;
     private String description;

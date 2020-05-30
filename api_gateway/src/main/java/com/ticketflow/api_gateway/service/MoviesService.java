@@ -1,8 +1,8 @@
 package com.ticketflow.api_gateway.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class MoviesService {
     
 }

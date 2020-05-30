@@ -7,22 +7,33 @@ import com.ticketflow.api_gateway.models.client_models.tickets_api.TicketClientM
 import com.ticketflow.api_gateway.models.exceptions.InvalidTokenException;
 import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
 import com.ticketflow.api_gateway.models.ticket_service.exceptions.TicketAlreadyOrderedException;
+import com.ticketflow.api_gateway.service.TicketsService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class TicketsApiController {
+    private TicketsService ticketsService;
+
+    @Autowired
+    public TicketsApiController(TicketsService ticketsService) {
+        this.ticketsService = ticketsService;
+    }
+
     @GetMapping(value = "tickets/by-movie/{id}")
-    public ResponseEntity<List<TicketClientModel>> ticketsByMovie(@RequestParam Integer id) throws NotFoundException {
-        throw new UnsupportedOperationException("TicketsApiController.ticketsByMovie is called");
+    public ResponseEntity<List<TicketClientModel>> getTicketsByMovie(@RequestParam Integer id) throws NotFoundException {
+        return ResponseEntity.ok(ticketsService.getTicketsByMovie(id));
     }
 
     @PostMapping(value = "/tickets/by-user")
-    public ResponseEntity<List<TicketClientModel>> ticketsByUser(@RequestBody String token) throws InvalidTokenException {
-        throw new UnsupportedOperationException("TicketsApiController.ticketsByUser is called");
+    public ResponseEntity<List<TicketClientModel>> ticketsByUser(@RequestBody String token) throws InvalidTokenException, NotFoundException {
+        return ResponseEntity.ok(ticketsService.getTicketsByUser(token));
     }
 
     @PostMapping(value = "/tickets/order")
@@ -30,6 +41,8 @@ public class TicketsApiController {
             throws TicketAlreadyOrderedException,
                 InvalidTokenException,
                 NotFoundException {
-        throw new UnsupportedOperationException("TicketsApiController.order is called");
+
+        ticketsService.order(orderRequestModel);
+        return ResponseEntity.accepted().body("Ordered successfully");
     }
 }

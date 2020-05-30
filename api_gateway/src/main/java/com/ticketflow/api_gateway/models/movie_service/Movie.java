@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class Movie {
     private Integer id;
     private LocalDateTime startTime;
-    private MovieDetails movieDetails;
+    private Film film;
     private CinemaHall cinemaHall;
 
     public Integer getId() {
@@ -24,12 +24,12 @@ public class Movie {
         this.startTime = startTime;
     }
 
-    public MovieDetails getMovieDetails() {
-        return movieDetails;
+    public Film getFilm() {
+        return film;
     }
 
-    public void setMovieDetails(MovieDetails movieDetails) {
-        this.movieDetails = movieDetails;
+    public void setFilm(Film film) {
+        this.film = film;
     }
 
     public CinemaHall getCinemaHall() {

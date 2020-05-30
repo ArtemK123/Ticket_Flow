@@ -15,7 +15,7 @@ public class TicketServiceProxy {
         throw new UnsupportedOperationException("TicketServiceProxy.getByMovie is called");
     }
 
-    public List<Ticket> getByUserEmail(String userEmail) throws NotFoundException {
+    public List<Ticket> getByUserEmail(String userEmail) {
         throw new UnsupportedOperationException("TicketServiceProxy.getByUserEmail is called");
     }
 
