@@ -1,0 +1,266 @@
+### Login
+
+Request:
+POST http://localhost:8080/login
+Content-type: application/json
+Body:
+	{
+		"email": "test@gmail.com",
+		"password": "XX-AA-11-22-33"
+	}
+Notes: Password should be hashed on client side.
+
+Responses:
+ - Authorized successfully
+	Status code: 203 Accepted
+	Body: JWT session token
+	
+ - Wrong password
+	Status code: 401 Unauthorized
+
+ - User with given email is not found
+	Status code: 404 Not found
+
+-----------------------------------------------
+
+### Register
+
+Request:
+POST http://localhost:8080/register
+Content-type: application/json
+Body:
+	{
+		"email": "test@gmail.com",
+		"password": "FF-AA-11-22-33",
+		"profile": {
+			"phoneNumber": 380971234567,
+			"birthday": "2000-01-01"
+		}
+	}
+Notes: Password should be hashed on client side.
+
+Responses:
+ - Registered successfully
+	Status code: 201 Created
+	
+ - User with given email already exists
+	Status code: 400 Bad request
+
+--------------------------------------------------
+
+### Logout
+
+Request:
+POST http://localhost:8080/logout
+Content-type: text/plain
+Body: session token
+
+Responses:
+ - Logout successful
+	Status code: 203 Accepted
+	
+ - User with given token is not found
+	Status code: 404 Not found
+	
+---------------------------------------------------
+
+### Get user profile
+
+Request:
+POST http://localhost:8080/profile
+Content-type: text/plain
+Body: session token
+
+Responses:
+ - Ok
+	Status code: 200 OK
+	Body:
+	{
+		"userEmail": "test@gmail.com",
+		"profile": {
+			"phoneNumber": 380971234567,
+			"birthday": "2000-01-01"
+		}
+	}
+	 
+ - Token is empty or in invalid format
+	Status code: 401 Unauthorized
+
+ - User with given token doesn`t exists (token may be expired)
+	Status code: 404 Not found
+
+---------------------------------------------------
+
+### Get all movies
+
+Request:
+GET http://localhost:8080/movies
+
+Responses:
+ - Ok
+	Status code: 200 OK
+	Body:
+	[
+		{
+			"id": 1,
+			"title": "Terminator",
+			"startTime": "2018-11-12 11:00",
+			"cinemaHallName": "Lux_place"
+		},
+		{
+			"id": 2,
+			"title": "Batman",
+			"startTime": "2018-11-12 22:00",
+			"cinemaHallName": "Red_hall"
+		}
+	]
+	
+-----------------------------------------------------
+
+### Get movie details
+
+Request:
+GET http://localhost:8080/movies/{id}
+Params: movie id
+
+Responses:
+ - Ok
+	Status code: 200 OK
+	Body:
+	{
+		"id": 1,
+		"title": "Terminator",
+		"startTime": "2018-11-12 11:00",
+		"cinemaHallName": "Lux_place",
+		"description": "Lorem ipsum (may be quite big)",
+		"premiereDate": "1980-01-01",
+		"creator": "May be a studio or a single director",
+		"duration": "202",
+		"ageLimit": "18"
+	}
+	Notes:
+		"duration": 202 - in minutes
+		"ageLimit": 18 - allowed for 18 years old or older
+	
+ - Movie with given id is not found
+	Status code: 404 Not found
+
+---------------------------------------------------------
+
+### Get all tickets for a movie
+
+Request:
+GET http://localhost:8080/tickets/by-movie/{id}
+Params: movie id
+
+Responses:
+ - Ok
+	Status code: 200 OK
+	Body:
+	[
+		{
+			"id": 1,
+			"movieId": {id},
+			"buyerEmail": null,
+			"seat": "5, 11",
+			"price": "100"
+		},
+		{
+			"id": 2,
+			"movieId": {id},
+			"buyerEmail": "test@gmail.com",
+			"seat": "5, 12",
+			"price": "100"
+		}
+	]
+	Notes:
+		"movieId": {id} - ticket should be added for whole cinema hall at once.
+					So, in real cases there should be more than 2 tickets
+		"buyerEmail": null - if property is null, the ticket hasn`t been bought yet
+		"seat": "5, 12" - row, seat
+	
+ - Movie with given id is not found
+	Status code: 404 Not found
+	
+--------------------------------------------------------------
+
+### Get all tickets, which were ordered by user
+
+Request:
+POST http://localhost:8080/tickets/by-user
+Content-type: text/plain
+Body: session token
+
+Responses:
+ - Ok
+	Status code: 200 OK
+	Body:
+	[
+		{
+			"id": 1,
+			"buyerEmail": "test@gmail.com",
+			"seat": "5, 11",
+			"price": "100",
+			"movie": {
+				"id": 1,
+				"title": "Terminator",
+				"startTime": "2018-11-12 11:00",
+				"cinemaHallName": "Lux_place",
+				"description": "Lorem ipsum (may be quite big)",
+				"premiereDate": "1980-01-01",
+				"creator": "May be a studio or a single director",
+				"duration": "202",
+				"ageLimit": "18"
+			}
+		},
+		{
+			"id": 2,
+			"buyerEmail": "test@gmail.com",
+			"seat": "5, 12",
+			"price": "100",
+			"movie": {
+				"id": 1,
+				"title": "Terminator",
+				"startTime": "2018-11-12 11:00",
+				"cinemaHallName": "Lux_place",
+				"description": "Lorem ipsum (may be quite big)",
+				"premiereDate": "1980-01-01",
+				"creator": "May be a studio or a single director",
+				"duration": "202",
+				"ageLimit": "18"
+			}
+		}
+	]
+	Notes:
+		"buyerEmail": "test@gmail.com" - user email will be found under the hood
+	
+ - Token is empty, invalid or user with given token is not nound
+	Status code: 401 Unauthorized
+	
+----------------------------------------------------------------
+
+### Order ticket
+
+Request:
+POST http://localhost:8080/tickets/order
+Content-type: application/json
+Body:
+	{
+		"token": "jwt token",
+		"ticketId": 1
+	}
+
+Responses:
+ - Ordered successfully
+	Status code: 203 Accepted
+	
+ - Ticket is already ordered by another user
+	Status code: 400 Bad Request
+	
+ - Token is empty, invalid or user with given token is not nound
+	Status code: 401 Unauthorized
+	
+ - Ticket with given id is not found
+	Status code: 404 Not found	
+
+
