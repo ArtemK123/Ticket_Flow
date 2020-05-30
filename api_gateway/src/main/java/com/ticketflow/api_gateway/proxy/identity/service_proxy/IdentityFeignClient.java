@@ -1,4 +1,4 @@
-package com.ticketflow.api_gateway.proxy.identity.feign_client;
+package com.ticketflow.api_gateway.proxy.identity.service_proxy;
 
 import com.ticketflow.api_gateway.proxy.common.models.NotFoundException;
 import com.ticketflow.api_gateway.proxy.identity.models.LoginModel;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "${identity.service.name}", configuration = IdentityFeignConfiguration.class)
-public interface IdentityFiegnClient {
+interface IdentityFeignClient {
     @GetMapping(value = "/")
     public ResponseEntity<String> home();
 

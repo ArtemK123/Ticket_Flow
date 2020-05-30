@@ -1,4 +1,4 @@
-package com.ticketflow.api_gateway.proxy.identity.feign_client;
+package com.ticketflow.api_gateway.proxy.identity.service_proxy;
 
 import com.ticketflow.api_gateway.proxy.common.models.NotFoundException;
 import com.ticketflow.api_gateway.proxy.common.parsers.ResponseBodyParser;
@@ -11,7 +11,7 @@ import feign.Response;
 import feign.codec.ErrorDecoder;
 
 @Component
-public class IdentityErrorDecoder implements ErrorDecoder {
+class IdentityErrorDecoder implements ErrorDecoder {
 
     private ResponseBodyParser responseBodyParser;
 

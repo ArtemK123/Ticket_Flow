@@ -1,4 +1,4 @@
-package com.ticketflow.api_gateway.proxy.identity.feign_client;
+package com.ticketflow.api_gateway.proxy.identity.service_proxy;
 
 import com.ticketflow.api_gateway.proxy.common.parsers.ResponseBodyParser;
 
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import feign.codec.ErrorDecoder;
 
 @Configuration
-public class IdentityFeignConfiguration {
+class IdentityFeignConfiguration {
     
     private ResponseBodyParser responseBodyParser;
 
