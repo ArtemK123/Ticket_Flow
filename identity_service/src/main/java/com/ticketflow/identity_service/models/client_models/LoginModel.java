@@ -1,4 +1,4 @@
-package com.ticketflow.identity_service.api.client_models;
+package com.ticketflow.identity_service.models.client_models;
 
 public class LoginModel {
     private String email;

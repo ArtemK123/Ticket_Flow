@@ -2,9 +2,9 @@ package com.ticketflow.identity_service.service;
 
 import java.util.Optional;
 
-import com.ticketflow.identity_service.api.client_models.LoginModel;
 import com.ticketflow.identity_service.domain.UserRepository;
 import com.ticketflow.identity_service.models.User;
+import com.ticketflow.identity_service.models.client_models.LoginModel;
 import com.ticketflow.identity_service.models.exceptions.NotFoundException;
 import com.ticketflow.identity_service.models.exceptions.NotUniqueEntityException;
 import com.ticketflow.identity_service.models.exceptions.WrongPasswordException;
