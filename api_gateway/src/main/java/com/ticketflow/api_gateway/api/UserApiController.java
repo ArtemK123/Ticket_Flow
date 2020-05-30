@@ -31,13 +31,13 @@ public class UserApiController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequestData registerRequestData) throws NotUniqueEntityException {
-        throw new UnsupportedOperationException("UserApiController.register is called");
-        // return ResponseEntity.status(201).body(userService.register(user));
+        userService.register(registerRequestData);
+        return ResponseEntity.status(201).body("Registered successfully");
     }
 
     @PostMapping(value = "/profile")
-    public ResponseEntity<ProfileResponseData> profile(@RequestBody String token) throws NotFoundException, InvalidTokenException {
-        throw new UnsupportedOperationException("UserApiController.profile is called");
+    public ResponseEntity<ProfileResponseData> getProfile(@RequestBody String token) throws NotFoundException, InvalidTokenException {
+        return ResponseEntity.ok().body(userService.getProfile(token));
     }
 
     @PostMapping(value = "/logout")

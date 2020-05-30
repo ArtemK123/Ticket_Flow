@@ -14,7 +14,7 @@ public class ProfileServiceProxy {
         throw new UnsupportedOperationException("ProfileServiceProxy.getAll is called");
     }
 
-    public Profile get(Integer id) throws NotFoundException {
+    public Profile getByUserEmail(String userEmail) throws NotFoundException {
         throw new UnsupportedOperationException("ProfileServiceProxy.get is called");
     }
 

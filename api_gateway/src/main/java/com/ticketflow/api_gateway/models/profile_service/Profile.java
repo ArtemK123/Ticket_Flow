@@ -8,8 +8,7 @@ public class Profile {
     private Long phoneNumber;
     private LocalDate birthday;
 
-    public Profile(Integer id, String userEmail, Long phoneNumber, LocalDate birthday) {
-        this.id = id;
+    public Profile(String userEmail, Long phoneNumber, LocalDate birthday) {
         this.userEmail = userEmail;
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
