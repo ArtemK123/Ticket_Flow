@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class TicketsApiController {
-    
     @GetMapping(value = "tickets/by-movie/{id}")
     public ResponseEntity<List<TicketClientModel>> ticketsByMovie(@RequestParam Integer id) throws NotFoundException {
         throw new UnsupportedOperationException("TicketsApiController.ticketsByMovie is called");

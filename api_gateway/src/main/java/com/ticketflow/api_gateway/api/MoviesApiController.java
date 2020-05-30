@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MoviesApiController {
-    
     @GetMapping(value = "/movies")
     public ResponseEntity<List<ShortMovieDescription>> getAllMovies() {
         throw new UnsupportedOperationException("MoviesApiController.getAllMovies is called");
