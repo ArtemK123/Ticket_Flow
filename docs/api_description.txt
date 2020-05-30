@@ -160,17 +160,27 @@ Responses:
 	[
 		{
 			"id": 1,
-			"movieId": {id},
 			"buyerEmail": null,
 			"seat": "5, 11",
-			"price": "100"
+			"price": "100",
+			"movie": {
+				"id": 1,
+				"title": "Terminator",
+				"startTime": "2018-11-12 11:00",
+				"cinemaHallName": "Lux_place"
+			}
 		},
 		{
 			"id": 2,
-			"movieId": {id},
 			"buyerEmail": "test@gmail.com",
 			"seat": "5, 12",
-			"price": "100"
+			"price": "100",
+			"movie": {
+				"id": 1,
+				"title": "Terminator",
+				"startTime": "2018-11-12 11:00",
+				"cinemaHallName": "Lux_place"
+			},
 		}
 	]
 	Notes:
@@ -205,12 +215,7 @@ Responses:
 				"id": 1,
 				"title": "Terminator",
 				"startTime": "2018-11-12 11:00",
-				"cinemaHallName": "Lux_place",
-				"description": "Lorem ipsum (may be quite big)",
-				"premiereDate": "1980-01-01",
-				"creator": "May be a studio or a single director",
-				"duration": "202",
-				"ageLimit": "18"
+				"cinemaHallName": "Lux_place"
 			}
 		},
 		{
@@ -222,12 +227,7 @@ Responses:
 				"id": 1,
 				"title": "Terminator",
 				"startTime": "2018-11-12 11:00",
-				"cinemaHallName": "Lux_place",
-				"description": "Lorem ipsum (may be quite big)",
-				"premiereDate": "1980-01-01",
-				"creator": "May be a studio or a single director",
-				"duration": "202",
-				"ageLimit": "18"
+				"cinemaHallName": "Lux_place"
 			}
 		}
 	]

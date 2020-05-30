@@ -1,10 +1,10 @@
 package com.ticketflow.api_gateway.proxy.identity;
 
-import com.ticketflow.api_gateway.models.identity.LoginModel;
-import com.ticketflow.api_gateway.models.identity.User;
 import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
-import com.ticketflow.api_gateway.models.identity.exceptions.NotUniqueEntityException;
-import com.ticketflow.api_gateway.models.identity.exceptions.WrongPasswordException;
+import com.ticketflow.api_gateway.models.identity_service.LoginModel;
+import com.ticketflow.api_gateway.models.identity_service.User;
+import com.ticketflow.api_gateway.models.identity_service.exceptions.NotUniqueEntityException;
+import com.ticketflow.api_gateway.models.identity_service.exceptions.WrongPasswordException;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

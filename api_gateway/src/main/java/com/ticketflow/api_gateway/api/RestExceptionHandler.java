@@ -1,8 +1,10 @@
 package com.ticketflow.api_gateway.api;
 
+import com.ticketflow.api_gateway.models.exceptions.InvalidTokenException;
 import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
-import com.ticketflow.api_gateway.models.identity.exceptions.NotUniqueEntityException;
-import com.ticketflow.api_gateway.models.identity.exceptions.WrongPasswordException;
+import com.ticketflow.api_gateway.models.identity_service.exceptions.NotUniqueEntityException;
+import com.ticketflow.api_gateway.models.identity_service.exceptions.WrongPasswordException;
+import com.ticketflow.api_gateway.models.ticket_service.exceptions.TicketAlreadyOrderedException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -30,6 +32,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(401).body(exceptionMessage);
     }
 
+    @ExceptionHandler(TicketAlreadyOrderedException.class)
+    protected ResponseEntity<String> handleTicketAlreadyOrderedException(TicketAlreadyOrderedException exception) {
+        String exceptionMessage = exception.getMessage();
+        
+        logger.warn(exceptionMessage);
+
+        return ResponseEntity.status(400).body(exceptionMessage);
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    protected ResponseEntity<String> handleInvalidTokenException(InvalidTokenException exception) {
+        String exceptionMessage = exception.getMessage();
+        
+        logger.warn(exceptionMessage);
+
+        return ResponseEntity.status(401).body(exceptionMessage);
+    }
+
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<String> handleNotFoundException(NotFoundException exception) {
         String exceptionMessage = exception.getMessage();
@@ -39,10 +59,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(404).body(exceptionMessage);
     }
 
+    @ExceptionHandler(UnsupportedOperationException.class)
+    protected ResponseEntity<String> handleUnsupportedOperationException(UnsupportedOperationException exception) {
+        String exceptionMessage = exception.getMessage();
+        
+        logger.warn(exceptionMessage);
+
+        return ResponseEntity.status(500).body("Not yet implemented");
+    }
+
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<String> handleException(Exception exception) {
         logger.error("Unhandled exception.", exception);
 
-        return ResponseEntity.status(500).body("Internal server error. Calm down and wait a little - our team is already working on it");
+        return ResponseEntity.status(500).body("Internal server error. Calm down - it isn`t scary. Just contact with our team and we will fix it");
     }
 }
