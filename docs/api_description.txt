@@ -129,18 +129,27 @@ Responses:
 	Body:
 	{
 		"id": 1,
-		"title": "Terminator",
 		"startTime": "2018-11-12 11:00",
-		"cinemaHallName": "Lux_place",
-		"description": "Lorem ipsum (may be quite big)",
-		"premiereDate": "1980-01-01",
-		"creator": "May be a studio or a single director",
-		"duration": "202",
-		"ageLimit": "18"
+		"film": {
+			"id": 1,
+			"title": "Terminator",
+			"description": "Lorem ipsum (may be quite big)",
+			"premiereDate": "1980-01-01",
+			"creator": "May be a studio or a single director",
+			"duration": "202",
+			"ageLimit": "18"
+		},
+		"cinemaHall": {
+			"id": 1,
+			"name": "Lux_place",
+			"location": "Kyiv",
+			"capacity": 100
+		}
 	}
 	Notes:
 		"duration": 202 - in minutes
 		"ageLimit": 18 - allowed for 18 years old or older
+		"cinemaHall.capacity": 100 - seats in this cinema hall
 	
  - Movie with given id is not found
 	Status code: 404 Not found

@@ -25,7 +25,6 @@ public class TicketsService {
     private static final String EMPTY_TOKEN_EXCEPTION_MESSAGE = "Token is empty";
     private static final String USER_WITH_TOKEN_NOT_FOUND_EXCEPTION_MESSAGE = "User with given token is not found";
 
-
     private IdentityServiceProxy identityServiceProxy;
     private TicketServiceProxy ticketServiceProxy;
     private MovieServiceProxy movieServiceProxy;
