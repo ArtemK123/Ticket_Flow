@@ -12,5 +12,6 @@
 		<module>./config_server</module>
 		<module>./identity_service</module>
 		<module>./profile_service</module>
+		<module>./api_gateway</module>
     </modules>
 </project>

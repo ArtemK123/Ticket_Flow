@@ -2,6 +2,7 @@ java -jar target/eureka-server-1.0.0.jar
 java -jar target/config-server-1.0.0.jar
 java -jar target/identity-service-1.0.0.jar
 java -jar target/profile-service-1.0.0.jar
+java -jar target/api-gateway-1.0.0.jar
 
 
 
