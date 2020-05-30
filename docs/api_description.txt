@@ -161,7 +161,8 @@ Responses:
 		{
 			"id": 1,
 			"buyerEmail": null,
-			"seat": "5, 11",
+			"row": 5,
+			"seat": 11,
 			"price": "100",
 			"movie": {
 				"id": 1,
@@ -173,7 +174,8 @@ Responses:
 		{
 			"id": 2,
 			"buyerEmail": "test@gmail.com",
-			"seat": "5, 12",
+			"row": 5,
+			"seat": 11,
 			"price": "100",
 			"movie": {
 				"id": 1,
@@ -187,7 +189,6 @@ Responses:
 		"movieId": {id} - ticket should be added for whole cinema hall at once.
 					So, in real cases there should be more than 2 tickets
 		"buyerEmail": null - if property is null, the ticket hasn`t been bought yet
-		"seat": "5, 12" - row, seat
 	
  - Movie with given id is not found
 	Status code: 404 Not found
@@ -209,7 +210,8 @@ Responses:
 		{
 			"id": 1,
 			"buyerEmail": "test@gmail.com",
-			"seat": "5, 11",
+			"row": 5,
+			"seat": 11,
 			"price": "100",
 			"movie": {
 				"id": 1,
@@ -221,7 +223,8 @@ Responses:
 		{
 			"id": 2,
 			"buyerEmail": "test@gmail.com",
-			"seat": "5, 12",
+			"row": 5,
+			"seat": 12,
 			"price": "100",
 			"movie": {
 				"id": 1,
