@@ -22,6 +22,4 @@ public class IdentityFeignConfiguration {
     public ErrorDecoder feignErrorDecoder() {
         return new IdentityErrorDecoder(responseBodyParser);
     }
-
-
 }
