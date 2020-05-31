@@ -12,9 +12,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<String> handleNotFoundException(NotFoundException exception) {
-        logger.warn(exception.getMessage());
+        String exceptionMessage = exception.getMessage();
+        
+        logger.warn(exceptionMessage);
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(404).body(exceptionMessage);
     }
 
     @ExceptionHandler(NotUniqueEntityException.class)

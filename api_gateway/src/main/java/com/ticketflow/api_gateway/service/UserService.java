@@ -46,7 +46,7 @@ public class UserService {
 
     public void register(RegisterRequestData registerRequestData) throws NotUniqueEntityException {
         User newUser = new User(
-            registerRequestData.getUserEmail(),
+            registerRequestData.getEmail(),
             registerRequestData.getPassword(),
             Optional.empty(),
             Role.USER);
@@ -54,7 +54,7 @@ public class UserService {
         identityServiceProxy.register(newUser);
         
         Profile newProfile = new Profile(
-            registerRequestData.getUserEmail(),
+            registerRequestData.getEmail(),
             registerRequestData.getProfile().getPhoneNumber(),
             registerRequestData.getProfile().getBirthday());
 

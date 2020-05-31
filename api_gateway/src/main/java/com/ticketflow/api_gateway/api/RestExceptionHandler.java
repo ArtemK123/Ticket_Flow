@@ -14,13 +14,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+    private static final String NOT_UNIQUE_USER_EXCEPTION_MESSAGE = "User with given email already exists";
+    
     @ExceptionHandler(NotUniqueEntityException.class)
     protected ResponseEntity<String> handleNotUniqueEntityException(NotUniqueEntityException exception) {
         String exceptionMessage = exception.getMessage();
         
         logger.warn(exceptionMessage);
 
-        return ResponseEntity.status(400).body(exceptionMessage);
+        return ResponseEntity.status(400).body(NOT_UNIQUE_USER_EXCEPTION_MESSAGE);
     }
 
     @ExceptionHandler(WrongPasswordException.class)
@@ -52,11 +54,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<String> handleNotFoundException(NotFoundException exception) {
-        String exceptionMessage = exception.getMessage();
-        
-        logger.warn(exceptionMessage);
+        logger.warn(exception.getMessage());
 
-        return ResponseEntity.status(404).body(exceptionMessage);
+        return ResponseEntity.status(404).build();
     }
 
     @ExceptionHandler(UnsupportedOperationException.class)

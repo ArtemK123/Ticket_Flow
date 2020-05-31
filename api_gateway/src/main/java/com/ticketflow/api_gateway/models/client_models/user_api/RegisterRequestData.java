@@ -1,12 +1,12 @@
 package com.ticketflow.api_gateway.models.client_models.user_api;
 
 public class RegisterRequestData {
-    private String userEmail;
+    private String email;
     private String password;
     private ProfileClientModel profile;
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
