@@ -13,6 +13,7 @@
 		<module>./identity_service</module>
 		<module>./profile_service</module>
 		<module>./ticket_service</module>
+		<module>./movie_service</module>
 		<module>./api_gateway</module>
     </modules>
 </project>
