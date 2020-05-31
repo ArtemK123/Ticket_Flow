@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ticketflow.ticket_service.domain.TicketRepository;
 import com.ticketflow.ticket_service.models.Ticket;
-import com.ticketflow.ticket_service.models.client_models.OrderRequestModel;
+import com.ticketflow.ticket_service.models.client_models.OrderModel;
 import com.ticketflow.ticket_service.models.exceptions.NotFoundException;
 import com.ticketflow.ticket_service.models.exceptions.TicketAlreadyOrderedException;
 
@@ -26,15 +26,15 @@ public class TicketsService {
         return ticketRepository.getByMovie(movieId);
     }
 
-    public List<Ticket> getByBuyerEmail(String email) {
-        return ticketRepository.getByBuyerEmail(email);
+    public List<Ticket> getByUserEmail(String email) {
+        return ticketRepository.getByUserEmail(email);
     }
 
-    public void order(OrderRequestModel orderRequestModel) throws TicketAlreadyOrderedException, NotFoundException {
-        Ticket ticket = ticketRepository.getById(orderRequestModel.getTicketId());
+    public void order(OrderModel orderModel) throws TicketAlreadyOrderedException, NotFoundException {
+        Ticket ticket = ticketRepository.getById(orderModel.getTicketId());
         if (ticket.getBuyerEmail() != null) {
-            throw new TicketAlreadyOrderedException(String.format(TICKET_ALREADY_ORDERED_EXCEPTION_MESSAGE, orderRequestModel.getTicketId()));
+            throw new TicketAlreadyOrderedException(String.format(TICKET_ALREADY_ORDERED_EXCEPTION_MESSAGE, orderModel.getTicketId()));
         }
-        ticket.setBuyerEmail(orderRequestModel.getBuyerEmail());
+        ticket.setBuyerEmail(orderModel.getBuyerEmail());
     }
 }

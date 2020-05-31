@@ -1,32 +1,26 @@
 package com.ticketflow.api_gateway.proxy.profile;
 
-import java.util.List;
-
 import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
 import com.ticketflow.api_gateway.models.profile_service.Profile;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProfileServiceProxy {
 
-    public List<Profile> getAll() {
-        throw new UnsupportedOperationException("ProfileServiceProxy.getAll is called");
+    private ProfilesFeignClient profilesFeignClient;
+
+    @Autowired
+    public ProfileServiceProxy(ProfilesFeignClient profilesFeignClient) {
+        this.profilesFeignClient = profilesFeignClient;
     }
 
     public Profile getByUserEmail(String userEmail) throws NotFoundException {
-        throw new UnsupportedOperationException("ProfileServiceProxy.get is called");
+        return profilesFeignClient.getByUserEmail(userEmail).getBody();
     }
 
-    public String add(Profile profile) {
-        throw new UnsupportedOperationException("ProfileServiceProxy.add is called");
-    }
-
-    public String update(Integer id, Profile profile) throws NotFoundException {
-        throw new UnsupportedOperationException("ProfileServiceProxy.update is called");
-    }
-
-    public String delete(Integer id) throws NotFoundException {
-        throw new UnsupportedOperationException("ProfileServiceProxy.delete is called");
+    public void add(Profile profile) {
+        profilesFeignClient.add(profile).getBody();
     }
 }

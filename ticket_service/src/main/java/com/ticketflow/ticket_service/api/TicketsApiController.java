@@ -5,7 +5,7 @@ import com.ticketflow.ticket_service.service.TicketsService;
 import java.util.List;
 
 import com.ticketflow.ticket_service.models.Ticket;
-import com.ticketflow.ticket_service.models.client_models.OrderRequestModel;
+import com.ticketflow.ticket_service.models.client_models.OrderModel;
 import com.ticketflow.ticket_service.models.exceptions.NotFoundException;
 import com.ticketflow.ticket_service.models.exceptions.TicketAlreadyOrderedException;
 
@@ -33,19 +33,19 @@ public class TicketsApiController {
     }
 
     @GetMapping(value = "tickets/by-movie/{id}")
-    public ResponseEntity<List<Ticket>> getByMovie(@PathVariable Integer movieId) {
+    public ResponseEntity<List<Ticket>> getByMovieId(@PathVariable Integer movieId) {
         return ResponseEntity.ok(ticketsService.getByMovieId(movieId));
     }
 
     @PostMapping(value = "/tickets/by-user")
-    public ResponseEntity<List<Ticket>> getByUser(@RequestBody String buyerEmail) {
-        return ResponseEntity.ok(ticketsService.getByBuyerEmail(buyerEmail));
+    public ResponseEntity<List<Ticket>> getByUserEmail(@RequestBody String userEmail) {
+        return ResponseEntity.ok(ticketsService.getByUserEmail(userEmail));
     }
 
     @PostMapping(value = "/tickets/order")
-    public ResponseEntity<String> order(@RequestBody OrderRequestModel orderRequestModel)
+    public ResponseEntity<String> order(@RequestBody OrderModel order)
             throws TicketAlreadyOrderedException, NotFoundException {
-        ticketsService.order(orderRequestModel);
+        ticketsService.order(order);
         return ResponseEntity.accepted().body("Ordered successfully");
     }
 }

@@ -40,9 +40,16 @@ public class ProfilesApiController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/profiles/{id}")
-    public ResponseEntity<Profile> get(@PathVariable Integer id) throws NotFoundException {
-        Profile profile = this.profileService.get(id);
+    @GetMapping(value = "/profiles/by-id/{id}")
+    public ResponseEntity<Profile> getById(@PathVariable Integer id) throws NotFoundException {
+        Profile profile = this.profileService.getById(id);
+        return ResponseEntity.ok().body(profile);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/profiles/by-user")
+    public ResponseEntity<Profile> getByUserEmail(@RequestBody String userEmail) throws NotFoundException {
+        Profile profile = this.profileService.getByUserEmail(userEmail);
         return ResponseEntity.ok().body(profile);
     }
 

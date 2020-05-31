@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProfileRepository {
-    private static final String NOT_FOUND_EXCEPTION_MESSAGE = "Profile with id=%d is not found";
+    private static final String NOT_FOUND_BY_ID_EXCEPTION_MESSAGE = "Profile with id=%d is not found";
+    private static final String NOT_FOUND_BY_USER_EMAIL_XCEPTION_MESSAGE = "Profile with userEmail=%s is not found";
     private ProfileJpaRepository profileJpaRepository;
 
     @Autowired
@@ -25,10 +26,19 @@ public class ProfileRepository {
         return profilesInDatabase.stream().map(this::convertToProfile).collect(Collectors.toList());
     }
 
-    public Profile get(int id) throws NotFoundException {
+    public Profile getById(int id) throws NotFoundException {
         Optional<ProfileDatabaseModel> optionalProfileDatabaseModel = profileJpaRepository.findById(id);
         if (!optionalProfileDatabaseModel.isPresent()) {
-            throw new NotFoundException(String.format(NOT_FOUND_EXCEPTION_MESSAGE, id));            
+            throw new NotFoundException(String.format(NOT_FOUND_BY_ID_EXCEPTION_MESSAGE, id));            
+        }
+
+        return convertToProfile(optionalProfileDatabaseModel.get());
+    }
+
+    public Profile getByUserEmail(String userEmail) throws NotFoundException {
+        Optional<ProfileDatabaseModel> optionalProfileDatabaseModel = profileJpaRepository.findByUserEmail(userEmail);
+        if (!optionalProfileDatabaseModel.isPresent()) {
+            throw new NotFoundException(String.format(NOT_FOUND_BY_USER_EMAIL_XCEPTION_MESSAGE, userEmail));            
         }
 
         return convertToProfile(optionalProfileDatabaseModel.get());
@@ -44,7 +54,7 @@ public class ProfileRepository {
         Optional<ProfileDatabaseModel> optionalProfileDatabaseModel = profileJpaRepository.findById(id);
         
         if (!optionalProfileDatabaseModel.isPresent()) {
-            throw new NotFoundException(String.format(NOT_FOUND_EXCEPTION_MESSAGE, id));
+            throw new NotFoundException(String.format(NOT_FOUND_BY_ID_EXCEPTION_MESSAGE, id));
         }
 
         ProfileDatabaseModel profileDatabaseModel = optionalProfileDatabaseModel.get();
@@ -58,7 +68,7 @@ public class ProfileRepository {
     public void delete(int id) throws NotFoundException {
         Optional<ProfileDatabaseModel> optionalProfileDatabaseModel = profileJpaRepository.findById(id);
         if (!optionalProfileDatabaseModel.isPresent()) {
-            throw new NotFoundException(String.format(NOT_FOUND_EXCEPTION_MESSAGE, id));
+            throw new NotFoundException(String.format(NOT_FOUND_BY_ID_EXCEPTION_MESSAGE, id));
         }
 
         profileJpaRepository.delete(optionalProfileDatabaseModel.get());

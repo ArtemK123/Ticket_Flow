@@ -5,16 +5,24 @@ import java.util.List;
 import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
 import com.ticketflow.api_gateway.models.movie_service.Movie;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MovieServiceProxy {
 
+    private MoviesFeignClient moviesFeignClient;
+
+    @Autowired
+    public MovieServiceProxy(MoviesFeignClient moviesFeignClient) {
+        this.moviesFeignClient = moviesFeignClient;
+    }
+
     public List<Movie> getAll() {
-        throw new UnsupportedOperationException("MovieServiceProxy.getAll is called");
+        return moviesFeignClient.getAll().getBody();
     }
 
     public Movie getById(Integer id) throws NotFoundException {
-        throw new UnsupportedOperationException("MovieServiceProxy.getById is called");
+        return moviesFeignClient.getById(id).getBody();
     }
 }

@@ -22,12 +22,12 @@ public class MoviesApiController {
     }
 
     @GetMapping(value = "/movies")
-    public ResponseEntity<List<Movie>> getAllMovies() {
+    public ResponseEntity<List<Movie>> getAll() {
         return ResponseEntity.ok(moviesService.getAll());
     }
 
     @GetMapping(value = "/movies/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable Integer id) throws NotFoundException {
+    public ResponseEntity<Movie> getById(@PathVariable Integer id) throws NotFoundException {
         return ResponseEntity.ok(moviesService.getById(id));
     }
 }

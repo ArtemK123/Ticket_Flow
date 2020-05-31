@@ -36,7 +36,7 @@ public class TicketRepository {
         return ticketDatabaseModels.stream().map(this::convertToTicket).collect(Collectors.toList());
     }
 
-    public List<Ticket> getByBuyerEmail(String email) {
+    public List<Ticket> getByUserEmail(String email) {
         List<TicketDatabaseModel> ticketDatabaseModels = ticketJpaRepository.findByBuyerEmail(email);
         return ticketDatabaseModels.stream().map(this::convertToTicket).collect(Collectors.toList());
     }

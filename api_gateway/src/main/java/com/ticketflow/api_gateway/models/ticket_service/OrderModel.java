@@ -1,10 +1,10 @@
-package com.ticketflow.ticket_service.models.client_models;
+package com.ticketflow.api_gateway.models.ticket_service;
 
-public class OrderRequestModel {
+public class OrderModel {
     private Integer ticketId;
     private String buyerEmail;
 
-    public OrderRequestModel(Integer ticketId, String buyerEmail) {
+    public OrderModel(Integer ticketId, String buyerEmail) {
         this.ticketId = ticketId;
         this.buyerEmail = buyerEmail;
     }

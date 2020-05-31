@@ -10,6 +10,7 @@ import com.ticketflow.api_gateway.models.exceptions.InvalidTokenException;
 import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
 import com.ticketflow.api_gateway.models.identity_service.User;
 import com.ticketflow.api_gateway.models.movie_service.Movie;
+import com.ticketflow.api_gateway.models.ticket_service.OrderModel;
 import com.ticketflow.api_gateway.models.ticket_service.Ticket;
 import com.ticketflow.api_gateway.models.ticket_service.exceptions.TicketAlreadyOrderedException;
 import com.ticketflow.api_gateway.proxy.identity.IdentityServiceProxy;
@@ -47,7 +48,7 @@ public class TicketsService {
 
     public List<TicketClientModel> getTicketsByMovie(Integer id) throws NotFoundException {
         Movie movie = movieServiceProxy.getById(id);
-        List<Ticket> tickets = ticketServiceProxy.getByMovie(id);
+        List<Ticket> tickets = ticketServiceProxy.getByMovieId(id);
         return tickets.stream().map(ticket -> ticketClientModelFactory.create(ticket, movie)).collect(Collectors.toList());
     }
 
@@ -78,6 +79,6 @@ public class TicketsService {
             throw new InvalidTokenException(USER_WITH_TOKEN_NOT_FOUND_EXCEPTION_MESSAGE);
         }
 
-        ticketServiceProxy.order(orderRequestModel.getTicketId(), user.getEmail());
+        ticketServiceProxy.order(new OrderModel(orderRequestModel.getTicketId(), user.getEmail()));
     }
 }

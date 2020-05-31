@@ -22,8 +22,12 @@ public class ProfileService {
         return this.profileRepository.getAll();
     }
 
-    public Profile get(int id) throws NotFoundException {
-        return this.profileRepository.get(id);
+    public Profile getById(int id) throws NotFoundException {
+        return this.profileRepository.getById(id);
+    }
+
+    public Profile getByUserEmail(String userEmail) throws NotFoundException {
+        return this.profileRepository.getByUserEmail(userEmail);
     }
 
     public int add(Profile profile) {
