@@ -12,8 +12,8 @@ import com.ticketflow.api_gateway.models.identity_service.User;
 import com.ticketflow.api_gateway.models.identity_service.exceptions.NotUniqueEntityException;
 import com.ticketflow.api_gateway.models.identity_service.exceptions.WrongPasswordException;
 import com.ticketflow.api_gateway.models.profile_service.Profile;
-import com.ticketflow.api_gateway.proxy.identity.IdentityServiceProxy;
-import com.ticketflow.api_gateway.proxy.profile.ProfileServiceProxy;
+import com.ticketflow.api_gateway.proxy.identity.IdentityApiProxy;
+import com.ticketflow.api_gateway.proxy.profile.ProfilesApiProxy;
 import com.ticketflow.api_gateway.service.validators.TokenValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +21,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private IdentityServiceProxy identityServiceProxy;
-    private ProfileServiceProxy profileServiceProxy;
+    private IdentityApiProxy identityServiceProxy;
+    private ProfilesApiProxy profileServiceProxy;
     private TokenValidator tokenValidator;
 
     @Autowired
-    public UserService(IdentityServiceProxy identityServiceProxy, ProfileServiceProxy profileServiceProxy, TokenValidator tokenValidator) {
+    public UserService(IdentityApiProxy identityServiceProxy, ProfilesApiProxy profileServiceProxy, TokenValidator tokenValidator) {
         this.identityServiceProxy = identityServiceProxy;
         this.profileServiceProxy = profileServiceProxy;
         this.tokenValidator = tokenValidator;

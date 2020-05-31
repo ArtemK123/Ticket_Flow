@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TicketServiceProxy {
+public class TicketsServiceProxy {
 
     private TicketsFeignClient ticketsFeignClient;
 
     @Autowired
-    public TicketServiceProxy(TicketsFeignClient ticketsFeignClient) {
+    public TicketsServiceProxy(TicketsFeignClient ticketsFeignClient) {
         this.ticketsFeignClient = ticketsFeignClient;
     }
 

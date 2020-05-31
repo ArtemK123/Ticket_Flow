@@ -6,6 +6,12 @@ public class CinemaHall {
     private String location;
     private Integer capacity;
 
+	public CinemaHall(String name, String location, Integer capacity) {
+		this.name = name;
+		this.location = location;
+		this.capacity = capacity;
+	}
+
     public Integer getId() {
         return id;
     }

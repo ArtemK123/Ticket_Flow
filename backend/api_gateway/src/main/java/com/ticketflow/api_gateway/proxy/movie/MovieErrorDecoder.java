@@ -9,7 +9,7 @@ import feign.Response;
 import feign.codec.ErrorDecoder;
 
 @Component
-class MovieErrorDecoder implements ErrorDecoder {
+public class MovieErrorDecoder implements ErrorDecoder {
 
     private ResponseBodyParser responseBodyParser;
 

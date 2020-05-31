@@ -13,9 +13,9 @@ import com.ticketflow.api_gateway.models.movie_service.Movie;
 import com.ticketflow.api_gateway.models.ticket_service.OrderModel;
 import com.ticketflow.api_gateway.models.ticket_service.Ticket;
 import com.ticketflow.api_gateway.models.ticket_service.exceptions.TicketAlreadyOrderedException;
-import com.ticketflow.api_gateway.proxy.identity.IdentityServiceProxy;
-import com.ticketflow.api_gateway.proxy.movie.MovieServiceProxy;
-import com.ticketflow.api_gateway.proxy.ticket.TicketServiceProxy;
+import com.ticketflow.api_gateway.proxy.identity.IdentityApiProxy;
+import com.ticketflow.api_gateway.proxy.movie.movies_api.MoviesApiProxy;
+import com.ticketflow.api_gateway.proxy.ticket.TicketsServiceProxy;
 import com.ticketflow.api_gateway.service.factories.TicketClientModelFactory;
 import com.ticketflow.api_gateway.service.validators.TokenValidator;
 
@@ -26,17 +26,17 @@ import org.springframework.stereotype.Service;
 public class TicketsService {
     private static final String USER_WITH_TOKEN_NOT_FOUND_EXCEPTION_MESSAGE = "User with given token is not found";
 
-    private IdentityServiceProxy identityServiceProxy;
-    private TicketServiceProxy ticketServiceProxy;
-    private MovieServiceProxy movieServiceProxy;
+    private IdentityApiProxy identityServiceProxy;
+    private TicketsServiceProxy ticketServiceProxy;
+    private MoviesApiProxy movieServiceProxy;
     private TicketClientModelFactory ticketClientModelFactory;
     private TokenValidator tokenValidator;
 
     @Autowired
     public TicketsService(
-            IdentityServiceProxy identityServiceProxy,
-            TicketServiceProxy ticketServiceProxy,
-            MovieServiceProxy movieServiceProxy,
+            IdentityApiProxy identityServiceProxy,
+            TicketsServiceProxy ticketServiceProxy,
+            MoviesApiProxy movieServiceProxy,
             TicketClientModelFactory ticketClientModelFactory,
             TokenValidator tokenValidator) {
         this.identityServiceProxy = identityServiceProxy;

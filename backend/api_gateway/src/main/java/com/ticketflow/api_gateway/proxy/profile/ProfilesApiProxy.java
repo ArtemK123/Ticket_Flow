@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProfileServiceProxy {
+public class ProfilesApiProxy {
 
-    private ProfilesFeignClient profilesFeignClient;
+    private ProfilesApiFeignClient profilesFeignClient;
 
     @Autowired
-    public ProfileServiceProxy(ProfilesFeignClient profilesFeignClient) {
+    public ProfilesApiProxy(ProfilesApiFeignClient profilesFeignClient) {
         this.profilesFeignClient = profilesFeignClient;
     }
 
