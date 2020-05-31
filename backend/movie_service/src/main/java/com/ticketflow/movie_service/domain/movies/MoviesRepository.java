@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.ticketflow.movie_service.models.CinemaHall;
-import com.ticketflow.movie_service.models.Film;
 import com.ticketflow.movie_service.models.Movie;
 import com.ticketflow.movie_service.models.exceptions.NotFoundException;
 
