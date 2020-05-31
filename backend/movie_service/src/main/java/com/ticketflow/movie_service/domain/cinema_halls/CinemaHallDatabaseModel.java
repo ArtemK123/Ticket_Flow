@@ -1,4 +1,4 @@
-package com.ticketflow.movie_service.domain;
+package com.ticketflow.movie_service.domain.cinema_halls;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,13 +8,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "cinema_halls")
-class CinemaHallDatabaseModel {
+public class CinemaHallDatabaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String location;
     private Integer capacity;
+
+    public CinemaHallDatabaseModel() {
+    }
+
+    public CinemaHallDatabaseModel(String name, String location, Integer capacity) {
+        this.name = name;
+        this.location = location;
+        this.capacity = capacity;
+    }
 
     public Integer getId() {
         return id;

@@ -1,4 +1,4 @@
-package com.ticketflow.movie_service.domain;
+package com.ticketflow.movie_service.domain.movies;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.ticketflow.movie_service.domain.cinema_halls.CinemaHallDatabaseModel;
+import com.ticketflow.movie_service.domain.films.FilmDatabaseModel;
 
 @Entity
 @Table(name = "movies")
@@ -27,6 +30,15 @@ public class MovieDatabaseModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_halls")
     private CinemaHallDatabaseModel cinemaHall;
+
+    public MovieDatabaseModel() {
+    }
+
+    public MovieDatabaseModel(LocalDateTime startTime, FilmDatabaseModel film, CinemaHallDatabaseModel cinemaHall) {
+        this.startTime = startTime;
+        this.film = film;
+        this.cinemaHall = cinemaHall;
+    }
 
     public Integer getId() {
         return id;

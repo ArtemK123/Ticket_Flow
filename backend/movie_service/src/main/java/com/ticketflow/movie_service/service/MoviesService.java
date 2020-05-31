@@ -2,7 +2,7 @@ package com.ticketflow.movie_service.service;
 
 import java.util.List;
 
-import com.ticketflow.movie_service.domain.MoviesRepository;
+import com.ticketflow.movie_service.domain.movies.MoviesRepository;
 import com.ticketflow.movie_service.models.Movie;
 import com.ticketflow.movie_service.models.exceptions.NotFoundException;
 
