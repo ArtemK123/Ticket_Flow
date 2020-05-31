@@ -1,8 +1,8 @@
 FROM maven:3.6.3-jdk-14 AS build
 
 # Root folder (with docker-compose.yml) should be specified as context
-COPY ./config_server/pom.xml /tmp/
-COPY ./config_server/src /tmp/src
+COPY ./backend/config_server/pom.xml /tmp/
+COPY ./backend/config_server/src /tmp/src
 WORKDIR /tmp/
 RUN mvn -B package
 

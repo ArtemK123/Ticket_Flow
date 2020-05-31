@@ -2,8 +2,8 @@ FROM maven:3.6.3-jdk-14 AS build
 
 # Root folder (with docker-compose.yml) should be specified as context
 RUN mkdir /tmp/movie_service
-COPY ./movie_service/pom.xml /tmp/movie_service
-COPY ./movie_service/src /tmp/movie_service/src
+COPY ./backend/movie_service/pom.xml /tmp/movie_service
+COPY ./backend/movie_service/src /tmp/movie_service/src
 
 WORKDIR /tmp/movie_service
 RUN mvn -B package

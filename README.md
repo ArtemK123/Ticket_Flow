@@ -6,6 +6,3 @@ How to run:
 	2. cd ./Ticket_Flow
 	3. docker-compose build --parallel
 	4. docker-compose up
-
-How to use:
-	- public rest api description can be found in /docs directory

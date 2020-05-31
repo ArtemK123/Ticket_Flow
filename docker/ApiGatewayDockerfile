@@ -2,8 +2,8 @@ FROM maven:3.6.3-jdk-14 AS build
 
 # Root folder (with docker-compose.yml) should be specified as context
 RUN mkdir /tmp/api_gateway
-COPY ./api_gateway/pom.xml /tmp/api_gateway
-COPY ./api_gateway/src /tmp/api_gateway/src
+COPY ./backend/api_gateway/pom.xml /tmp/api_gateway
+COPY ./backend/api_gateway/src /tmp/api_gateway/src
 
 WORKDIR /tmp/api_gateway
 RUN mvn -B package

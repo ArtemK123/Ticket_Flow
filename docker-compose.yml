@@ -10,7 +10,7 @@ services:
             - POSTGRES_HOST_AUTH_METHOD=trust
             - PGDATA=/var/lib/postgresql/data/pgdata
         volumes:
-            - ./postgres/postgres_data:/var/lib/postgresql
+            - ./postgres_volume/postgres_data:/var/lib/postgresql
         networks:
             - ticketflow-network
         restart: unless-stopped

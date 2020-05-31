@@ -2,8 +2,8 @@ FROM maven:3.6.3-jdk-14 AS build
 
 # Root folder (with docker-compose.yml) should be specified as context
 RUN mkdir /tmp/identity_service
-COPY ./identity_service/pom.xml /tmp/identity_service
-COPY ./identity_service/src /tmp/identity_service/src
+COPY ./backend/identity_service/pom.xml /tmp/identity_service
+COPY ./backend/identity_service/src /tmp/identity_service/src
 
 WORKDIR /tmp/identity_service
 RUN mvn -B package
