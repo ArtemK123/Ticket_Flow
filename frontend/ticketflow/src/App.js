@@ -9,6 +9,7 @@ import MoviePage from "./components/movie_page/MoviePage";
 import OrderPage from "./components/order_page/OrderPage";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
+import NotFoundPage from "./components/not_found_page/NotFoundPage";
 
 function App() {
     return (
@@ -16,24 +17,13 @@ function App() {
             <Header></Header>
             <Router>
                 <Switch>
-                    <Route exact path="/">
-                        <HomePage />
-                    </Route>
-                    <Route path="/login">
-                        <LoginPage />
-                    </Route>
-                    <Route path="/register">
-                        <RegisterPage />
-                    </Route>
-                    <Route path="/profile">
-                        <ProfilePage />
-                    </Route>
-                    <Route path="/movie">
-                        <MoviePage />
-                    </Route>
-                    <Route path="/order">
-                        <OrderPage />
-                    </Route>
+                    <Route exact path="/" component={HomePage} />
+                    <Route path="/login" component={LoginPage} />
+                    <Route path="/register" component={RegisterPage} />
+                    <Route path="/profile" component={ProfilePage} />
+                    <Route path="/movie" component={MoviePage} />
+                    <Route path="/order" component={OrderPage} />
+                    <Route component={NotFoundPage} />
                 </Switch>
             </Router>
             <Footer></Footer>
