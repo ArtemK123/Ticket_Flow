@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class CinemaHallsSeeder {
     private List<CinemaHall> dataToSeed = List.of(
-        new CinemaHall("SuperLux", "Kyiv", 25),
-        new CinemaHall("JustRelax", "Kyiv", 25),
-        new CinemaHall("RedHall", "Lviv", 25)
+        new CinemaHall("SuperLux", "Kyiv", 5, 5),
+        new CinemaHall("JustRelax", "Kyiv", 5, 5),
+        new CinemaHall("RedHall", "Lviv", 5, 5)
     );
 
     private CinemaHallsApiProxy cinemaHallsApiProxy;
@@ -24,6 +24,8 @@ public class CinemaHallsSeeder {
     }
 
     public void seed() {
-        dataToSeed.forEach(cinemaHallsApiProxy::add);
+        if (cinemaHallsApiProxy.getAll().isEmpty()) {
+            dataToSeed.forEach(cinemaHallsApiProxy::add);
+        }
     }
 }

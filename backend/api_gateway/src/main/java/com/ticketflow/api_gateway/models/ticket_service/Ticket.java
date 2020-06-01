@@ -1,5 +1,7 @@
 package com.ticketflow.api_gateway.models.ticket_service;
 
+import java.util.Optional;
+
 public class Ticket {
     private Integer id;
     private Integer movieId;
@@ -7,6 +9,14 @@ public class Ticket {
     private Integer row;
     private Integer seat;
     private Integer price;
+
+    public Ticket(Integer movieId, Optional<String> optionalBuyerEmail, Integer row, Integer seat, Integer price) {
+        this.movieId = movieId;
+        this.setBuyerEmail(optionalBuyerEmail);
+        this.row = row;
+        this.seat = seat;
+        this.price = price;
+    }
 
     public Integer getId() {
         return id;
@@ -20,12 +30,15 @@ public class Ticket {
         this.movieId = movieId;
     }
 
-    public String getBuyerEmail() {
-        return buyerEmail;
+    public Optional<String> getBuyerEmail() {
+        return Optional.ofNullable(buyerEmail);
     }
 
-    public void setBuyerEmail(String buyerEmail) {
-        this.buyerEmail = buyerEmail;
+    public void setBuyerEmail(Optional<String> optionalBuyerEmail) {
+        if (optionalBuyerEmail.isPresent()) {
+            this.buyerEmail = optionalBuyerEmail.get();
+        }
+        this.buyerEmail = null;
     }
 
     public Integer getRow() {

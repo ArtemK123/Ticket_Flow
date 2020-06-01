@@ -15,7 +15,7 @@ import com.ticketflow.api_gateway.models.ticket_service.Ticket;
 import com.ticketflow.api_gateway.models.ticket_service.exceptions.TicketAlreadyOrderedException;
 import com.ticketflow.api_gateway.proxy.identity.IdentityApiProxy;
 import com.ticketflow.api_gateway.proxy.movie.movies_api.MoviesApiProxy;
-import com.ticketflow.api_gateway.proxy.ticket.TicketsServiceProxy;
+import com.ticketflow.api_gateway.proxy.ticket.TicketsApiProxy;
 import com.ticketflow.api_gateway.service.factories.TicketClientModelFactory;
 import com.ticketflow.api_gateway.service.validators.TokenValidator;
 
@@ -27,7 +27,7 @@ public class TicketsService {
     private static final String USER_WITH_TOKEN_NOT_FOUND_EXCEPTION_MESSAGE = "User with given token is not found";
 
     private IdentityApiProxy identityServiceProxy;
-    private TicketsServiceProxy ticketServiceProxy;
+    private TicketsApiProxy ticketServiceProxy;
     private MoviesApiProxy movieServiceProxy;
     private TicketClientModelFactory ticketClientModelFactory;
     private TokenValidator tokenValidator;
@@ -35,7 +35,7 @@ public class TicketsService {
     @Autowired
     public TicketsService(
             IdentityApiProxy identityServiceProxy,
-            TicketsServiceProxy ticketServiceProxy,
+            TicketsApiProxy ticketServiceProxy,
             MoviesApiProxy movieServiceProxy,
             TicketClientModelFactory ticketClientModelFactory,
             TokenValidator tokenValidator) {

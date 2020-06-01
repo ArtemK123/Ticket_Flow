@@ -25,6 +25,8 @@ public class FilmsSeeder {
     );
 
     public void seed() {
-        dataToSeed.forEach(filmsApiProxy::add);
+        if (filmsApiProxy.getAll().isEmpty()) {
+            dataToSeed.forEach(filmsApiProxy::add);
+        }
     }
 }

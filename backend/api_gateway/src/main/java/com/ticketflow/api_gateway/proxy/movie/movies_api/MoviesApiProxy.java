@@ -2,6 +2,7 @@ package com.ticketflow.api_gateway.proxy.movie.movies_api;
 
 import java.util.List;
 
+import com.ticketflow.api_gateway.models.client_models.movies_api.AddMovieRequestModel;
 import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
 import com.ticketflow.api_gateway.models.movie_service.Movie;
 
@@ -23,5 +24,9 @@ public class MoviesApiProxy {
 
     public Movie getById(Integer id) throws NotFoundException {
         return moviesApiFeignClient.getById(id).getBody();
+    }
+
+    public Integer add(AddMovieRequestModel addMovieRequestModel) throws NotFoundException {
+        return moviesApiFeignClient.add(addMovieRequestModel).getBody();
     }
 }
