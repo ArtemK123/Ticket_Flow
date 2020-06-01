@@ -42,6 +42,11 @@ public class TicketsApiController {
         return ResponseEntity.ok(ticketsService.getByUserEmail(userEmail));
     }
 
+    @PostMapping(value = "/tickets")
+    public ResponseEntity<Integer> add(@RequestBody Ticket ticket) {
+        return ResponseEntity.status(201).body(ticketsService.add(ticket));
+    }
+
     @PostMapping(value = "/tickets/order")
     public ResponseEntity<String> order(@RequestBody OrderModel order)
             throws TicketAlreadyOrderedException, NotFoundException {
