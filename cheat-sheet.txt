@@ -11,3 +11,4 @@ java -jar target/api-gateway-1.0.0.jar
 Postgres:
 	Connect to profileService database(password=TicketFlow):	psql -U ProfileServiceUser -d ProfileServiceDatabase
 	Logs:	{postgres_root}\data\log
+	Init database: psql -U postgres -d postgres -a -f init-database.sql

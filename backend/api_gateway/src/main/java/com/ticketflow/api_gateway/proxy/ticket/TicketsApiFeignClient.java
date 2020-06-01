@@ -19,7 +19,7 @@ interface TicketsApiFeignClient {
     @GetMapping(value = "/")
     public ResponseEntity<String> home();
 
-    @GetMapping(value = "tickets/by-movie/{id}")
+    @GetMapping(value = "/tickets/by-movie/{movieId}")
     public ResponseEntity<List<Ticket>> getByMovieId(@PathVariable Integer movieId);
 
     @PostMapping(value = "/tickets/by-user")

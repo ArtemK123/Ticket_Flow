@@ -26,7 +26,7 @@ public class TicketsApiController {
         this.ticketsService = ticketsService;
     }
 
-    @GetMapping(value = "tickets/by-movie/{id}")
+    @GetMapping(value = "/tickets/by-movie/{id}")
     public ResponseEntity<List<TicketClientModel>> getTicketsByMovie(@PathVariable Integer id) throws NotFoundException {
         return ResponseEntity.ok(ticketsService.getTicketsByMovie(id));
     }
