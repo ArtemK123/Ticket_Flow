@@ -1,8 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
     return (
-        <div>LoginPage</div>
+        <div>
+            <h3>LoginPage</h3>
+            <ul>
+                <li><Link to="/">HomePage</Link></li>
+            </ul>
+        </div>
     );
 }
 
