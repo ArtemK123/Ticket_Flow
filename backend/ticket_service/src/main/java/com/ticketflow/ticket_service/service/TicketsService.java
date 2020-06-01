@@ -1,6 +1,7 @@
 package com.ticketflow.ticket_service.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ticketflow.ticket_service.domain.TicketRepository;
 import com.ticketflow.ticket_service.models.Ticket;
@@ -30,11 +31,16 @@ public class TicketsService {
         return ticketRepository.getByUserEmail(email);
     }
 
+    public Integer add(Ticket ticket){
+        return ticketRepository.add(ticket);
+    }
+
     public void order(OrderModel orderModel) throws TicketAlreadyOrderedException, NotFoundException {
         Ticket ticket = ticketRepository.getById(orderModel.getTicketId());
-        if (ticket.getBuyerEmail() != null) {
+        if (ticket.getBuyerEmail().isPresent()) {
             throw new TicketAlreadyOrderedException(String.format(TICKET_ALREADY_ORDERED_EXCEPTION_MESSAGE, orderModel.getTicketId()));
         }
-        ticket.setBuyerEmail(orderModel.getBuyerEmail());
+
+        ticket.setBuyerEmail(Optional.of(orderModel.getBuyerEmail()));
     }
 }

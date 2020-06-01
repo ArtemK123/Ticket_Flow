@@ -8,6 +8,12 @@ public class Movie {
     private Film film;
     private CinemaHall cinemaHall;
 
+    public Movie(LocalDateTime startTime, Film film, CinemaHall cinemaHall) {
+        this.startTime = startTime;
+        this.film = film;
+        this.cinemaHall = cinemaHall;
+    }
+
     public Movie(Integer id, LocalDateTime startTime, Film film, CinemaHall cinemaHall) {
         this.id = id;
         this.startTime = startTime;

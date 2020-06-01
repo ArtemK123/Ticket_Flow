@@ -11,12 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TicketServiceProxy {
-
-    private TicketsFeignClient ticketsFeignClient;
+public class TicketsApiProxy {
+    private TicketsApiFeignClient ticketsFeignClient;
 
     @Autowired
-    public TicketServiceProxy(TicketsFeignClient ticketsFeignClient) {
+    public TicketsApiProxy(TicketsApiFeignClient ticketsFeignClient) {
         this.ticketsFeignClient = ticketsFeignClient;
     }
 
@@ -26,6 +25,10 @@ public class TicketServiceProxy {
 
     public List<Ticket> getByUserEmail(String userEmail) {
         return ticketsFeignClient.getByUserEmail(userEmail).getBody();
+    }
+
+    public void add(Ticket ticket){
+        ticketsFeignClient.add(ticket);
     }
 
     public void order(OrderModel orderModel)

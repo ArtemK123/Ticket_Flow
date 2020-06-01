@@ -1,5 +1,7 @@
 package com.ticketflow.api_gateway.models.client_models.tickets_api;
 
+import java.util.Optional;
+
 import com.ticketflow.api_gateway.models.client_models.movies_api.ShortMovieModel;
 
 public class TicketClientModel {
@@ -10,9 +12,9 @@ public class TicketClientModel {
     private Integer price;
     private ShortMovieModel movie;
 
-    public TicketClientModel(Integer id, String buyerEmail, Integer row, Integer seat, Integer price, ShortMovieModel movie) {
+    public TicketClientModel(Integer id, Optional<String> optionalBuyerEmail, Integer row, Integer seat, Integer price, ShortMovieModel movie) {
         this.id = id;
-        this.buyerEmail = buyerEmail;
+        this.setBuyerEmail(optionalBuyerEmail);
         this.row = row;
         this.seat = seat;
         this.price = price;
@@ -23,8 +25,8 @@ public class TicketClientModel {
         return id;
     }
 
-    public String getBuyerEmail() {
-        return buyerEmail;
+    public Optional<String> getBuyerEmail() {
+        return Optional.ofNullable(buyerEmail);
     }
 
     public Integer getRow() {
@@ -41,5 +43,12 @@ public class TicketClientModel {
 
     public ShortMovieModel getMovie() {
         return movie;
+    }
+
+    private void setBuyerEmail(Optional<String> optionalBuyerEmail) {
+        if (optionalBuyerEmail.isPresent()) {
+            this.buyerEmail = optionalBuyerEmail.get();
+        }
+        this.buyerEmail = null;
     }
 }

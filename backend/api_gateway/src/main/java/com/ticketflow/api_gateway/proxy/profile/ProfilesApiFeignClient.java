@@ -16,7 +16,7 @@ import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
 import com.ticketflow.api_gateway.models.profile_service.Profile;
 
 @FeignClient(name = "${profile.service.name}", configuration = ProfileFeignConfiguration.class)
-interface ProfilesFeignClient {
+interface ProfilesApiFeignClient {
     @ResponseBody
     @GetMapping(value = "/")
     public ResponseEntity<String> home();

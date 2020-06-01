@@ -1,14 +1,26 @@
-package com.ticketflow.movie_service.models;
+package com.ticketflow.movie_service.domain.cinema_halls;
 
-public class CinemaHall {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "cinema_halls")
+public class CinemaHallDatabaseModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String location;
     private Integer seatRows;
     private Integer seatsInRow;
 
-    public CinemaHall(Integer id, String name, String location, Integer seatRows, Integer seatsInRow) {
-        this.id = id;
+    public CinemaHallDatabaseModel() {
+    }
+
+    public CinemaHallDatabaseModel(String name, String location, Integer seatRows, Integer seatsInRow) {
         this.name = name;
         this.location = location;
         this.seatRows = seatRows;

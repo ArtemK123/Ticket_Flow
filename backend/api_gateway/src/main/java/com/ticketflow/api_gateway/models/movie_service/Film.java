@@ -11,6 +11,21 @@ public class Film {
     private Integer duration;
     private Integer ageLimit;
 
+    public Film(
+            String title,
+            String description,
+            LocalDate premiereDate,
+            String creator,
+            Integer duration,
+            Integer ageLimit) {
+        this.title = title;
+        this.description = description;
+        this.premiereDate = premiereDate;
+        this.creator = creator;
+        this.duration = duration;
+        this.ageLimit = ageLimit;
+    }
+
     public Integer getId() {
         return id;
     }

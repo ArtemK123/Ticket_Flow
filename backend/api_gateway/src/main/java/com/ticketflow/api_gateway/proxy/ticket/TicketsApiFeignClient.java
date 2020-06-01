@@ -15,7 +15,7 @@ import com.ticketflow.api_gateway.models.ticket_service.Ticket;
 import com.ticketflow.api_gateway.models.ticket_service.exceptions.TicketAlreadyOrderedException;
 
 @FeignClient(name = "${ticket.service.name}", configuration = TicketFeignConfiguration.class)
-interface TicketsFeignClient {
+interface TicketsApiFeignClient {
     @GetMapping(value = "/")
     public ResponseEntity<String> home();
 
@@ -24,6 +24,9 @@ interface TicketsFeignClient {
 
     @PostMapping(value = "/tickets/by-user")
     public ResponseEntity<List<Ticket>> getByUserEmail(@RequestBody String userEmail);
+
+    @PostMapping(value = "/tickets")
+    public ResponseEntity<Integer> add(Ticket ticket);
 
     @PostMapping(value = "/tickets/order")
     public ResponseEntity<String> order(@RequestBody OrderModel orderModel)
