@@ -2,36 +2,33 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 
-PasswordInput.propTypes = {
+EmailInput.propTypes = {
     isErrorState: PropTypes.bool,
-    label: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
 };
 
-function PasswordInput(props) {
+function EmailInput(props) {
     if (props.isErrorState) {
         return (
             <TextField
                 id="outlined-basic"
-                type="password"
-                label={props.label}
+                label="Email"
                 value={props.value}
+                onChange={event => props.onChange(event)}
                 error
-                helperText="Passwords don`t match"
-                onChange={props.onChange}
+                helperText="User with given email already exists"
             />
         );
     }
     return (
         <TextField
             id="outlined-basic"
-            type="password"
-            label={props.label}
+            label="Email"
             value={props.value}
-            onChange={props.onChange}
+            onChange={event => props.onChange(event)}
         />
     );
 }
 
-export default PasswordInput;
+export default EmailInput;

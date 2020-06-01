@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TextField from "@material-ui/core/TextField";
 import PasswordInput from "./PasswordInput";
+import EmailInput from "./EmailInput";
+import createBackendService from "../backend_service/createBackendService";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,17 +32,42 @@ function RegisterPage() {
         phoneNumber: "",
         password: "",
         passwordAgain: "",
-        birthday: new Date(),
-        passwordsDontMatch: false
+        birthday: "",
+        passwordsDontMatch: false,
+        emailAlreadyTaken: false
     });
+    const backendService = createBackendService();
 
-    const onSubmitAction = (event) => {
+    const updateRegisterState = (updatedFields) => {
+        changeRegisterState(Object.assign({}, registerState, updatedFields));
+    };
+
+    const onSubmitAction = async (event) => {
         event.preventDefault();
-        changeRegisterState(Object.assign({}, registerState, { passwordsDontMatch: true }));
+        if (registerState.password !== registerState.passwordAgain) {
+            updateRegisterState({passwordsDontMatch: true});
+            return;
+        }
+        await backendService.register({
+            email: registerState.email,
+            password: registerState.email,
+            profile: {
+                phoneNumber: parseInt(registerState.phoneNumber),
+                birthday: registerState.birthday
+            }
+        }).then(response => {
+            alert(JSON.stringify(response));
+            // if (response.status === 200) {
+            //     history.push("/login");
+            // }
+            // else if (response.status === 400){
+            //     updateRegisterState({emailAlreadyTaken: true});
+            // }
+        });
     };
 
     const handleTextFieldChange = (targetName, event) => {
-        changeRegisterState(Object.assign({}, registerState, { [targetName]: event.target.value }));
+        updateRegisterState({ [targetName]: event.target.value });
     };
 
     return (
@@ -48,7 +75,10 @@ function RegisterPage() {
             <h3>RegisterPage</h3>
             <form className={styles.root} onSubmit={onSubmitAction}>
                 <div>
-                    <TextField id="outlined-basic" label="Email" value={registerState.email} onChange={event => handleTextFieldChange("email", event)}/>
+                    <EmailInput 
+                        value={registerState.email}
+                        isErrorState={registerState.emailAlreadyTaken}
+                        onChange={event => handleTextFieldChange("email", event)}/>
                     <TextField id="outlined-basic" label="Phone number" value={registerState.phoneNumber} onChange={event => handleTextFieldChange("phoneNumber", event)}/>
                 </div>
                 <div>
@@ -70,8 +100,6 @@ function RegisterPage() {
                         id="date"
                         label="Birthday"
                         type="date"
-                        error
-                        defaultValue="2020-01-20"
                         className={styles.dateField}
                         onChange={event => handleTextFieldChange("birthday", event)}
                         InputLabelProps={{
