@@ -14,15 +14,17 @@ public class CinemaHallDatabaseModel {
     private Integer id;
     private String name;
     private String location;
-    private Integer capacity;
+    private Integer seatRows;
+    private Integer seatsInRow;
 
     public CinemaHallDatabaseModel() {
     }
 
-    public CinemaHallDatabaseModel(String name, String location, Integer capacity) {
+    public CinemaHallDatabaseModel(String name, String location, Integer seatRows, Integer seatsInRow) {
         this.name = name;
         this.location = location;
-        this.capacity = capacity;
+        this.seatRows = seatRows;
+        this.seatsInRow = seatsInRow;
     }
 
     public Integer getId() {
@@ -45,11 +47,19 @@ public class CinemaHallDatabaseModel {
         this.location = location;
     }
 
-    public Integer getCapacity() {
-        return capacity;
+    public Integer getSeatRows() {
+        return seatRows;
     }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setSeatRows(Integer seatRows) {
+        this.seatRows = seatRows;
+    }
+
+    public Integer getSeatsInRow() {
+        return seatsInRow;
+    }
+
+    public void setSeatsInRow(Integer seatsInRow) {
+        this.seatsInRow = seatsInRow;
     }
 }

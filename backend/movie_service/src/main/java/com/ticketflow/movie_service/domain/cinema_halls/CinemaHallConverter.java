@@ -11,13 +11,17 @@ public class CinemaHallConverter {
             cinemaHallDatabaseModel.getId(),
             cinemaHallDatabaseModel.getName(),
             cinemaHallDatabaseModel.getLocation(),
-            cinemaHallDatabaseModel.getCapacity());
+            cinemaHallDatabaseModel.getSeatRows(),
+            cinemaHallDatabaseModel.getSeatsInRow()
+        );
     }
 
     public CinemaHallDatabaseModel convert(CinemaHall cinemaHall) {
         return new CinemaHallDatabaseModel(
             cinemaHall.getName(),
             cinemaHall.getLocation(),
-            cinemaHall.getCapacity());
+            cinemaHall.getSeatRows(),
+            cinemaHall.getSeatsInRow()
+        );
     }
 }
