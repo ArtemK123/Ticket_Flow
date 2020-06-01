@@ -32,7 +32,7 @@ public class TicketsApiController {
         return ResponseEntity.ok().body("<span>Hello from TicketFlow Ticket service</span>");
     }
 
-    @GetMapping(value = "tickets/by-movie/{id}")
+    @GetMapping(value = "/tickets/by-movie/{movieId}")
     public ResponseEntity<List<Ticket>> getByMovieId(@PathVariable Integer movieId) {
         return ResponseEntity.ok(ticketsService.getByMovieId(movieId));
     }
