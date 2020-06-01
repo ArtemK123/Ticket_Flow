@@ -4,6 +4,7 @@ import createBackendService from "../backend_service/createBackendService";
 
 function LoginPage() {
     const backendService = createBackendService();
+
     return (
         <div>
             <h3>LoginPage</h3>

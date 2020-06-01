@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TextField from "@material-ui/core/TextField";
+import PasswordInput from "./PasswordInput";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,25 +26,21 @@ function RegisterPage() {
     const styles = useStyles();
     const history = useHistory();
     const [registerState, changeRegisterState] = useState({
-        textFieldValues: {
-            email: "",
-            phoneNumber: "",
-            password: "",
-            passwordAgain: "",
-            birthday: new Date()
-        },
+        email: "",
+        phoneNumber: "",
+        password: "",
+        passwordAgain: "",
+        birthday: new Date(),
         passwordsDontMatch: false
     });
 
-    const onSubmitAction = () => {
-        const message = JSON.stringify(registerState.textFieldValues);
-
-        alert(message);
+    const onSubmitAction = (event) => {
+        event.preventDefault();
+        changeRegisterState(Object.assign({}, registerState, { passwordsDontMatch: true }));
     };
 
     const handleTextFieldChange = (targetName, event) => {
-        registerState.textFieldValues[targetName] = event.target.value;
-        changeRegisterState(registerState);
+        changeRegisterState(Object.assign({}, registerState, { [targetName]: event.target.value }));
     };
 
     return (
@@ -51,18 +48,29 @@ function RegisterPage() {
             <h3>RegisterPage</h3>
             <form className={styles.root} onSubmit={onSubmitAction}>
                 <div>
-                    <TextField id="outlined-basic" label="Email" onChange={event => handleTextFieldChange("email", event)}/>
-                    <TextField id="outlined-basic" label="Phone number" onChange={event => handleTextFieldChange("phoneNumber", event)}/>
+                    <TextField id="outlined-basic" label="Email" value={registerState.email} onChange={event => handleTextFieldChange("email", event)}/>
+                    <TextField id="outlined-basic" label="Phone number" value={registerState.phoneNumber} onChange={event => handleTextFieldChange("phoneNumber", event)}/>
                 </div>
                 <div>
-                    <TextField id="outlined-basic" type="password" label="Password" onChange={event => handleTextFieldChange("password", event)}/>
-                    <TextField id="outlined-basic" type="password" label="Password again" onChange={event => handleTextFieldChange("passwordAgain", event)}/>
+                    <PasswordInput
+                        label="Password"
+                        value={registerState.password}
+                        isErrorState={registerState.passwordsDontMatch}
+                        onChange={event => handleTextFieldChange("password", event)}
+                    />
+                    <PasswordInput
+                        label="Password Again"
+                        value={registerState.passwordAgain}
+                        isErrorState={registerState.passwordsDontMatch}
+                        onChange={event => handleTextFieldChange("passwordAgain", event)}
+                    />
                 </div>
                 <div>
                     <TextField
                         id="date"
                         label="Birthday"
                         type="date"
+                        error
                         defaultValue="2020-01-20"
                         className={styles.dateField}
                         onChange={event => handleTextFieldChange("birthday", event)}
