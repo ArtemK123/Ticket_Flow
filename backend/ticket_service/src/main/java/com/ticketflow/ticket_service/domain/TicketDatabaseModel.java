@@ -22,6 +22,9 @@ public class TicketDatabaseModel {
     private Integer seat;
     private Integer price;
 
+    public TicketDatabaseModel() {
+    }
+
     public TicketDatabaseModel(Integer movieId, Optional<String> optionalBuyerEmail, Integer row, Integer seat, Integer price) {
         this.movieId = movieId;
         this.setBuyerEmail(optionalBuyerEmail);
