@@ -4,14 +4,18 @@ public class CinemaHall {
     private Integer id;
     private String name;
     private String location;
-    private Integer capacity;
+    private Integer seatRows;
+    private Integer seatsInRow;
+
+    public CinemaHall(String name, String location, Integer seatRows, Integer seatsInRow) {
+        this.name = name;
+        this.location = location;
+        this.seatRows = seatRows;
+        this.seatsInRow = seatsInRow;
+    }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -30,11 +34,19 @@ public class CinemaHall {
         this.location = location;
     }
 
-    public Integer getCapacity() {
-        return capacity;
+    public Integer getSeatRows() {
+        return seatRows;
     }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setSeatRows(Integer seatRows) {
+        this.seatRows = seatRows;
+    }
+
+    public Integer getSeatsInRow() {
+        return seatsInRow;
+    }
+
+    public void setSeatsInRow(Integer seatsInRow) {
+        this.seatsInRow = seatsInRow;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import feign.codec.ErrorDecoder;
 
-class MovieFeignConfiguration {
+public class MovieFeignConfiguration {
     
     private ResponseBodyParser responseBodyParser;
 

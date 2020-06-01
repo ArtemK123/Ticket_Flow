@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "${identity.service.name}", configuration = IdentityFeignConfiguration.class)
-interface IdentityFeignClient {
+interface IdentityApiFeignClient {
     @GetMapping(value = "/")
     public ResponseEntity<String> home();
 

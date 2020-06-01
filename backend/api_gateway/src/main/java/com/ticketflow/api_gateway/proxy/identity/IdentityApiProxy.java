@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IdentityServiceProxy {
-    private IdentityFeignClient identityFeignClient;
+public class IdentityApiProxy {
+    private IdentityApiFeignClient identityFeignClient;
 
     @Autowired
-    public IdentityServiceProxy(IdentityFeignClient identityFeignClient) {
+    public IdentityApiProxy(IdentityApiFeignClient identityFeignClient) {
         this.identityFeignClient = identityFeignClient;
     }
 

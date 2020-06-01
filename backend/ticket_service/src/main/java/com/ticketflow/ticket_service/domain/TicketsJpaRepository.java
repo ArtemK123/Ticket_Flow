@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface TicketJpaRepository extends JpaRepository<TicketDatabaseModel, Integer> {
+interface TicketsJpaRepository extends JpaRepository<TicketDatabaseModel, Integer> {
     @Query("FROM TicketDatabaseModel WHERE buyerEmail = ?1")
     List<TicketDatabaseModel> findByBuyerEmail(String email);
 

@@ -14,35 +14,43 @@ import org.springframework.stereotype.Repository;
 public class TicketRepository {
     private static final String NOT_FOUND_BY_ID_EXCEPTION_MESSAGE = "Ticket with id=%d is not found";
 
-    private TicketJpaRepository ticketJpaRepository;
+    private TicketsJpaRepository ticketsJpaRepository;
+    private TicketConverter ticketConverter;
 
     @Autowired
-    public TicketRepository(TicketJpaRepository ticketJpaRepository) {
-        this.ticketJpaRepository = ticketJpaRepository;
+    public TicketRepository(TicketsJpaRepository ticketsJpaRepository, TicketConverter ticketConverter) {
+        this.ticketsJpaRepository = ticketsJpaRepository;
+        this.ticketConverter = ticketConverter;
     }
 
     public Ticket getById(Integer id) throws NotFoundException {
-        Optional<TicketDatabaseModel> optionalTicketDatabaseModel = ticketJpaRepository.findById(id);
+        Optional<TicketDatabaseModel> optionalTicketDatabaseModel = ticketsJpaRepository.findById(id);
 
         if (optionalTicketDatabaseModel.isEmpty()) {
             throw new NotFoundException(String.format(NOT_FOUND_BY_ID_EXCEPTION_MESSAGE, id));            
         }
 
-        return convertToTicket(optionalTicketDatabaseModel.get());
+        return ticketConverter.convert(optionalTicketDatabaseModel.get());
     }
 
     public List<Ticket> getByMovie(Integer movieId) {
-        List<TicketDatabaseModel> ticketDatabaseModels = ticketJpaRepository.findByMovieId(movieId);
-        return ticketDatabaseModels.stream().map(this::convertToTicket).collect(Collectors.toList());
+        List<TicketDatabaseModel> ticketDatabaseModels = ticketsJpaRepository.findByMovieId(movieId);
+        return ticketDatabaseModels.stream().map(ticketConverter::convert).collect(Collectors.toList());
     }
 
     public List<Ticket> getByUserEmail(String email) {
-        List<TicketDatabaseModel> ticketDatabaseModels = ticketJpaRepository.findByBuyerEmail(email);
-        return ticketDatabaseModels.stream().map(this::convertToTicket).collect(Collectors.toList());
+        List<TicketDatabaseModel> ticketDatabaseModels = ticketsJpaRepository.findByBuyerEmail(email);
+        return ticketDatabaseModels.stream().map(ticketConverter::convert).collect(Collectors.toList());
+    }
+
+    public Integer add(Ticket ticket) {
+        TicketDatabaseModel ticketDatabaseModel = ticketConverter.convert(ticket);
+        ticketsJpaRepository.saveAndFlush(ticketDatabaseModel);
+        return ticketDatabaseModel.getId();
     }
 
     public void update(Integer id, Ticket ticket) throws NotFoundException {
-        Optional<TicketDatabaseModel> optionalTicketDatabaseModel = ticketJpaRepository.findById(id);
+        Optional<TicketDatabaseModel> optionalTicketDatabaseModel = ticketsJpaRepository.findById(id);
 
         if (optionalTicketDatabaseModel.isEmpty()) {
             throw new NotFoundException(String.format(NOT_FOUND_BY_ID_EXCEPTION_MESSAGE, id));            
@@ -56,17 +64,6 @@ public class TicketRepository {
         ticketDatabaseModel.setRow(ticket.getRow());
         ticketDatabaseModel.setSeat(ticket.getRow());
 
-        ticketJpaRepository.saveAndFlush(ticketDatabaseModel);
-    }
-
-    private Ticket convertToTicket(TicketDatabaseModel ticketDatabaseModel) {
-        return new Ticket(
-            ticketDatabaseModel.getId(),
-            ticketDatabaseModel.getMovieId(),
-            ticketDatabaseModel.getBuyerEmail(),
-            ticketDatabaseModel.getRow(),
-            ticketDatabaseModel.getSeat(),
-            ticketDatabaseModel.getPrice()
-        );
+        ticketsJpaRepository.saveAndFlush(ticketDatabaseModel);
     }
 }

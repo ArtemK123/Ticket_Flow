@@ -104,13 +104,13 @@ Responses:
 		{
 			"id": 1,
 			"title": "Terminator",
-			"startTime": "2018-11-12 11:00",
+			"startTime": "2020-06-10T11:30",
 			"cinemaHallName": "Lux_place"
 		},
 		{
 			"id": 2,
 			"title": "Batman",
-			"startTime": "2018-11-12 22:00",
+			"startTime": "2020-06-10T11:30",
 			"cinemaHallName": "Red_hall"
 		}
 	]
@@ -129,7 +129,7 @@ Responses:
 	Body:
 	{
 		"id": 1,
-		"startTime": "2018-11-12 11:00",
+		"startTime": "2020-06-10T11:30",
 		"film": {
 			"id": 1,
 			"title": "Terminator",
@@ -143,13 +143,13 @@ Responses:
 			"id": 1,
 			"name": "Lux_place",
 			"location": "Kyiv",
-			"capacity": 100
+			"seatRows": 5,
+			"seatsInRow": 5
 		}
 	}
 	Notes:
 		"duration": 202 - in minutes
 		"ageLimit": 18 - allowed for 18 years old or older
-		"cinemaHall.capacity": 100 - seats in this cinema hall
 	
  - Movie with given id is not found
 	Status code: 404 Not found
@@ -176,7 +176,7 @@ Responses:
 			"movie": {
 				"id": 1,
 				"title": "Terminator",
-				"startTime": "2018-11-12 11:00",
+				"startTime": "2020-06-10T11:30",
 				"cinemaHallName": "Lux_place"
 			}
 		},
@@ -189,7 +189,7 @@ Responses:
 			"movie": {
 				"id": 1,
 				"title": "Terminator",
-				"startTime": "2018-11-12 11:00",
+				"startTime": "2020-06-11T11:30",
 				"cinemaHallName": "Lux_place"
 			},
 		}
@@ -225,7 +225,7 @@ Responses:
 			"movie": {
 				"id": 1,
 				"title": "Terminator",
-				"startTime": "2018-11-12 11:00",
+				"startTime": "2020-06-10T11:30",
 				"cinemaHallName": "Lux_place"
 			}
 		},
@@ -238,7 +238,7 @@ Responses:
 			"movie": {
 				"id": 1,
 				"title": "Terminator",
-				"startTime": "2018-11-12 11:00",
+				"startTime": "2020-06-10T11:30",
 				"cinemaHallName": "Lux_place"
 			}
 		}

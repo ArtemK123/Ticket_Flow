@@ -20,7 +20,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(TicketAlreadyOrderedException.class)
-    protected ResponseEntity<String> handleNotUniqueEntityException(TicketAlreadyOrderedException exception) {
+    protected ResponseEntity<String> handleTicketAlreadyOrderedException(TicketAlreadyOrderedException exception) {
         String exceptionMessage = exception.getMessage();
         
         logger.warn(exceptionMessage);

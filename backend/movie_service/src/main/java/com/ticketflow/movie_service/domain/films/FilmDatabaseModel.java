@@ -1,4 +1,4 @@
-package com.ticketflow.movie_service.domain;
+package com.ticketflow.movie_service.domain.films;
 
 import java.time.LocalDate;
 
@@ -10,11 +10,29 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "films")
-class FilmDatabaseModel {
+public class FilmDatabaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
  
+    public FilmDatabaseModel() {
+    }
+
+    public FilmDatabaseModel(
+            String title,
+            String description,
+            LocalDate premiereDate,
+            String creator,
+            Integer duration,
+            Integer ageLimit) {
+        this.title = title;
+        this.description = description;
+        this.premiereDate = premiereDate;
+        this.creator = creator;
+        this.duration = duration;
+        this.ageLimit = ageLimit;
+    }
+
     private String title;
     private String description;
     private LocalDate premiereDate;
