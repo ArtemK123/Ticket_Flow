@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -24,8 +24,26 @@ const useStyles = makeStyles((theme) => ({
 function RegisterPage() {
     const styles = useStyles();
     const history = useHistory();
+    const [registerState, changeRegisterState] = useState({
+        textFieldValues: {
+            email: "",
+            phoneNumber: "",
+            password: "",
+            passwordAgain: "",
+            birthday: new Date()
+        },
+        passwordsDontMatch: false
+    });
+
     const onSubmitAction = () => {
-        alert("Submitted");
+        const message = JSON.stringify(registerState.textFieldValues);
+
+        alert(message);
+    };
+
+    const handleTextFieldChange = (targetName, event) => {
+        registerState.textFieldValues[targetName] = event.target.value;
+        changeRegisterState(registerState);
     };
 
     return (
@@ -33,12 +51,12 @@ function RegisterPage() {
             <h3>RegisterPage</h3>
             <form className={styles.root} onSubmit={onSubmitAction}>
                 <div>
-                    <TextField id="outlined-basic" label="Email" />
-                    <TextField id="outlined-basic" label="Phone number" />
+                    <TextField id="outlined-basic" label="Email" onChange={event => handleTextFieldChange("email", event)}/>
+                    <TextField id="outlined-basic" label="Phone number" onChange={event => handleTextFieldChange("phoneNumber", event)}/>
                 </div>
                 <div>
-                    <TextField id="outlined-basic" label="Password" />
-                    <TextField id="outlined-basic" label="Password again" />
+                    <TextField id="outlined-basic" type="password" label="Password" onChange={event => handleTextFieldChange("password", event)}/>
+                    <TextField id="outlined-basic" type="password" label="Password again" onChange={event => handleTextFieldChange("passwordAgain", event)}/>
                 </div>
                 <div>
                     <TextField
@@ -47,6 +65,7 @@ function RegisterPage() {
                         type="date"
                         defaultValue="2020-01-20"
                         className={styles.dateField}
+                        onChange={event => handleTextFieldChange("birthday", event)}
                         InputLabelProps={{
                             shrink: true,
                         }}
