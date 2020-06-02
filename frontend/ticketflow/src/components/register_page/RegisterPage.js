@@ -44,7 +44,7 @@ function RegisterPage() {
 
     useEffect(() => {
         if (registerState.submitCalled) {
-            updateRegisterState({submitCalled: false});
+            registerState.submitCalled = false;
             makeRegisterRequest();
         }
     });
@@ -67,10 +67,10 @@ function RegisterPage() {
             updateRegisterState({passwordsDontMatch: true});
             return;
         }
-        // if (new Date(registerState.birthday) > Date.now) {
-        //     updateRegisterState({dateInvalid: true});
-        //     return;
-        // } 
+        if (new Date(registerState.birthday).getTime() > new Date().getTime()) {
+            updateRegisterState({dateInvalid: true});
+            return;
+        } 
         await backendService.register({
             email: registerState.email,
             password: registerState.email,
