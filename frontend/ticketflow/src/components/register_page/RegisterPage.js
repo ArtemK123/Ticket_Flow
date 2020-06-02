@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TextField from "@material-ui/core/TextField";
 import PasswordInput from "./PasswordInput";
 import EmailInput from "./EmailInput";
+import BirthdayInput from "./BirthdayInput";
 import createBackendService from "../backend_service/createBackendService";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,16 +28,26 @@ const useStyles = makeStyles((theme) => ({
 function RegisterPage() {
     const styles = useStyles();
     const history = useHistory();
+    const backendService = createBackendService();
+
     const [registerState, changeRegisterState] = useState({
         email: "",
         phoneNumber: "",
         password: "",
         passwordAgain: "",
         birthday: "",
+        submitCalled: false,
         passwordsDontMatch: false,
-        emailAlreadyTaken: false
+        emailAlreadyTaken: false,
+        dateInvalid: false
     });
-    const backendService = createBackendService();
+
+    useEffect(() => {
+        if (registerState.submitCalled) {
+            updateRegisterState({submitCalled: false});
+            makeRegisterRequest();
+        }
+    });
 
     const updateRegisterState = (updatedFields) => {
         changeRegisterState(Object.assign({}, registerState, updatedFields));
@@ -44,10 +55,22 @@ function RegisterPage() {
 
     const onSubmitAction = async (event) => {
         event.preventDefault();
+        updateRegisterState({submitCalled: true});
+    };
+
+    const handleTextFieldChange = (targetName, event) => {
+        updateRegisterState({ [targetName]: event.target.value });
+    };
+
+    const makeRegisterRequest = async() => {
         if (registerState.password !== registerState.passwordAgain) {
             updateRegisterState({passwordsDontMatch: true});
             return;
         }
+        // if (new Date(registerState.birthday) > Date.now) {
+        //     updateRegisterState({dateInvalid: true});
+        //     return;
+        // } 
         await backendService.register({
             email: registerState.email,
             password: registerState.email,
@@ -56,18 +79,13 @@ function RegisterPage() {
                 birthday: registerState.birthday
             }
         }).then(response => {
-            alert(JSON.stringify(response));
-            // if (response.status === 200) {
-            //     history.push("/login");
-            // }
-            // else if (response.status === 400){
-            //     updateRegisterState({emailAlreadyTaken: true});
-            // }
+            if (response.ok) {
+                history.push("/login");
+            }
+            else if (response.status === 400){
+                updateRegisterState({emailAlreadyTaken: true});
+            }
         });
-    };
-
-    const handleTextFieldChange = (targetName, event) => {
-        updateRegisterState({ [targetName]: event.target.value });
     };
 
     return (
@@ -96,15 +114,10 @@ function RegisterPage() {
                     />
                 </div>
                 <div>
-                    <TextField
-                        id="date"
-                        label="Birthday"
-                        type="date"
-                        className={styles.dateField}
+                    <BirthdayInput
+                        value={registerState.birthday}
+                        isErrorState={registerState.dateInvalid}
                         onChange={event => handleTextFieldChange("birthday", event)}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
                     />
                 </div>
                 <Button variant="contained" color="primary" type="submit">Submit</Button>
