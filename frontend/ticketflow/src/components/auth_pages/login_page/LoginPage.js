@@ -48,6 +48,7 @@ function LoginPage() {
             if (response.ok) {
                 const jwtToken = await response.text();
                 localStorage.setItem("token", jwtToken);
+                localStorage.setItem("username", inputState.email);
                 history.push("/");
                 return;
             }
