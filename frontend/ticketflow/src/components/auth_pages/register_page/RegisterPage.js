@@ -3,10 +3,10 @@ import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TextField from "@material-ui/core/TextField";
-import PasswordInput from "./PasswordInput";
-import EmailInput from "./EmailInput";
-import BirthdayInput from "./BirthdayInput";
-import createBackendService from "../backend_service/createBackendService";
+import PasswordInput from "components/auth_pages/common/PasswordInput";
+import EmailInput from "components/auth_pages/common/EmailInput";
+import BirthdayInput from "components/auth_pages/register_page/BirthdayInput";
+import createBackendService from "services/backend_service/createBackendService";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -95,22 +95,27 @@ function RegisterPage() {
                 <div>
                     <EmailInput 
                         value={registerState.email}
+                        label="Email"
+                        onChange={event => handleTextFieldChange("email", event)}
                         isErrorState={registerState.emailAlreadyTaken}
-                        onChange={event => handleTextFieldChange("email", event)}/>
-                    <TextField id="outlined-basic" label="Phone number" value={registerState.phoneNumber} onChange={event => handleTextFieldChange("phoneNumber", event)}/>
+                        helperText="User with given email already exists"
+                    />
+                    <TextField label="Phone number" value={registerState.phoneNumber} onChange={event => handleTextFieldChange("phoneNumber", event)}/>
                 </div>
                 <div>
                     <PasswordInput
                         label="Password"
                         value={registerState.password}
-                        isErrorState={registerState.passwordsDontMatch}
                         onChange={event => handleTextFieldChange("password", event)}
+                        isErrorState={registerState.passwordsDontMatch}
+                        helperText="Passwords dont match"
                     />
                     <PasswordInput
                         label="Password Again"
                         value={registerState.passwordAgain}
-                        isErrorState={registerState.passwordsDontMatch}
                         onChange={event => handleTextFieldChange("passwordAgain", event)}
+                        isErrorState={registerState.passwordsDontMatch}
+                        helperText="Passwords dont match"
                     />
                 </div>
                 <div>

@@ -23,7 +23,6 @@ function BirthdayInput(props) {
     if (props.isErrorState) {
         return (
             <TextField
-                id="date"
                 label="Birthday"
                 value={props.value}
                 type="date"
