@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import HeaderUserPart from "components/header/HeaderUserPart";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -15,11 +16,14 @@ const useStyles = makeStyles(() => ({
 
 function Header() {
     const styles = useStyles();
+    const history = useHistory();
     const [headerState, changeHeaderState] = useState({
         isUserLoggedIn: false,
         username: "",
         initialized: false
     });
+
+    const [actionState, changeActionState] = useState("");
 
     useEffect(() => {
         if (!headerState.initialized) {
@@ -30,7 +34,33 @@ function Header() {
             headerState.username = usernameInStorage ? usernameInStorage : "";
             changeHeaderState(Object.assign({}, headerState));
         }
-    }, [headerState]);
+    });
+
+
+    useEffect(() => {
+        if (actionState === "login") {
+            history.push("/login");
+            return;
+        }
+        else if (actionState === "register") {
+            history.push("/register");
+            return;
+        }
+        else if (actionState === "profile") {
+            history.push("/profile");
+            return;
+        }
+        else if (actionState === "logout") {
+            handleLogout();
+        }
+    });
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        changeActionState("");
+        changeHeaderState(Object.assign({}, {initialized: false}));
+    };
 
     return (
         <Grid container justify="space-around" alignItems="center" className={styles.root} spacing={2}>
@@ -42,6 +72,10 @@ function Header() {
                     isUserLoggedIn={headerState.isUserLoggedIn}
                     username={headerState.username}
                     style={styles.second}
+                    loginAction={() => changeActionState("login")}
+                    registerAction={() => changeActionState("register")}
+                    profileAction={() => changeActionState("profile")}
+                    logoutAction={() => changeActionState("logout")}
                 />
             </Grid>   
         </Grid>

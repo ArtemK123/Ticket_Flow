@@ -14,8 +14,8 @@ import NotFoundPage from "./components/not_found_page/NotFoundPage";
 function App() {
     return (
         <div>
-            <Header></Header>
             <Router>
+                <Header></Header>
                 <Switch>
                     <Route exact path="/" component={HomePage} />
                     <Route path="/login" component={LoginPage} />
@@ -25,8 +25,8 @@ function App() {
                     <Route path="/order" component={OrderPage} />
                     <Route component={NotFoundPage} />
                 </Switch>
+                <Footer></Footer>
             </Router>
-            <Footer></Footer>
         </div>
     );
 }
