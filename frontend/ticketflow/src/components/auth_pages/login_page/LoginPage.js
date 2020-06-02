@@ -49,6 +49,7 @@ function LoginPage() {
                 const jwtToken = await response.text();
                 localStorage.setItem("token", jwtToken);
                 history.push("/");
+                return;
             }
             else if (response.status === 401) {
                 loginState.invalidPassword = true;

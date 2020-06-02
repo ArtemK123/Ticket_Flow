@@ -73,7 +73,7 @@ function RegisterPage() {
         } 
         await backendService.register({
             email: registerState.email,
-            password: registerState.email,
+            password: registerState.password,
             profile: {
                 phoneNumber: parseInt(registerState.phoneNumber),
                 birthday: registerState.birthday
