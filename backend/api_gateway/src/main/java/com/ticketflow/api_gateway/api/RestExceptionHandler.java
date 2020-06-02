@@ -8,10 +8,11 @@ import com.ticketflow.api_gateway.models.ticket_service.exceptions.TicketAlready
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String NOT_UNIQUE_USER_EXCEPTION_MESSAGE = "User with given email already exists";
