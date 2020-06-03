@@ -12,6 +12,7 @@ import Footer from "./components/footer/Footer";
 import NotFoundPage from "./components/not_found_page/NotFoundPage";
 import useProfileModel from "services/hooks/useProfileModel";
 import useTicketsByUser from "services/hooks/useTicketsByUser";
+import { Link } from "react-router-dom";
 
 function App() {
     const [userState, changeUserState] = useState({
@@ -49,6 +50,13 @@ function App() {
                     username={userState.username}
                     reloadParent={reload}
                 />
+                <ul>
+                    <li><Link to="/login">LoginPage</Link></li>
+                    <li><Link to="/register">RegisterPage</Link></li>
+                    <li><Link to="/profile">ProfilePage</Link></li>
+                    <li><Link to="/movie">MoviePage</Link></li>
+                    <li><Link to="/order">OrderPage</Link></li>
+                </ul>
                 <Switch>
                     <Route exact path="/" component={HomePage} />
                     <Route path="/login">
