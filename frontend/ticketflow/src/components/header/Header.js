@@ -17,10 +17,9 @@ Header.propTypes = {
 const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1,
-        backgroundColor: "Gainsboro",
     },
-    second: {
-        backgroundColor: "red",
+    header: {
+        backgroundColor: "Gainsboro",
     },
     homeLink: {
         color: "black",
@@ -61,14 +60,12 @@ function Header(props) {
 
     return (
         <div className={styles.root}>
-            <AppBar position="static">
+            <AppBar position="static" className={styles.header}>
                 <Toolbar>
                     <h3><Link to="/" className={styles.homeLink}>TicketFlow</Link></h3>    
-
                     <HeaderUserPart
                         isUserLoggedIn={props.isUserLoggedIn}
                         username={props.username}
-                        style={styles.second}
                         loginAction={() => changeActionState("login")}
                         registerAction={() => changeActionState("register")}
                         profileAction={() => changeActionState("profile")}

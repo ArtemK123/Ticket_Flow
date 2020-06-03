@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button";
 HeaderUserPart.propTypes = {
     isUserLoggedIn: PropTypes.bool,
     username: PropTypes.string,
-    style: PropTypes.string,
     loginAction: PropTypes.func,
     registerAction: PropTypes.func,
     profileAction: PropTypes.func,
@@ -16,7 +15,7 @@ HeaderUserPart.propTypes = {
 function HeaderUserPart(props) {
     if (props.isUserLoggedIn) {
         return (
-            <Grid container justify="flex-end" alignItems="center" className={props.style}>
+            <Grid container justify="flex-end" alignItems="center">
                 <h4>{props.username}</h4>
                 <Button onClick={props.profileAction}>Profile</Button>
                 <Button onClick={props.logoutAction}>Log out</Button>
@@ -25,7 +24,7 @@ function HeaderUserPart(props) {
     }
     else {
         return (
-            <Grid container justify="flex-end" alignItems="center" className={props.style}>
+            <Grid container justify="flex-end" alignItems="center">
                 <Button onClick={props.loginAction}>Login</Button>
                 <Button onClick={props.registerAction}>Register</Button>
             </Grid> 
