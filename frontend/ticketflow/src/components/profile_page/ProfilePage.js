@@ -1,7 +1,7 @@
 import React from "react";
-import { TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import ReadonlyTextInput from "components/common/ReadonlyTextInput";
 
 ProfilePage.propTypes = {
     isUserLoggedIn: PropTypes.bool,
@@ -36,44 +36,31 @@ function ProfilePage(props) {
         <div>
             <h3>Your profile</h3>
             <div>
-                <TextField
+                <ReadonlyTextInput
                     label="Email"
-                    defaultValue={props.profileModel.userEmail}
-                    variant="outlined"
-                    InputProps={{
-                        readOnly: true
-                    }}
+                    value={props.profileModel.userEmail}
+                    isMultiple={false}
                 />
             </div>
             <div>
-                <TextField
+                <ReadonlyTextInput
                     label="Phone number"
-                    defaultValue={props.profileModel.profile.phoneNumber}
-                    variant="outlined"
-                    InputProps={{
-                        readOnly: true
-                    }}
+                    value={props.profileModel.profile.phoneNumber}
+                    isMultiple={false}
                 />
             </div>
             <div>
-                <TextField
+                <ReadonlyTextInput
                     label="Birthday"
-                    defaultValue={props.profileModel.profile.birthday}
-                    variant="outlined"
-                    InputProps={{
-                        readOnly: true
-                    }}
+                    value={props.profileModel.profile.birthday}
+                    isMultiple={false}
                 />
             </div>
             <div>
-                <TextField
+                <ReadonlyTextInput
                     label="Tickets"
-                    defaultValue={getTicketsValue(props.tickets)}
-                    variant="outlined"
-                    multiline
-                    InputProps={{
-                        readOnly: true
-                    }}
+                    value={getTicketsValue(props.tickets)}
+                    isMultiple={true}
                 />
             </div>
         </div>

@@ -3,9 +3,9 @@ import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TextField from "@material-ui/core/TextField";
-import PasswordInput from "components/auth_pages/common/PasswordInput";
-import EmailInput from "components/auth_pages/common/EmailInput";
-import BirthdayInput from "components/auth_pages/register_page/BirthdayInput";
+import PasswordInput from "components/common/PasswordInput";
+import EmailInput from "components/common/EmailInput";
+import BirthdayInput from "components/register_page/BirthdayInput";
 import createBackendService from "services/backend_service/createBackendService";
 
 const useStyles = makeStyles((theme) => ({
