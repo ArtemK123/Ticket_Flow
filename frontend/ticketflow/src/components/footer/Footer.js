@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         top: "auto",
         bottom: 0,
+        backgroundColor: "white",
+        color: "grey" 
     },
     grow: {
         flexGrow: 1,
@@ -39,7 +41,7 @@ function Footer() {
     const styles = useStyles();
 
     return (
-        <AppBar position="fixed" color="grey" className={styles.appBar}>
+        <AppBar position="fixed" className={styles.appBar}>
             <Toolbar>
                 <Grid container justify="space-between" direction="row">
                     <Grid item>

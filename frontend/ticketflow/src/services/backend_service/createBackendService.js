@@ -43,6 +43,11 @@ const createBackendService = () => ({
             },
             body: token
         });
+    },
+    async getMovies() {
+        return fetch("http://localhost:8080/movies", {
+            method: "GET"
+        });
     }
 });
 

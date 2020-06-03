@@ -14,6 +14,7 @@ import useProfileModel from "services/hooks/useProfileModel";
 import useTicketsByUser from "services/hooks/useTicketsByUser";
 import { Link } from "react-router-dom";
 import Box from "@material-ui/core/Box";
+import useMovies from "services/hooks/useMovies";
 
 function App() {
     const [userState, changeUserState] = useState({
@@ -24,6 +25,7 @@ function App() {
 
     const profileResponse = useProfileModel(userState.token);
     const ticketsByUser = useTicketsByUser(userState.token);
+    const movies = useMovies();
 
     useEffect(() => {
         if (profileResponse !== null && profileResponse.success === false) {
@@ -70,7 +72,11 @@ function App() {
                     <li><Link to="/order">OrderPage</Link></li>
                 </ul>
                 <Switch>
-                    <Route exact path="/" component={HomePage} />
+                    <Route exact path="/">
+                        <HomePage 
+                            movies={movies}
+                        />
+                    </Route>
                     <Route path="/login">
                         <LoginPage 
                             reloadParent={reload}

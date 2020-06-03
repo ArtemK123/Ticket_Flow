@@ -49,6 +49,7 @@ function LoginPage(props) {
             email: inputState.email,
             password: inputState.password
         }).then(async response => {
+            alert(JSON.stringify(response));
             if (response.ok) {
                 const jwtToken = await response.text();
                 localStorage.setItem("token", jwtToken);

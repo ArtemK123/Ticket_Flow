@@ -5,6 +5,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import { Divider } from "@material-ui/core";
+import PropTypes from "prop-types";
+
+HomePage.propTypes = {
+    movies: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        startTime: PropTypes.string,
+        cinemaHallName: PropTypes.string
+    })),
+};
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -17,12 +27,17 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-function HomePage() {
+// const sortMoviesByDate = (movies) => {
+    
+// };
+
+function HomePage(props) {
     const styles = useStyles();
 
     return (
         <Box>
             <h3>HomePage</h3>
+            <h4>Movies count: {props.movies.length}</h4>
             <Box border={1} p={1}>
                 <Grid container>
                     <Grid item container justify="space-between" xs={3}>
