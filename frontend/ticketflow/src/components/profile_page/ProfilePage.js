@@ -12,11 +12,16 @@ ProfilePage.propTypes = {
             birthday: PropTypes.string
         })
     }),
-    tickets: PropTypes.arrayOf(PropTypes.string)
+    tickets: PropTypes.arrayOf(PropTypes.object)
 };
 
 function ProfilePage(props) {
-    const getTicketsValue = (tickets) => tickets.reduce((accumulator, ticket) => accumulator + ticket + "\n\n");
+    const getTicketsValue = (tickets) => {
+        if (tickets.length === 0){
+            return "";
+        }
+        return tickets.reduce((accumulator, ticket) => accumulator + JSON.stringify(ticket) + "\n\n");
+    };
 
     if (!props.isUserLoggedIn) {
         return (

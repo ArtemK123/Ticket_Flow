@@ -11,6 +11,7 @@ import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import NotFoundPage from "./components/not_found_page/NotFoundPage";
 import useProfileModel from "services/hooks/useProfileModel";
+import useTicketsByUser from "services/hooks/useTicketsByUser";
 
 function App() {
     const [userState, changeUserState] = useState({
@@ -19,6 +20,8 @@ function App() {
     });
 
     const storedToken = localStorage.getItem("token");
+    const profileModel = useProfileModel(storedToken);
+    const ticketsByUser = useTicketsByUser(storedToken);
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
@@ -34,17 +37,9 @@ function App() {
         }
     }, [userState]);
 
-    const profileModel = useProfileModel(storedToken);
-
     const reload = () => {
         changeUserState(Object.assign({}, userState));
     };
-
-    const getTickets = () => [
-        "213123213: Movie1. 2019-01-11 22:00. 20$",
-        "213123213: Movie1. 2019-01-11 22:00. 20$",
-        "213123213: Movie1. 2019-01-11 22:00. 20$"
-    ];
 
     return (
         <div>
@@ -66,7 +61,7 @@ function App() {
                         <ProfilePage 
                             isUserLoggedIn={userState.isLoggedIn}
                             profileModel={profileModel}
-                            tickets={getTickets()}
+                            tickets={ticketsByUser}
                         />
                     </Route>
                     <Route path="/movie" component={MoviePage} />
