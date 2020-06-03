@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import HeaderUserPart from "components/header/HeaderUserPart";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 Header.propTypes = {
     isUserLoggedIn: PropTypes.bool,
@@ -18,6 +19,13 @@ const useStyles = makeStyles(() => ({
     },
     second: {
         backgroundColor: "red",
+    },
+    homeLink: {
+        color: "black",
+        textDecoration: "none",
+        "&:hover": {
+            color: "black",
+        }
     }
 }));
 
@@ -55,7 +63,7 @@ function Header(props) {
     return (
         <Grid container justify="space-around" alignItems="center" className={styles.root} spacing={2}>
             <Grid item xs={9}>
-                <h3>TicketFlow</h3>    
+                <h3><Link to="/" className={styles.homeLink}>TicketFlow</Link></h3>    
             </Grid>
             <Grid item xs={3}>
                 <HeaderUserPart
