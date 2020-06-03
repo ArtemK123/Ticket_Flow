@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
         top: "auto",
         bottom: 0,
         backgroundColor: "white",
-        color: "grey" 
+        color: "grey"
     },
 }));
 
@@ -18,7 +18,7 @@ function Footer() {
     const styles = useStyles();
 
     return (
-        <AppBar position="static" className={styles.appBar}>
+        <AppBar position="fixed" className={styles.appBar}>
             <Toolbar>
                 <Grid container justify="space-between" direction="row">
                     <Grid item>
