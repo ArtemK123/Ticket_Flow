@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
 import { Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import { Redirect } from "react-router-dom";
 
 MovieCard.propTypes = {
     movie: PropTypes.shape({
@@ -34,11 +35,25 @@ const getTimeFromDate = (date) => {
     return `${hours}:${minutes}`;
 };
 
+
+
 function MovieCard(props) {
     const styles = useStyles();
+    const [redirectState, changeRedirectState] = useState(false);
+
+    const handleCardClick = () => {
+        changeRedirectState(true);
+    };
+
+    if (redirectState) {
+        return <Redirect to={{
+            pathname: `/movie/${props.movie.id}`,
+            state: {id: props.movie.id}
+        }}/>;
+    }
 
     return (
-        <Paper className={styles.paper} onClick="">
+        <Paper className={styles.paper} onClick={handleCardClick}>
             <Box p={1}>
                 <Typography variant="h5">{props.movie.title}</Typography>
                 <Typography>Cinema hall: {props.movie.cinemaHallName}</Typography>
