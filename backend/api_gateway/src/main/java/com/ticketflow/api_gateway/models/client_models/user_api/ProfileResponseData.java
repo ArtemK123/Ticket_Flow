@@ -1,7 +1,5 @@
 package com.ticketflow.api_gateway.models.client_models.user_api;
 
-import java.time.LocalDate;
-
 import com.ticketflow.api_gateway.models.profile_service.Profile;
 
 public class ProfileResponseData {
@@ -17,11 +15,7 @@ public class ProfileResponseData {
         return userEmail;
     }
 
-    public Long getPhoneNumber() {
-        return this.profile.getPhoneNumber();
-    }
-
-    public LocalDate getBirthday() {
-        return this.profile.getBirthday();
+    public ProfileClientModel getProfile() {
+        return this.profile;
     }
 }
