@@ -6,6 +6,11 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
 import EmailInput from "components/auth_pages/common/EmailInput";
 import PasswordInput from "components/auth_pages/common/PasswordInput";
+import PropTypes from "prop-types";
+
+LoginPage.propTypes = {
+    reloadParent: PropTypes.func,
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function LoginPage() {
+function LoginPage(props) {
     const styles = useStyles();
     const backendService = createBackendService();
     const history = useHistory();
@@ -50,6 +55,7 @@ function LoginPage() {
                 localStorage.setItem("token", jwtToken);
                 localStorage.setItem("username", inputState.email);
                 history.push("/");
+                props.reloadParent();
                 return;
             }
             else if (response.status === 401) {
@@ -65,7 +71,7 @@ function LoginPage() {
     const handleFormSubmit = (event) => {
         event.preventDefault();
         changeLoginState(Object.assign({}, loginState, {submitCalled: true}));
-    }
+    };
 
     const handleInputChange = (stateTarget, event) => {
         changeInputState(Object.assign({}, inputState, {[stateTarget]: event.target.value}));

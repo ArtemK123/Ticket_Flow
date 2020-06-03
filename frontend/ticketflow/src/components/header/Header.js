@@ -3,6 +3,13 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import HeaderUserPart from "components/header/HeaderUserPart";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+
+Header.propTypes = {
+    isUserLoggedIn: PropTypes.bool,
+    username: PropTypes.string,
+    reloadParent: PropTypes.func,
+};
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -14,28 +21,11 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-function Header() {
+function Header(props) {
     const styles = useStyles();
     const history = useHistory();
-    const [headerState, changeHeaderState] = useState({
-        isUserLoggedIn: false,
-        username: "",
-        initialized: false
-    });
 
     const [actionState, changeActionState] = useState("");
-
-    useEffect(() => {
-        if (!headerState.initialized) {
-            headerState.initialized = true;
-            const token = localStorage.getItem("token");
-            headerState.isUserLoggedIn = token !== null;
-            const usernameInStorage = localStorage.getItem("username");
-            headerState.username = usernameInStorage ? usernameInStorage : "";
-            changeHeaderState(Object.assign({}, headerState));
-        }
-    });
-
 
     useEffect(() => {
         if (actionState === "login") {
@@ -59,7 +49,7 @@ function Header() {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
         changeActionState("");
-        changeHeaderState(Object.assign({}, {initialized: false}));
+        props.reloadParent();
     };
 
     return (
@@ -69,8 +59,8 @@ function Header() {
             </Grid>
             <Grid item xs={3}>
                 <HeaderUserPart
-                    isUserLoggedIn={headerState.isUserLoggedIn}
-                    username={headerState.username}
+                    isUserLoggedIn={props.isUserLoggedIn}
+                    username={props.username}
                     style={styles.second}
                     loginAction={() => changeActionState("login")}
                     registerAction={() => changeActionState("register")}

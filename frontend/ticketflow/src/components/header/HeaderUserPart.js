@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 HeaderUserPart.propTypes = {
     isUserLoggedIn: PropTypes.bool,
     username: PropTypes.string,
-    style: PropTypes.object,
+    style: PropTypes.string,
     loginAction: PropTypes.func,
     registerAction: PropTypes.func,
     profileAction: PropTypes.func,

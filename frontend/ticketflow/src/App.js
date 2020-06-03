@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import HomePage from "./components/home_page/HomePage";
@@ -12,20 +12,51 @@ import Footer from "./components/footer/Footer";
 import NotFoundPage from "./components/not_found_page/NotFoundPage";
 
 function App() {
+    const [userState, changeUserState] = useState({
+        isLoggedIn: false,
+        username: ""
+    });
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        const storedUsername = localStorage.getItem("username");
+
+        const newUserState = {
+            isLoggedIn: storedToken !== null,
+            username: storedUsername !== null ? storedUsername : ""
+        };
+
+        if (JSON.stringify(newUserState) !== JSON.stringify(userState)) {
+            changeUserState(newUserState);
+        }
+    }, [userState]);
+
+    const reload = () => {
+        changeUserState(Object.assign({}, userState));
+    };
+
     return (
         <div>
             <Router>
-                <Header></Header>
+                <Header
+                    isUserLoggedIn={userState.isLoggedIn}
+                    username={userState.username}
+                    reloadParent={reload}
+                />
                 <Switch>
                     <Route exact path="/" component={HomePage} />
-                    <Route path="/login" component={LoginPage} />
+                    <Route path="/login">
+                        <LoginPage 
+                            reloadParent={reload}
+                        />
+                    </Route>
                     <Route path="/register" component={RegisterPage} />
                     <Route path="/profile" component={ProfilePage} />
                     <Route path="/movie" component={MoviePage} />
                     <Route path="/order" component={OrderPage} />
                     <Route component={NotFoundPage} />
                 </Switch>
-                <Footer></Footer>
+                <Footer/>
             </Router>
         </div>
     );
