@@ -35,6 +35,18 @@ function App() {
         changeUserState(Object.assign({}, userState));
     };
 
+    const getProfile = () => ({
+        email: "some@mail.com",
+        phoneNumber: "+3809711111111",
+        birthday: "2020-01-20"
+    });
+
+    const getTickets = () => [
+        "213123213: Movie1. 2019-01-11 22:00. 20$",
+        "213123213: Movie1. 2019-01-11 22:00. 20$",
+        "213123213: Movie1. 2019-01-11 22:00. 20$"
+    ];
+
     return (
         <div>
             <Router>
@@ -51,7 +63,13 @@ function App() {
                         />
                     </Route>
                     <Route path="/register" component={RegisterPage} />
-                    <Route path="/profile" component={ProfilePage} />
+                    <Route path="/profile">
+                        <ProfilePage 
+                            isUserLoggedIn={userState.isLoggedIn}
+                            profile={getProfile()}
+                            tickets={getTickets()}
+                        />
+                    </Route>
                     <Route path="/movie" component={MoviePage} />
                     <Route path="/order" component={OrderPage} />
                     <Route component={NotFoundPage} />

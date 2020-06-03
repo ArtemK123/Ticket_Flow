@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import createBackendService from "services/backend_service/createBackendService";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -79,10 +78,7 @@ function LoginPage(props) {
 
     return (
         <div>
-            <h3>LoginPage</h3>
-            <ul>
-                <li><Link to="/">HomePage</Link></li>
-            </ul>
+            <h3>Login</h3>
             <form className={styles.root} onSubmit={handleFormSubmit}>
                 <div>
                     <EmailInput

@@ -90,7 +90,7 @@ function RegisterPage() {
 
     return (
         <div>
-            <h3>RegisterPage</h3>
+            <h3>Register</h3>
             <form className={styles.root} onSubmit={onSubmitAction}>
                 <div>
                     <EmailInput 
@@ -127,7 +127,6 @@ function RegisterPage() {
                 </div>
                 <Button variant="contained" color="primary" type="submit">Submit</Button>
             </form>
-            <Button variant="contained" color="primary" className={styles.redirectButton} onClick={() => { history.push("/"); }}>Go to Home Page</Button>
         </div>
     );
 }
