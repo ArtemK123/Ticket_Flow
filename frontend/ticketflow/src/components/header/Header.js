@@ -40,30 +40,23 @@ function Header(props) {
     useEffect(() => {
         if (actionState === "login") {
             history.push("/login");
-            return;
         }
         else if (actionState === "register") {
             history.push("/register");
-            return;
         }
         else if (actionState === "profile") {
             history.push("/profile");
-            return;
         }
         else if (actionState === "logout") {
-            handleLogout();
-        }
-    });
-
-    const handleLogout = () => {
-        const token = localStorage.getItem("token");
-        backendService.logout(token).then(() => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-            changeActionState("");
+            const token = localStorage.getItem("token");
+            backendService.logout(token).then(() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+            });
             props.reloadParent();
-        });
-    };
+        }
+        changeActionState("");
+    }, [actionState, history, backendService, props]);
 
     return (
         <Grid container justify="space-around" alignItems="center" className={styles.root} spacing={2}>

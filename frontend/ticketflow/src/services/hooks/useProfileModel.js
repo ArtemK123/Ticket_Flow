@@ -5,6 +5,14 @@ const useProfileModel = (token) => {
     const [profileModel, setProfile] = useState(null);
     const backendService = createBackendService();
 
+    const defaultProfileModel = {
+        email: "",
+        profile: {
+            phoneNumber: 111,
+            birthday: ""
+        }
+    };
+
     const fetchProfile = (token) => {
         backendService
             .getProfile(token)
@@ -18,7 +26,9 @@ const useProfileModel = (token) => {
         }
     });
 
-    return profileModel;
+    return profileModel !== null 
+        ? profileModel
+        : defaultProfileModel ;
 };
 
 export default useProfileModel;

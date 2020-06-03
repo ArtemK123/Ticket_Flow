@@ -34,6 +34,15 @@ const createBackendService = () => ({
             },
             body: token
         });
+    },
+    async getTicketsByUser(token) {
+        return fetch("http://localhost:8080/tickets/by-user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "text/plain"
+            },
+            body: token
+        });
     }
 });
 

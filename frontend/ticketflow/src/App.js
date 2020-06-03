@@ -18,13 +18,6 @@ function App() {
         username: ""
     });
 
-    const [profileModel, changeProfileModel] = useState({
-        email: "",
-        profile: {
-            phoneNumber: 111,
-            birthday: ""
-        }
-    });
     const storedToken = localStorage.getItem("token");
 
     useEffect(() => {
@@ -41,18 +34,11 @@ function App() {
         }
     }, [userState]);
 
-    const fetchedProfileModel = useProfileModel(storedToken);
-
-    useEffect(() => {
-        if (fetchedProfileModel !== null && JSON.stringify(profileModel) !== JSON.stringify(fetchedProfileModel)) {
-            changeProfileModel(fetchedProfileModel);
-        }
-    }, [fetchedProfileModel, profileModel]);
+    const profileModel = useProfileModel(storedToken);
 
     const reload = () => {
         changeUserState(Object.assign({}, userState));
     };
-
 
     const getTickets = () => [
         "213123213: Movie1. 2019-01-11 22:00. 20$",
