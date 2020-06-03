@@ -10,12 +10,22 @@ import OrderPage from "./components/order_page/OrderPage";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import NotFoundPage from "./components/not_found_page/NotFoundPage";
+import useProfileModel from "services/hooks/useProfileModel";
 
 function App() {
     const [userState, changeUserState] = useState({
         isLoggedIn: false,
         username: ""
     });
+
+    const [profileModel, changeProfileModel] = useState({
+        email: "",
+        profile: {
+            phoneNumber: 111,
+            birthday: ""
+        }
+    });
+    const storedToken = localStorage.getItem("token");
 
     useEffect(() => {
         const storedToken = localStorage.getItem("token");
@@ -31,15 +41,18 @@ function App() {
         }
     }, [userState]);
 
+    const fetchedProfileModel = useProfileModel(storedToken);
+
+    useEffect(() => {
+        if (fetchedProfileModel !== null && JSON.stringify(profileModel) !== JSON.stringify(fetchedProfileModel)) {
+            changeProfileModel(fetchedProfileModel);
+        }
+    }, [fetchedProfileModel, profileModel]);
+
     const reload = () => {
         changeUserState(Object.assign({}, userState));
     };
 
-    const getProfile = () => ({
-        email: "some@mail.com",
-        phoneNumber: "+3809711111111",
-        birthday: "2020-01-20"
-    });
 
     const getTickets = () => [
         "213123213: Movie1. 2019-01-11 22:00. 20$",
@@ -66,7 +79,7 @@ function App() {
                     <Route path="/profile">
                         <ProfilePage 
                             isUserLoggedIn={userState.isLoggedIn}
-                            profile={getProfile()}
+                            profileModel={profileModel}
                             tickets={getTickets()}
                         />
                     </Route>

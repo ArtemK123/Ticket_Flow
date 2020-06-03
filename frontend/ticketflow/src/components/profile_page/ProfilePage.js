@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 
 ProfilePage.propTypes = {
     isUserLoggedIn: PropTypes.bool,
-    profile: PropTypes.shape({
-        email: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        birthday: PropTypes.string
+    profileModel: PropTypes.shape({
+        userEmail: PropTypes.string,
+        profile: PropTypes.shape({
+            phoneNumber: PropTypes.number,
+            birthday: PropTypes.string
+        })
     }),
     tickets: PropTypes.arrayOf(PropTypes.string)
 };
@@ -31,7 +33,7 @@ function ProfilePage(props) {
             <div>
                 <TextField
                     label="Email"
-                    defaultValue={props.profile.email}
+                    defaultValue={props.profileModel.userEmail}
                     variant="outlined"
                     InputProps={{
                         readOnly: true
@@ -41,7 +43,7 @@ function ProfilePage(props) {
             <div>
                 <TextField
                     label="Phone number"
-                    defaultValue={props.profile.phoneNumber}
+                    defaultValue={props.profileModel.profile.phoneNumber}
                     variant="outlined"
                     InputProps={{
                         readOnly: true
@@ -51,7 +53,7 @@ function ProfilePage(props) {
             <div>
                 <TextField
                     label="Birthday"
-                    defaultValue={props.profile.birthday}
+                    defaultValue={props.profileModel.profile.birthday}
                     variant="outlined"
                     InputProps={{
                         readOnly: true

@@ -5,6 +5,7 @@ import HeaderUserPart from "components/header/HeaderUserPart";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import createBackendService from "services/backend_service/createBackendService";
 
 Header.propTypes = {
     isUserLoggedIn: PropTypes.bool,
@@ -32,6 +33,7 @@ const useStyles = makeStyles(() => ({
 function Header(props) {
     const styles = useStyles();
     const history = useHistory();
+    const backendService = createBackendService();
 
     const [actionState, changeActionState] = useState("");
 
@@ -54,10 +56,13 @@ function Header(props) {
     });
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        changeActionState("");
-        props.reloadParent();
+        const token = localStorage.getItem("token");
+        backendService.logout(token).then(() => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            changeActionState("");
+            props.reloadParent();
+        });
     };
 
     return (

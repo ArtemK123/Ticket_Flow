@@ -16,6 +16,24 @@ const createBackendService = () => ({
             },
             body: JSON.stringify(registerRequestModel)
         });
+    },
+    async logout(token) {
+        return fetch("http://localhost:8080/logout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "text/plain"
+            },
+            body: token
+        });
+    },
+    async getProfile(token) {
+        return fetch("http://localhost:8080/profile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "text/plain"
+            },
+            body: token
+        });
     }
 });
 
