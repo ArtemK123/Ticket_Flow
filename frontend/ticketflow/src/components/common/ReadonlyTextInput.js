@@ -9,12 +9,25 @@ ReadonlyTextInput.propTypes = {
 };
 
 function ReadonlyTextInput(props) {
+    if (props.isMultiline) {
+        return (
+            <TextField
+                label={props.label}
+                defaultValue={props.value}
+                variant="outlined"
+                multiline
+                InputProps={{
+                    readOnly: true
+                }}
+            />
+        ); 
+    }
+    
     return (
         <TextField
             label={props.label}
             defaultValue={props.value}
             variant="outlined"
-            multiline={props.isMultiline}
             InputProps={{
                 readOnly: true
             }}

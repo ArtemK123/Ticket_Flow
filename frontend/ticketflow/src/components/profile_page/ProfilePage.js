@@ -17,10 +17,12 @@ ProfilePage.propTypes = {
 
 function ProfilePage(props) {
     const getTicketsValue = (tickets) => {
-        if (tickets.length === 0){
-            return "";
-        }
-        return tickets.reduce((accumulator, ticket) => accumulator + JSON.stringify(ticket) + "\n\n");
+    //     if (tickets.length === 0){
+    //         return "";
+    //     }
+    //     return tickets.reduce((accumulator, ticket) => accumulator + JSON.stringify(ticket) + "\n\n");]
+
+        return "asdasdsa \n\n asdasdasdasd \n\n das dasd asd asda sd asdasd asd as";
     };
 
     if (!props.isUserLoggedIn) {
@@ -39,28 +41,28 @@ function ProfilePage(props) {
                 <ReadonlyTextInput
                     label="Email"
                     value={props.profileModel.userEmail}
-                    isMultiple={false}
+                    isMultiline={false}
                 />
             </div>
             <div>
                 <ReadonlyTextInput
                     label="Phone number"
                     value={props.profileModel.profile.phoneNumber}
-                    isMultiple={false}
+                    isMultiline={false}
                 />
             </div>
             <div>
                 <ReadonlyTextInput
                     label="Birthday"
                     value={props.profileModel.profile.birthday}
-                    isMultiple={false}
+                    isMultiline={false}
                 />
             </div>
             <div>
                 <ReadonlyTextInput
                     label="Tickets"
                     value={getTicketsValue(props.tickets)}
-                    isMultiple={true}
+                    isMultiline={true}
                 />
             </div>
         </div>
