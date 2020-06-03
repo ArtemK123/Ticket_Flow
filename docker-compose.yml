@@ -1,6 +1,7 @@
 version: '3.7'
 services:
     db:
+        image: darkmode1012/ticketflow:db
         build:
             context: .
             dockerfile: ./docker/PostgresDockerfile

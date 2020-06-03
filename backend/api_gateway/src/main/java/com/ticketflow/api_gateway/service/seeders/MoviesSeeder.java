@@ -3,6 +3,7 @@ package com.ticketflow.api_gateway.service.seeders;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.ticketflow.api_gateway.models.exceptions.NotFoundException;
 import com.ticketflow.api_gateway.models.movie_service.CinemaHall;
@@ -39,10 +40,10 @@ public class MoviesSeeder {
         List<LocalDateTime> startTimes = getStartTimes();
 
         for (Film film : allFilms) {
-            for (CinemaHall cinemaHall : allCinemaHalls) {
-                for (LocalDateTime startTime : startTimes) {
-                    moviesService.add(new Movie(startTime, film, cinemaHall));
-                }
+            for (LocalDateTime startTime : startTimes) {
+                int cinemaHallIndex = ThreadLocalRandom.current().nextInt(0, allCinemaHalls.size());
+                CinemaHall cinemaHall = allCinemaHalls.get(cinemaHallIndex);
+                moviesService.add(new Movie(startTime, film, cinemaHall));
             }
         }
     }
@@ -51,7 +52,7 @@ public class MoviesSeeder {
         return List.of(
             getLocalDateTime("2020-06-10 11:30"),
             getLocalDateTime("2020-06-11 13:00"),
-            getLocalDateTime("2020-06-11 17:00")
+            getLocalDateTime("2020-06-12 17:00")
         );
     }
 
