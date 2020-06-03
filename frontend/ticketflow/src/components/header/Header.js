@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import HeaderUserPart from "components/header/HeaderUserPart";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import createBackendService from "services/backend_service/createBackendService";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
 
 Header.propTypes = {
     isUserLoggedIn: PropTypes.bool,
@@ -59,22 +60,23 @@ function Header(props) {
     }, [actionState, history, backendService, props]);
 
     return (
-        <Grid container justify="space-around" alignItems="center" className={styles.root} spacing={2}>
-            <Grid item xs={9}>
-                <h3><Link to="/" className={styles.homeLink}>TicketFlow</Link></h3>    
-            </Grid>
-            <Grid item xs={3}>
-                <HeaderUserPart
-                    isUserLoggedIn={props.isUserLoggedIn}
-                    username={props.username}
-                    style={styles.second}
-                    loginAction={() => changeActionState("login")}
-                    registerAction={() => changeActionState("register")}
-                    profileAction={() => changeActionState("profile")}
-                    logoutAction={() => changeActionState("logout")}
-                />
-            </Grid>   
-        </Grid>
+        <div className={styles.root}>
+            <AppBar position="static">
+                <Toolbar>
+                    <h3><Link to="/" className={styles.homeLink}>TicketFlow</Link></h3>    
+
+                    <HeaderUserPart
+                        isUserLoggedIn={props.isUserLoggedIn}
+                        username={props.username}
+                        style={styles.second}
+                        loginAction={() => changeActionState("login")}
+                        registerAction={() => changeActionState("register")}
+                        profileAction={() => changeActionState("profile")}
+                        logoutAction={() => changeActionState("logout")}
+                    />
+                </Toolbar>
+            </AppBar>
+        </div>
     );
 }
 

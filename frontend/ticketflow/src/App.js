@@ -13,37 +13,49 @@ import NotFoundPage from "./components/not_found_page/NotFoundPage";
 import useProfileModel from "services/hooks/useProfileModel";
 import useTicketsByUser from "services/hooks/useTicketsByUser";
 import { Link } from "react-router-dom";
+import Box from "@material-ui/core/Box";
 
 function App() {
     const [userState, changeUserState] = useState({
         isLoggedIn: false,
-        username: ""
+        username: "",
+        token: null
     });
 
-    const storedToken = localStorage.getItem("token");
-    const profileModel = useProfileModel(storedToken);
-    const ticketsByUser = useTicketsByUser(storedToken);
+    const profileResponse = useProfileModel(userState.token);
+    const ticketsByUser = useTicketsByUser(userState.token);
 
     useEffect(() => {
+        if (profileResponse !== null && profileResponse.success === false) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            changeUserState(Object.assign({}, userState, {
+                isLoggedIn: false,
+                username: "",
+                token: null
+            }));
+        }
+
         const storedToken = localStorage.getItem("token");
         const storedUsername = localStorage.getItem("username");
 
         const newUserState = {
             isLoggedIn: storedToken !== null,
-            username: storedUsername !== null ? storedUsername : ""
+            username: storedUsername !== null ? storedUsername : "",
+            token: storedToken
         };
 
         if (JSON.stringify(newUserState) !== JSON.stringify(userState)) {
             changeUserState(newUserState);
         }
-    }, [userState]);
+    }, [profileResponse, userState]);
 
     const reload = () => {
         changeUserState(Object.assign({}, userState));
     };
 
     return (
-        <div>
+        <Box width={1}>
             <Router>
                 <Header
                     isUserLoggedIn={userState.isLoggedIn}
@@ -68,7 +80,7 @@ function App() {
                     <Route path="/profile">
                         <ProfilePage 
                             isUserLoggedIn={userState.isLoggedIn}
-                            profileModel={profileModel}
+                            profileModel={profileResponse.profileModel}
                             tickets={ticketsByUser}
                         />
                     </Route>
@@ -78,7 +90,7 @@ function App() {
                 </Switch>
                 <Footer/>
             </Router>
-        </div>
+        </Box>
     );
 }
 

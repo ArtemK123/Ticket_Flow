@@ -21,7 +21,7 @@ function HomePage() {
     const styles = useStyles();
 
     return (
-        <Box width={1}>
+        <Box>
             <h3>HomePage</h3>
             <Box border={1} p={1}>
                 <Grid container>
