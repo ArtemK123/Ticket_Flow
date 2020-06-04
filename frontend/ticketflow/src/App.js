@@ -83,7 +83,7 @@ function App() {
                         />
                     </Route>
                     <Route path="/movie" component={MoviePage} />
-                    <Route path="/order" component={OrderPage} />
+                    <Route path="/order" render={(props) => <OrderPage {...props} token={userState.token}/>} />
                     <Route component={NotFoundPage} />
                 </Switch>
                 <Footer/>

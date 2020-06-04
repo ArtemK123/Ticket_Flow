@@ -103,6 +103,7 @@ function OrderPage(props) {
                             <Typography> - white: available</Typography>
                             <Typography> - red: selected</Typography>
                             <Typography> - grey: taken</Typography>
+                            <Typography>Token: {props.token}</Typography>
                         </Box>
                     </Box>
                 </Grid>
