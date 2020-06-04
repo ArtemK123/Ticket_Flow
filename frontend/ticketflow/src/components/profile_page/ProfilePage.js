@@ -17,12 +17,10 @@ ProfilePage.propTypes = {
 
 function ProfilePage(props) {
     const getTicketsValue = (tickets) => {
-    //     if (tickets.length === 0){
-    //         return "";
-    //     }
-    //     return tickets.reduce((accumulator, ticket) => accumulator + JSON.stringify(ticket) + "\n\n");]
-
-        return "asdasdsa \n\n asdasdasdasd \n\n das dasd asd asda sd asdasd asd as";
+        if (tickets.length === 0){
+            return "";
+        }
+        return tickets.reduce((accumulator, ticket) => accumulator + JSON.stringify(ticket) + "\n\n");
     };
 
     if (!props.isUserLoggedIn) {

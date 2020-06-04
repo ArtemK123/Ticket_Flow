@@ -2,7 +2,6 @@ import React from "react";
 import { Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-
 MoviePage.propTypes = {
     location: PropTypes.shape({
         state: PropTypes.shape({

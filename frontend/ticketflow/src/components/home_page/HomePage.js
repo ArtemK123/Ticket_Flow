@@ -2,6 +2,7 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import MoviesPerDate from "components/home_page/MoviesPerDate";
+import { makeStyles } from "@material-ui/core/styles";
 
 HomePage.propTypes = {
     movies: PropTypes.arrayOf(PropTypes.shape({
@@ -11,6 +12,12 @@ HomePage.propTypes = {
         cinemaHallName: PropTypes.string
     })),
 };
+
+const useStyles = makeStyles(() => ({
+    footerHolder: {
+        height: 100
+    },
+}));
 
 const groupMoviesByDay = (movies) => {
     const dateGroupings = {};
@@ -30,6 +37,7 @@ const groupMoviesByDay = (movies) => {
 };
 
 function HomePage(props) {
+    const styles = useStyles();
     const moviesByDate = groupMoviesByDay(props.movies);
   
     const moviesPerDateComponents = [];
@@ -42,8 +50,10 @@ function HomePage(props) {
 
     return (
         <Box>
-            <h3>HomePage</h3>
             {moviesPerDateComponents}
+            <Box className={styles.footerHolder}>
+
+            </Box>
         </Box>
     );
 }

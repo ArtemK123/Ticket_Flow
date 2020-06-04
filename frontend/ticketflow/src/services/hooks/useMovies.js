@@ -5,20 +5,16 @@ const useMovies = () => {
     const [movies, setMovies] = useState(null);
     const backendService = createBackendService();
 
-    const fetchMovies = () => {
-        backendService
-            .getMovies()
-            .then(response => response.json())
-            .then(fetchedMovies => {
-                setMovies(fetchedMovies);
-            });
-    };
-
     useEffect(() => {
         if (movies === null) {
-            fetchMovies();
+            backendService
+                .getMovies()
+                .then(response => response.json())
+                .then(fetchedMovies => {
+                    setMovies(fetchedMovies);
+                });
         }
-    }, [movies]);
+    }, [movies, backendService]);
 
     return movies !== null ? movies : [];
 };
