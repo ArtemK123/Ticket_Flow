@@ -19,7 +19,7 @@ Seat.propTypes = {
 const useStyles = makeStyles(() => ({
     availablePaper: {
         height: 50,
-        width: 50,
+        width: 70,
         backgroundColor: "white",
         "&:hover": {
             backgroundColor: "Azure"
@@ -27,12 +27,12 @@ const useStyles = makeStyles(() => ({
     },
     selectedPaper: {
         height: 50,
-        width: 50,
+        width: 70,
         backgroundColor: "red",
     },
     takenPaper: {
         height: 50,
-        width: 50,
+        width: 70,
         backgroundColor: "grey"
     }
 }));

@@ -4,6 +4,17 @@ import { Container, Box } from "@material-ui/core";
 import useTicketsByMovie from "services/hooks/useTicketsByMovie";
 import Grid from "@material-ui/core/Grid";
 import Seat from "components/order_page/Seat";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+    ticketsContainer: {
+        width: 500,
+        height: 400
+    },
+    footerHolder: {
+        height: 100
+    }
+}));
 
 OrderPage.propTypes = {
     token: PropTypes.string,
@@ -29,6 +40,7 @@ const groupTicketsByRow = (tickets) => {
 };
 
 function OrderPage(props) {
+    const styles = useStyles();
     const movieId = props.location.state !== undefined ? props.location.state.movieId : -1;
     const tickets = useTicketsByMovie(movieId);
 
@@ -75,8 +87,13 @@ function OrderPage(props) {
             <h3>OrderPage</h3>
             <h4>{movieId}</h4>
             <Container>
-                {seatComponents}
+                <Grid container justify="center">
+                    <Grid container item className={styles.ticketsContainer} spacing={2}>
+                        {seatComponents}
+                    </Grid>
+                </Grid>
             </Container>
+            <Box className={styles.footerHolder}></Box>
         </Box>
     );
 }
