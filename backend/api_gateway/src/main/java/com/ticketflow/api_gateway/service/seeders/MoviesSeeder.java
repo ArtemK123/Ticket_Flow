@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MoviesSeeder {
+    private static final int MOVIES_COUNT = 30;
+
     private FilmsApiProxy filmsApiProxy;
     private CinemaHallsApiProxy cinemaHallsApiProxy;
     private MoviesService moviesService;
@@ -37,27 +39,47 @@ public class MoviesSeeder {
 
         List<CinemaHall> allCinemaHalls = cinemaHallsApiProxy.getAll();
         List<Film> allFilms = filmsApiProxy.getAll();
-        List<LocalDateTime> startTimes = getStartTimes();
+        List<String> times = getTimes();
+        List<String> dates = getDates();
 
-        for (Film film : allFilms) {
-            for (LocalDateTime startTime : startTimes) {
-                int cinemaHallIndex = ThreadLocalRandom.current().nextInt(0, allCinemaHalls.size());
-                CinemaHall cinemaHall = allCinemaHalls.get(cinemaHallIndex);
-                moviesService.add(new Movie(startTime, film, cinemaHall));
-            }
+        for (int i = 0; i < MOVIES_COUNT; i++) {
+            Film film = allFilms.get(getRandomInt(0, allFilms.size()));
+            CinemaHall cinemaHall = allCinemaHalls.get(getRandomInt(0, allCinemaHalls.size()));
+            String time = times.get(getRandomInt(0, times.size()));
+            String date = dates.get(getRandomInt(0, dates.size()));
+
+            moviesService.add(new Movie(getLocalDateTime(date + " " + time), film, cinemaHall));
         }
     }
 
-    private List<LocalDateTime> getStartTimes() {
+    private List<String> getTimes() {
         return List.of(
-            getLocalDateTime("2020-06-10 11:30"),
-            getLocalDateTime("2020-06-11 13:00"),
-            getLocalDateTime("2020-06-12 17:00")
+            "11:30",
+            "13:00",
+            "15:30",
+            "17:00",
+            "18:30",
+            "20:00",
+            "21:30"
+        );
+    }
+
+    private List<String> getDates() {
+        return List.of(
+            "2020-06-22",
+            "2020-06-23",
+            "2020-06-24",
+            "2020-06-25",
+            "2020-06-26"
         );
     }
 
     private LocalDateTime getLocalDateTime(String str) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return LocalDateTime.parse(str, formatter);
+    }
+
+    private int getRandomInt(int from, int toNonInclusive) {
+        return ThreadLocalRandom.current().nextInt(from, toNonInclusive);
     }
 }

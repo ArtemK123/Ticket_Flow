@@ -49,6 +49,8 @@ public class TicketClientModel {
         if (optionalBuyerEmail.isPresent()) {
             this.buyerEmail = optionalBuyerEmail.get();
         }
-        this.buyerEmail = null;
+        else {
+            this.buyerEmail = null;
+        }
     }
 }
