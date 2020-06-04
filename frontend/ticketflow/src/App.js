@@ -1,67 +1,79 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import HomePage from "./components/home_page/HomePage";
+import HomePage from "components/home_page/HomePage";
 import LoginPage from "components/login_page/LoginPage.js";
 import RegisterPage from "components/register_page/RegisterPage";
-import ProfilePage from "./components/profile_page/ProfilePage";
-import MoviePage from "./components/movie_page/MoviePage";
-import OrderPage from "./components/order_page/OrderPage";
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
-import NotFoundPage from "./components/not_found_page/NotFoundPage";
+import ProfilePage from "components/profile_page/ProfilePage";
+import MoviePage from "components/movie_page/MoviePage";
+import OrderPage from "components/order_page/OrderPage";
+import Header from "components/header/Header";
+import Footer from "components/footer/Footer";
+import NotFoundPage from "components/not_found_page/NotFoundPage";
 import useProfileModel from "services/hooks/useProfileModel";
 import useTicketsByUser from "services/hooks/useTicketsByUser";
 import Box from "@material-ui/core/Box";
 import useMovies from "services/hooks/useMovies";
+import createBackendService from "services/backend_service/createBackendService";
+import RedirectComponent from "components/common/RedirectComponent";
 
 function App() {
-    const [userState, changeUserState] = useState({
-        isLoggedIn: false,
-        username: "",
-        token: null
-    });
+    const [rootState, changeRootUserState] = useState(undefined);
 
-    const profileResponse = useProfileModel(userState.token);
-    const ticketsByUser = useTicketsByUser(userState.token);
+    const profileResponse = useProfileModel(rootState ? rootState.token : null);
+    const ticketsByUser = useTicketsByUser(rootState ? rootState.token : null);
     const movies = useMovies();
+    const backendService = createBackendService();
 
     useEffect(() => {
-        if (profileResponse !== null && profileResponse.success === false) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("username");
-            changeUserState(Object.assign({}, userState, {
-                isLoggedIn: false,
-                username: "",
-                token: null
+        if (rootState === undefined) {
+            const storedUsername = localStorage.getItem("username");
+            const storedToken = localStorage.getItem("token");
+            changeRootUserState(Object.assign({}, rootState, {
+                username: storedUsername,
+                token: storedToken,
+                redirect: undefined
             }));
         }
+    }, [rootState]);
 
-        const storedToken = localStorage.getItem("token");
-        const storedUsername = localStorage.getItem("username");
+    const loginCallback = (loginModel) => {
+        localStorage.setItem("token", loginModel.token);
+        localStorage.setItem("username", loginModel.username);
+        changeRootUserState(Object.assign({}, rootState, {
+            token: loginModel.token,
+            username: loginModel.username,
+            redirect: "/"
+        }));
+    };
 
-        const newUserState = {
-            isLoggedIn: storedToken !== null,
-            username: storedUsername !== null ? storedUsername : "",
-            token: storedToken
-        };
-
-        if (JSON.stringify(newUserState) !== JSON.stringify(userState)) {
-            changeUserState(newUserState);
+    const logoutCallback = () => {
+        if (rootState) {
+            backendService.logout(rootState.token).then(() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                changeRootUserState(undefined);
+            });
         }
-    }, [profileResponse, userState]);
+    };
 
-    const reload = () => {
-        changeUserState(Object.assign({}, userState));
+    const redirectCallback = (link) => {
+        if (rootState) {
+            changeRootUserState(Object.assign({}, rootState, {
+                redirect: link
+            }));
+        }
     };
 
     return (
         <Box width={1}>
             <Router>
+                <RedirectComponent link={rootState ? rootState.redirect : undefined}/>
                 <Header
-                    isUserLoggedIn={userState.isLoggedIn}
-                    username={userState.username}
-                    reloadParent={reload}
+                    isUserLoggedIn={rootState && rootState.token !== null}
+                    username={rootState ? rootState.username : ""}
+                    redirectCallback={redirectCallback}
+                    logoutCallback={logoutCallback}
                 />
                 <Switch>
                     <Route exact path="/">
@@ -71,19 +83,22 @@ function App() {
                     </Route>
                     <Route path="/login">
                         <LoginPage 
-                            reloadParent={reload}
+                            loginCallback={loginCallback}
                         />
                     </Route>
-                    <Route path="/register" component={RegisterPage} />
+                    <Route path="/register">
+                        <RegisterPage redirectCallback={redirectCallback}/>
+                    </Route>
                     <Route path="/profile">
                         <ProfilePage 
-                            isUserLoggedIn={userState.isLoggedIn}
+                            isUserLoggedIn={rootState && rootState.token !== null}
                             profileModel={profileResponse.profileModel}
                             tickets={ticketsByUser}
                         />
                     </Route>
                     <Route path="/movie" component={MoviePage} />
-                    <Route path="/order" render={(props) => <OrderPage {...props} token={userState.token}/>} />
+                    <Route path="/order" render={(props) => 
+                        <OrderPage {...props} token={rootState ? rootState.token : null} logoutCallback={logoutCallback}/>} />
                     <Route component={NotFoundPage} />
                 </Switch>
                 <Footer/>

@@ -61,7 +61,7 @@ function MoviePage(props) {
                                         variant="outlined"
                                         multiline
                                         rowsMax={10}
-                                        fullWidth="75%"
+                                        fullWidth={true}
                                         InputProps={{
                                             readOnly: true
                                         }}

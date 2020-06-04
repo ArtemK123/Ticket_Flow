@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TextField from "@material-ui/core/TextField";
@@ -10,6 +9,11 @@ import createBackendService from "services/backend_service/createBackendService"
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
+import PropTypes from "prop-types";
+
+RegisterPage.propTypes = {
+    redirectCallback: PropTypes.func,
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,9 +32,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function RegisterPage() {
+function RegisterPage(props) {
     const styles = useStyles();
-    const history = useHistory();
     const backendService = createBackendService();
 
     const [registerState, changeRegisterState] = useState({
@@ -83,7 +86,7 @@ function RegisterPage() {
             }
         }).then(response => {
             if (response.ok) {
-                history.push("/login");
+                props.redirectCallback("/login");
             }
             else if (response.status === 400){
                 updateRegisterState({emailAlreadyTaken: true});

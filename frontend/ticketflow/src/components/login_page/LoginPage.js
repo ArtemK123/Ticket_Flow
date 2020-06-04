@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import createBackendService from "services/backend_service/createBackendService";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
@@ -9,7 +8,7 @@ import PropTypes from "prop-types";
 import { Typography, Grid, Box } from "@material-ui/core";
 
 LoginPage.propTypes = {
-    reloadParent: PropTypes.func,
+    loginCallback: PropTypes.func,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 function LoginPage(props) {
     const styles = useStyles();
     const backendService = createBackendService();
-    const history = useHistory();
     const [inputState, changeInputState] = useState({
         email: "",
         password: "",
@@ -41,32 +39,26 @@ function LoginPage(props) {
     useEffect(() => {
         if (loginState.submitCalled) {
             loginState.submitCalled = false;
-            sendLoginRequest();
+            backendService.login({
+                email: inputState.email,
+                password: inputState.password
+            }).then(async response => {
+                if (response.ok) {
+                    const jwtToken = await response.text();
+                    props.loginCallback({
+                        token: jwtToken,
+                        username: inputState.email
+                    });
+                }
+                else if (response.status === 401) {
+                    changeLoginState(Object.assign({}, loginState, { invalidPassword: true }));
+                }
+                else if (response.status === 404) {
+                    changeLoginState(Object.assign({}, loginState, { userNotFound: true }));
+                }
+            });
         }
     });
-
-    const sendLoginRequest = () => {
-        backendService.login({
-            email: inputState.email,
-            password: inputState.password
-        }).then(async response => {
-            if (response.ok) {
-                const jwtToken = await response.text();
-                localStorage.setItem("token", jwtToken);
-                localStorage.setItem("username", inputState.email);
-                history.push("/");
-                props.reloadParent();
-                return;
-            }
-            else if (response.status === 401) {
-                loginState.invalidPassword = true;
-            }
-            else if (response.status === 404) {
-                loginState.userNotFound = true;
-            }
-            changeLoginState(Object.assign({}, loginState));
-        });
-    };
 
     const handleFormSubmit = (event) => {
         event.preventDefault();

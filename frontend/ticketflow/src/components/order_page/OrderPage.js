@@ -25,7 +25,8 @@ OrderPage.propTypes = {
         state: PropTypes.shape({
             movieId: PropTypes.number
         })
-    })
+    }),
+    logoutCallback: PropTypes.func
 };
 
 const groupTicketsByRow = (tickets) => {
@@ -75,7 +76,9 @@ function OrderPage(props) {
                             ticketId: ticketId,
                             token: props.token
                         });
-
+                        if (response.status === 401) {
+                            props.logoutCallback();
+                        }
                         newTicketsState[ticketId] = response.status === 202 ? "taken" : "error";
                     }
                 }

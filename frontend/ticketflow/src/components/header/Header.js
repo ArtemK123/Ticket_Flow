@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import HeaderUserPart from "components/header/HeaderUserPart";
-import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import createBackendService from "services/backend_service/createBackendService";
@@ -11,7 +10,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 Header.propTypes = {
     isUserLoggedIn: PropTypes.bool,
     username: PropTypes.string,
-    reloadParent: PropTypes.func,
+    logoutCallback: PropTypes.func,
+    redirectCallback: PropTypes.func,
 };
 
 const useStyles = makeStyles(() => ({
@@ -32,31 +32,25 @@ const useStyles = makeStyles(() => ({
 
 function Header(props) {
     const styles = useStyles();
-    const history = useHistory();
     const backendService = createBackendService();
 
     const [actionState, changeActionState] = useState("");
 
     useEffect(() => {
         if (actionState === "login") {
-            history.push("/login");
+            props.redirectCallback("/login");
         }
         else if (actionState === "register") {
-            history.push("/register");
+            props.redirectCallback("/register");
         }
         else if (actionState === "profile") {
-            history.push("/profile");
+            props.redirectCallback("/profile");
         }
         else if (actionState === "logout") {
-            const token = localStorage.getItem("token");
-            backendService.logout(token).then(() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("username");
-            });
-            props.reloadParent();
+            props.logoutCallback();
         }
         changeActionState("");
-    }, [actionState, history, backendService, props]);
+    }, [actionState, backendService, props]);
 
     return (
         <div className={styles.root}>
