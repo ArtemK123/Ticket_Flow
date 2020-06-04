@@ -47,7 +47,6 @@ function OrderPage(props) {
     const tickets = useTicketsByMovie(movieId);
 
     const [ticketsState, changeTicketsState] = useState({});
-    // const [makeOrderState, changeMakeOrderState] = useState(false);
 
     useEffect(() => {
         if (Object.keys(ticketsState).length === 0) {
@@ -73,14 +72,6 @@ function OrderPage(props) {
         }
         changeTicketsState(Object.assign({}, ticketsState));
     };
-
-    // useEffect(() => {
-    //     if (makeOrderState === true) {
-            
-
-    //         makeOrderHandler();
-    //     }
-    // }, [makeOrderState, ticketsState, props.token]);
 
     const handleSeatClick = (ticketId) => {
         const currentState = ticketsState[ticketId];

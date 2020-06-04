@@ -17,9 +17,10 @@ MoviesPerDate.propTypes = {
 };
 
 function MoviesPerDate(props) {
-    
     const movieCardComponents = [];
-    props.movies.forEach(movie => {
+    const sortedMovies = props.movies.sort((a, b) => a.startTime.getHours() - b.startTime.getHours());
+
+    sortedMovies.forEach(movie => {
         movieCardComponents.push(<Grid key={"grid" + movie.id} item><MovieCard key={movie.id} movie={movie}/></Grid>);
     });
 
