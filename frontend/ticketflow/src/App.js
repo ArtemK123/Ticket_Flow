@@ -64,13 +64,6 @@ function App() {
                     username={userState.username}
                     reloadParent={reload}
                 />
-                <ul>
-                    <li><Link to="/login">LoginPage</Link></li>
-                    <li><Link to="/register">RegisterPage</Link></li>
-                    <li><Link to="/profile">ProfilePage</Link></li>
-                    <li><Link to="/movie">MoviePage</Link></li>
-                    <li><Link to="/order">OrderPage</Link></li>
-                </ul>
                 <Switch>
                     <Route exact path="/">
                         <HomePage 

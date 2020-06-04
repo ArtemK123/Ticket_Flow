@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { Typography } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { Redirect } from "react-router-dom";
+import getTimeFromDate from "services/utils/getTimeFromDate";
 
 MovieCard.propTypes = {
     movie: PropTypes.shape({
@@ -24,16 +25,6 @@ const useStyles = makeStyles(() => ({
         }
     },
 }));
-
-const getTimeFromDate = (date) => {
-    let hours = date.getHours();
-    hours = hours > 9 ? hours : "0" + hours;
-
-    let minutes = date.getMinutes();
-    minutes = minutes > 9 ? minutes : "0" + minutes;
-
-    return `${hours}:${minutes}`;
-};
 
 function MovieCard(props) {
     const styles = useStyles();

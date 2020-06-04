@@ -20,6 +20,7 @@ const useStyles = makeStyles(() => ({
     availablePaper: {
         height: 50,
         width: 70,
+        "user-select": "none",
         backgroundColor: "white",
         "&:hover": {
             backgroundColor: "Azure"
@@ -28,11 +29,13 @@ const useStyles = makeStyles(() => ({
     selectedPaper: {
         height: 50,
         width: 70,
+        "user-select": "none",
         backgroundColor: "red",
     },
     takenPaper: {
         height: 50,
         width: 70,
+        "user-select": "none",
         backgroundColor: "grey"
     }
 }));
