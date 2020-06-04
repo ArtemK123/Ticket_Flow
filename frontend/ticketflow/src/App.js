@@ -11,7 +11,6 @@ import Header from "components/header/Header";
 import Footer from "components/footer/Footer";
 import NotFoundPage from "components/not_found_page/NotFoundPage";
 import useProfileModel from "services/hooks/useProfileModel";
-import useTicketsByUser from "services/hooks/useTicketsByUser";
 import Box from "@material-ui/core/Box";
 import useMovies from "services/hooks/useMovies";
 import createBackendService from "services/backend_service/createBackendService";
@@ -21,7 +20,6 @@ function App() {
     const [rootState, changeRootUserState] = useState(undefined);
 
     const profile = useProfileModel(rootState ? rootState.token : null);
-    const ticketsByUser = useTicketsByUser(rootState ? rootState.token : null);
     const movies = useMovies();
 
     const loginCallback = (loginModel) => {
@@ -93,9 +91,8 @@ function App() {
                     </Route>
                     <Route path="/profile">
                         <ProfilePage 
-                            isUserLoggedIn={rootState && rootState.token !== null}
+                            token={rootState ? rootState.token : null}
                             profileModel={profile}
-                            tickets={ticketsByUser}
                         />
                     </Route>
                     <Route path="/movie" component={MoviePage} />

@@ -1,35 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ReadonlyTextInput from "components/common/ReadonlyTextInput";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
+import { Typography, Button, Grid, Box, TextField } from "@material-ui/core";
 import getTimeFromDate from "services/utils/getTimeFromDate";
-import TextField from "@material-ui/core/TextField";
+import createBackendService from "services/backend_service/createBackendService";
 
 ProfilePage.propTypes = {
-    isUserLoggedIn: PropTypes.bool,
+    token: PropTypes.string,
     profileModel: PropTypes.shape({
         userEmail: PropTypes.string,
         profile: PropTypes.shape({
             phoneNumber: PropTypes.number,
             birthday: PropTypes.string
         })
-    }),
-    tickets: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number,
-        buyerEmail: PropTypes.string,
-        row: PropTypes.number,
-        seat: PropTypes.number,
-        price: PropTypes.number,
-        movie: PropTypes.shape({
-            id: PropTypes.number,
-            title: PropTypes.string,
-            startTime: PropTypes.string,
-            cinemaHallName: PropTypes.string
-        })
-    }))
+    })
 };
 
 const formatDate = (date) => {
@@ -53,7 +38,35 @@ const getTicketsValue = (tickets) => {
 };
 
 function ProfilePage(props) {
-    if (!props.isUserLoggedIn) {
+    const [pageState, changePageState] = useState(undefined);
+
+    useEffect(() => {
+        if (pageState === undefined) {
+            changePageState(Object.assign({}, pageState, {
+                tickets: undefined,
+                reloadTickets: false
+            }));
+        }
+        else if (pageState.reloadTickets) {
+            createBackendService()
+                .getTicketsByUser(props.token)
+                .then(response => response.json())
+                .then(tickets => {
+                    changePageState(Object.assign({} , pageState, {
+                        tickets: tickets,
+                        reloadTickets: false
+                    }));
+                });
+        }
+    }, [pageState, props.token]);
+
+    const updateUserTickets = () => {
+        changePageState(Object.assign({}, pageState, {
+            reloadTickets: true
+        }));
+    };
+
+    if (props.token === null) {
         return (
             <div>
                 <p>You should log in if you want to see your profile</p>
@@ -91,17 +104,24 @@ function ProfilePage(props) {
                                     value={props.profileModel.profile.birthday}
                                 />
                             </Grid>
-                            <Grid item>
-                                <TextField
-                                    defaultValue={getTicketsValue(props.tickets)}
-                                    variant="outlined"
-                                    multiline
-                                    rowsMax={10}
-                                    fullWidth={true}
-                                    InputProps={{
-                                        readOnly: true
-                                    }}
-                                />
+                            <Grid item container direction="column" spacing={1}>
+                                <Grid item>
+                                    <Button variant="contained" color="primary" onClick={updateUserTickets}>
+                                        Get tickets
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <TextField
+                                        value={pageState && pageState.tickets ? getTicketsValue(pageState.tickets) : "Tickets:\n"}
+                                        variant="outlined"
+                                        multiline
+                                        rows={10}
+                                        fullWidth={true}
+                                        InputProps={{
+                                            readOnly: true
+                                        }}
+                                    />
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Box>
