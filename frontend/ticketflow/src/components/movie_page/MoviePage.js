@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 import useMovieById from "services/hooks/useMovieById";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router-dom";
 
 MoviePage.propTypes = {
     location: PropTypes.shape({
@@ -13,7 +15,20 @@ MoviePage.propTypes = {
 };
 
 function MoviePage(props) {
-    const movie = useMovieById(props.location.state.id);
+    const movieId = props.location.state !== undefined ? props.location.state.id : -1;
+    const [redirectToOrder, changeRedirectToOrderState] = useState(false);
+    const movie = useMovieById(movieId);
+
+    if (movie === null) {
+        return <Redirect to="/not-found"/>;
+    }
+
+    if (redirectToOrder) {
+        return <Redirect to={{
+            pathname: `/order/${movieId}`,
+            state: {id: movieId}
+        }}/>;
+    }
 
     return (
         <Box spacing={2}>
@@ -24,6 +39,7 @@ function MoviePage(props) {
             <Typography>Premiere date: {`${movie.film.premiereDate}`}</Typography>
             <Typography>Age limit: {`${movie.film.ageLimit}+`}</Typography>
             <Typography>Discription: {`${movie.film.description}`}</Typography>
+            <Button variant="contained" color="primary" onClick={() => changeRedirectToOrderState(true)}>Order tickets</Button>
         </Box>
     );
 }

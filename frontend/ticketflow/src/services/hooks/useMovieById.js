@@ -25,15 +25,28 @@ const useMovieById = (id) => {
         }
     };
 
-
     useEffect(() => {
         createBackendService()
             .getMovieById(id)
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                else {
+                    return new Promise(resolve => resolve(undefined));
+                }
+            })
             .then(fetchedMovie => setMovie(fetchedMovie));
     }, [id]);
 
-    return movie !== null ? movie : defaultMovie;
+    if (movie === null) {
+        return defaultMovie;
+    }
+    else if (movie === undefined) {
+        return null;
+    }
+
+    return movie;
 };
 
 export default useMovieById;

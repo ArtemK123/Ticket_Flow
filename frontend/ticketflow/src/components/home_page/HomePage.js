@@ -52,7 +52,6 @@ function HomePage(props) {
         <Box>
             {moviesPerDateComponents}
             <Box className={styles.footerHolder}>
-
             </Box>
         </Box>
     );

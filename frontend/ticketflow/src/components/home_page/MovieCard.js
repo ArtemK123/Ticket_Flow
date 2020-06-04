@@ -35,8 +35,6 @@ const getTimeFromDate = (date) => {
     return `${hours}:${minutes}`;
 };
 
-
-
 function MovieCard(props) {
     const styles = useStyles();
     const [redirectState, changeRedirectState] = useState(false);
