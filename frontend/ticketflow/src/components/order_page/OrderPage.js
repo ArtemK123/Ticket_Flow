@@ -46,42 +46,59 @@ function OrderPage(props) {
     const movieId = props.location.state !== undefined ? props.location.state.movieId : -1;
     const tickets = useTicketsByMovie(movieId);
 
-    const [ticketsState, changeTicketsState] = useState({});
+    const [pageState, changePageState] = useState({
+        ticketsState: {},
+        makeOrderCalled: false
+    });
 
     useEffect(() => {
-        if (Object.keys(ticketsState).length === 0) {
+        if (Object.keys(pageState.ticketsState).length === 0) {
+            const newTicketsState = {};
             tickets.forEach(ticket => {
-                ticketsState[ticket.id] = ticket.buyerEmail === null ? "available" : "taken";
+                newTicketsState[ticket.id] = ticket.buyerEmail === null ? "available" : "taken";
             });
-            changeTicketsState(Object.assign({}, ticketsState));
-        }
-    }, [ticketsState, tickets]);
 
-    const makeOrderHandler = async () => {
-        const backendService = createBackendService();
-        const ticketIds = Object.keys(ticketsState);
-        for (let ticketId in ticketIds) {
-            if (ticketsState[ticketId] === "selected") {
-                await backendService.order({
-                    ticketId: ticketId,
-                    token: props.token
-                }).then(response => {
-                    ticketsState[ticketId] = response.ok ? "taken" : "error";
-                });
-            }
+            changePageState(Object.assign({}, pageState, {ticketsState: newTicketsState}));
         }
-        changeTicketsState(Object.assign({}, ticketsState));
-    };
+    }, [pageState, tickets]);
+
+    useEffect(() => {
+        if (pageState.makeOrderCalled) {
+            const makeOrder = async () => {
+                const backendService = createBackendService();
+                const newTicketsState = Object.assign({}, pageState.ticketsState);
+
+                for (let ticketId in newTicketsState) {
+                    if (newTicketsState[ticketId] === "selected") {
+                        const response = await backendService.order({
+                            ticketId: ticketId,
+                            token: props.token
+                        });
+
+                        newTicketsState[ticketId] = response.status === 202 ? "taken" : "error";
+                    }
+                }
+                changePageState(Object.assign({}, pageState, {
+                    ticketsState: newTicketsState,
+                    makeOrderCalled: false
+                }));
+            };
+
+            makeOrder();
+        }
+    });
 
     const handleSeatClick = (ticketId) => {
-        const currentState = ticketsState[ticketId];
+        const currentState = pageState.ticketsState[ticketId];
         if (currentState === "available") {
-            ticketsState[ticketId] = "selected";
-            changeTicketsState(Object.assign({}, ticketsState));
+            const newTicketsState = Object.assign({}, pageState.ticketsState);
+            newTicketsState[ticketId] = "selected";
+            changePageState(Object.assign({}, pageState, {ticketsState: newTicketsState}));
         }
         else if (currentState === "selected") {
-            ticketsState[ticketId] = "available";
-            changeTicketsState(Object.assign({}, ticketsState));
+            const newTicketsState = Object.assign({}, pageState.ticketsState);
+            newTicketsState[ticketId] = "available";
+            changePageState(Object.assign({}, pageState, {ticketsState: newTicketsState}));
         }
     };
 
@@ -90,11 +107,11 @@ function OrderPage(props) {
         const seatComponentsInRow = [];
         ticketsArray.forEach(ticket => {
             seatComponentsInRow.push(
-                <Grid item>
+                <Grid item key={"grid" + ticket.id}>
                     <Seat
                         key={ticket.id}
                         ticket={ticket}
-                        state={ticketsState[ticket.id]}
+                        state={pageState.ticketsState[ticket.id]}
                         handleClick={handleSeatClick}
                     />
                 </Grid>
@@ -130,7 +147,13 @@ function OrderPage(props) {
                                 {seatComponents}
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" color="primary" onClick={() => makeOrderHandler()}>Order tickets</Button>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => changePageState(Object.assign({}, pageState, {makeOrderCalled: true}))}
+                                >
+                                    Order tickets
+                                </Button>
                             </Grid>
                         </Grid>
                     </Container>
