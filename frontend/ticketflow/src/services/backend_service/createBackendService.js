@@ -35,6 +35,11 @@ const createBackendService = () => ({
             body: token
         });
     },
+    async getTicketsByMovie(movieId) {
+        return fetch(`http://localhost:8080/tickets/by-movie/${movieId}`, {
+            method: "GET"
+        });
+    },
     async getTicketsByUser(token) {
         return fetch("http://localhost:8080/tickets/by-user", {
             method: "POST",

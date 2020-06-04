@@ -26,7 +26,7 @@ function MoviePage(props) {
     if (redirectToOrder) {
         return <Redirect to={{
             pathname: `/order/${movieId}`,
-            state: {id: movieId}
+            state: {movieId: movieId}
         }}/>;
     }
 

@@ -1,19 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Container, Box, Typography } from "@material-ui/core";
+import useTicketsByMovie from "services/hooks/useTicketsByMovie";
 
-function OrderPage() {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+OrderPage.propTypes = {
+    token: PropTypes.string,
+    location: PropTypes.shape({
+        state: PropTypes.shape({
+            movieId: PropTypes.number
+        })
+    })
+};
+
+function OrderPage(props) {
+    const movieId = props.location.state !== undefined ? props.location.state.movieId : -1;
+    const tickets = useTicketsByMovie(movieId);
 
     return (
-        <div>
+        <Box>
             <h3>OrderPage</h3>
-            <p>Token is {token ? token : (token === undefined ? "undefined" : "null")}</p>
-            <p>Username is {username ? username : (username === undefined ? "undefined" : "null")}</p>
-            <ul>
-                <li><Link to="/">HomePage</Link></li>
-            </ul>
-        </div>
+            <h4>{movieId}</h4>
+            <Container>
+                <Typography>{JSON.stringify(tickets)}</Typography>
+            </Container>
+        </Box>
     );
 }
 
