@@ -38,32 +38,15 @@ const getTicketsValue = (tickets) => {
 };
 
 function ProfilePage(props) {
-    const [pageState, changePageState] = useState(undefined);
-
-    useEffect(() => {
-        if (pageState === undefined) {
-            changePageState(Object.assign({}, pageState, {
-                tickets: undefined,
-                reloadTickets: false
-            }));
-        }
-        else if (pageState.reloadTickets) {
-            createBackendService()
-                .getTicketsByUser(props.token)
-                .then(response => response.json())
-                .then(tickets => {
-                    changePageState(Object.assign({} , pageState, {
-                        tickets: tickets,
-                        reloadTickets: false
-                    }));
-                });
-        }
-    }, [pageState, props.token]);
+    const [userTickets, changePageState] = useState(undefined);
 
     const updateUserTickets = () => {
-        changePageState(Object.assign({}, pageState, {
-            reloadTickets: true
-        }));
+        createBackendService()
+            .getTicketsByUser(props.token)
+            .then(response => response.json())
+            .then(tickets => {
+                changePageState(tickets);
+            });
     };
 
     if (props.token === null) {
@@ -112,7 +95,7 @@ function ProfilePage(props) {
                                 </Grid>
                                 <Grid item>
                                     <TextField
-                                        value={pageState && pageState.tickets ? getTicketsValue(pageState.tickets) : "Tickets:\n"}
+                                        value={userTickets ? getTicketsValue(userTickets) : "Tickets:\n"}
                                         variant="outlined"
                                         multiline
                                         rows={10}
