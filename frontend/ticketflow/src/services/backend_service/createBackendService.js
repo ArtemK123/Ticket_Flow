@@ -49,6 +49,15 @@ const createBackendService = () => ({
             body: token
         });
     },
+    async order(orderModel) {
+        return fetch("http://localhost:8080/tickets/order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderModel)
+        });
+    },
     async getMovies() {
         return fetch("http://localhost:8080/movies", {
             method: "GET"
