@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import createBackendService from "services/backend_service/createBackendService";
 
 const useMovieById = (id) => {
-    const [movie, setMovie] = useState(null);
+    const [movie, setMovie] = useState(undefined);
 
     const defaultMovie = {
         "id": 1,
@@ -33,17 +33,14 @@ const useMovieById = (id) => {
                     return response.json();
                 }
                 else {
-                    return new Promise(resolve => resolve(undefined));
+                    return new Promise(resolve => resolve(null));
                 }
             })
             .then(fetchedMovie => setMovie(fetchedMovie));
     }, [id]);
 
-    if (movie === null) {
+    if (movie === undefined) {
         return defaultMovie;
-    }
-    else if (movie === undefined) {
-        return null;
     }
 
     return movie;
