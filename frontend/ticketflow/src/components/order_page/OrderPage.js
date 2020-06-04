@@ -12,8 +12,8 @@ const useStyles = makeStyles(() => ({
     footerHolder: {
         height: 100
     },
-    title: {
-        height: 50
+    titleHolder: {
+        height: 80
     }
 }));
 
@@ -91,33 +91,40 @@ function OrderPage(props) {
 
     return (
         <Box w={1}>
-            <Box className={styles.title}>
-                <Box m={5}>
-                    <Typography variant="h4">{tickets.length > 0 ? tickets[0].movie.title : ""}</Typography>
-                    <Typography>Place: {tickets.length > 0 ? tickets[0].movie.cinemaHallName : ""}</Typography>
-                    <Typography>Time: {tickets.length > 0 ? getTimeFromDate(new Date(tickets[0].movie.startTime)) : ""}</Typography>
-                    <Box mt={2}>
-                        <Typography>Tickets:</Typography>
-                        <Typography> - white: available</Typography>
-                        <Typography> - red: selected</Typography>
-                        <Typography> - grey: taken</Typography>
+            <Grid container direction="row">
+                <Grid item xs={3}>
+                    <Box m={5}>
+                        <Typography variant="h5">{tickets.length > 0 ? tickets[0].movie.title : ""}</Typography>
+                        <Typography>Place: {tickets.length > 0 ? tickets[0].movie.cinemaHallName : ""}</Typography>
+                        <Typography>Time: {tickets.length > 0 ? getTimeFromDate(new Date(tickets[0].movie.startTime)) : ""}</Typography>
+                        <Box mt={2}>
+                            <Typography>Tickets:</Typography>
+                            <Typography> - white: available</Typography>
+                            <Typography> - red: selected</Typography>
+                            <Typography> - grey: taken</Typography>
+                        </Box>
                     </Box>
-                </Box>
-            </Box>
-            <Container>
-                <Grid container alignItems="center" direction="column" spacing={5}>
-                    <Grid item>
-                        <Typography>Screen</Typography>
-                    </Grid>
-                    <Grid container item className={styles.ticketsContainer} spacing={2}>
-                        {seatComponents}
-                    </Grid>
-                    <Grid item>
-                        <Button variant="contained" color="primary" onClick={makeOrder}>Order tickets</Button>
-                    </Grid>
                 </Grid>
-            </Container>
-            <Box className={styles.footerHolder}/>
+                <Grid item xs={6}>
+                    <Box className={styles.titleHolder}/>
+                    <Container>
+                        <Grid container alignItems="center" direction="column" spacing={5}>
+                            <Grid item>
+                                <Typography>Screen</Typography>
+                            </Grid>
+                            <Grid container item className={styles.ticketsContainer} spacing={2}>
+                                {seatComponents}
+                            </Grid>
+                            <Grid item>
+                                <Button variant="contained" color="primary" onClick={makeOrder}>Order tickets</Button>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </Grid>
+                <Grid item xs={3}>
+                    <Box className={styles.footerHolder}/>
+                </Grid> 
+            </Grid>
         </Box>
     );
 }
