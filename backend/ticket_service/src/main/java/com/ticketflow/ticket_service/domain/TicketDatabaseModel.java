@@ -53,7 +53,9 @@ public class TicketDatabaseModel {
         if (optionalBuyerEmail.isPresent()) {
             this.buyerEmail = optionalBuyerEmail.get();
         }
-        this.buyerEmail = null;
+        else {
+            this.buyerEmail = null;
+        }
     }
 
     public Integer getRow() {
