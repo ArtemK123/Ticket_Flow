@@ -42,5 +42,6 @@ public class TicketsService {
         }
 
         ticket.setBuyerEmail(Optional.of(orderModel.getBuyerEmail()));
+        ticketRepository.update(ticket.getId(), ticket);
     }
 }
