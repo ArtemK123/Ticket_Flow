@@ -104,8 +104,10 @@ function OrderPage(props) {
 
     const seatComponents = [];
     Object.values(groupTicketsByRow(tickets)).forEach((ticketsArray => {
+        const ticketsSortedBySeatNumber = ticketsArray.sort((a, b) => a.seat - b.seat);
+        
         const seatComponentsInRow = [];
-        ticketsArray.forEach(ticket => {
+        ticketsSortedBySeatNumber.forEach(ticket => {
             seatComponentsInRow.push(
                 <Grid item key={"grid" + ticket.id}>
                     <Seat
