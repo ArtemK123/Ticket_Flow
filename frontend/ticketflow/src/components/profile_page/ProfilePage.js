@@ -44,16 +44,15 @@ const formatTicketValue = (ticket) => {
     return `${ticket.movie.title}: ${formatDate(new Date(ticket.movie.startTime))}, ${ticket.movie.cinemaHallName} (row ${ticket.row}, seat ${ticket.seat})`;
 };
 
+const getTicketsValue = (tickets) => {
+    let ticketsInputValue = "Tickets:\n";
+    tickets.forEach(ticket => {
+        ticketsInputValue = ticketsInputValue + formatTicketValue(ticket) + "\n";
+    });
+    return ticketsInputValue;
+};
 
 function ProfilePage(props) {
-    const getTicketsValue = (tickets) => {
-        if (tickets.length === 0){
-            return "";
-        }
-
-        return tickets.reduce((accumulator, ticket) => accumulator + formatTicketValue(ticket) + "\n", "Tickets:\n");
-    };
-
     if (!props.isUserLoggedIn) {
         return (
             <div>
@@ -83,7 +82,7 @@ function ProfilePage(props) {
                             <Grid item>
                                 <ReadonlyTextInput
                                     label="Phone number"
-                                    value={props.profileModel.profile.phoneNumber}
+                                    value={`${props.profileModel.profile.phoneNumber}`}
                                 />
                             </Grid>
                             <Grid item>

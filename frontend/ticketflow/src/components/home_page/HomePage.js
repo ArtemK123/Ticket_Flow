@@ -38,20 +38,6 @@ const groupMoviesByDay = (movies) => {
     }
 
     return dateGroupings.sort((a, b) => new Date(a.key) - new Date(b.key));
-
-    // movies.forEach((movie) => {
-    //     movie.startTime = new Date(movie.startTime);
-    //     const dateFormat = { day: "numeric", month: "short", year: "numeric"};
-    //     const dayInString = movie.startTime.toLocaleString("en-US", dateFormat);
-
-    //     if (dateGroupings[dayInString] === undefined) {
-    //         dateGroupings[dayInString] = [movie];
-    //     }
-    //     else {
-    //         dateGroupings[dayInString].push(movie);
-    //     }
-    // });
-    // return dateGroupings;
 };
 
 function HomePage(props) {

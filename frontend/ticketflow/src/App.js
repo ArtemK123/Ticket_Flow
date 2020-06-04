@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import HomePage from "components/home_page/HomePage";
@@ -20,22 +20,9 @@ import RedirectComponent from "components/common/RedirectComponent";
 function App() {
     const [rootState, changeRootUserState] = useState(undefined);
 
-    const profileResponse = useProfileModel(rootState ? rootState.token : null);
+    const profile = useProfileModel(rootState ? rootState.token : null);
     const ticketsByUser = useTicketsByUser(rootState ? rootState.token : null);
     const movies = useMovies();
-    const backendService = createBackendService();
-
-    useEffect(() => {
-        if (rootState === undefined) {
-            const storedUsername = localStorage.getItem("username");
-            const storedToken = localStorage.getItem("token");
-            changeRootUserState(Object.assign({}, rootState, {
-                username: storedUsername,
-                token: storedToken,
-                redirect: undefined
-            }));
-        }
-    }, [rootState]);
 
     const loginCallback = (loginModel) => {
         localStorage.setItem("token", loginModel.token);
@@ -47,16 +34,6 @@ function App() {
         }));
     };
 
-    const logoutCallback = () => {
-        if (rootState) {
-            backendService.logout(rootState.token).then(() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("username");
-                changeRootUserState(undefined);
-            });
-        }
-    };
-
     const redirectCallback = (link) => {
         if (rootState) {
             changeRootUserState(Object.assign({}, rootState, {
@@ -64,6 +41,31 @@ function App() {
             }));
         }
     };
+
+    const cachedLogoutCallback = useCallback(() => {
+        if (rootState) {
+            createBackendService().logout(rootState.token).then(() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("username");
+                changeRootUserState(undefined);
+            });
+        }
+    }, [rootState]);
+
+    useEffect(() => {
+        if (rootState === undefined) {
+            const storedUsername = localStorage.getItem("username");
+            const storedToken = localStorage.getItem("token");
+            changeRootUserState(Object.assign({}, rootState, {
+                username: storedUsername,
+                token: storedToken,
+                redirect: undefined
+            }));
+        }
+        else if (profile === null) {
+            cachedLogoutCallback();
+        }
+    }, [rootState, cachedLogoutCallback, changeRootUserState, profile]);
 
     return (
         <Box width={1}>
@@ -73,7 +75,7 @@ function App() {
                     isUserLoggedIn={rootState && rootState.token !== null}
                     username={rootState ? rootState.username : ""}
                     redirectCallback={redirectCallback}
-                    logoutCallback={logoutCallback}
+                    logoutCallback={cachedLogoutCallback}
                 />
                 <Switch>
                     <Route exact path="/">
@@ -92,13 +94,13 @@ function App() {
                     <Route path="/profile">
                         <ProfilePage 
                             isUserLoggedIn={rootState && rootState.token !== null}
-                            profileModel={profileResponse.profileModel}
+                            profileModel={profile}
                             tickets={ticketsByUser}
                         />
                     </Route>
                     <Route path="/movie" component={MoviePage} />
                     <Route path="/order" render={(props) => 
-                        <OrderPage {...props} token={rootState ? rootState.token : null} logoutCallback={logoutCallback}/>} />
+                        <OrderPage {...props} token={rootState ? rootState.token : null} logoutCallback={cachedLogoutCallback}/>} />
                     <Route component={NotFoundPage} />
                 </Switch>
                 <Footer/>
