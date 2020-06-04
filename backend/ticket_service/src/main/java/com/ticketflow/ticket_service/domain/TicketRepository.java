@@ -62,7 +62,7 @@ public class TicketRepository {
         ticketDatabaseModel.setMovieId(ticket.getMovieId());
         ticketDatabaseModel.setPrice(ticket.getPrice());
         ticketDatabaseModel.setRow(ticket.getRow());
-        ticketDatabaseModel.setSeat(ticket.getRow());
+        ticketDatabaseModel.setSeat(ticket.getSeat());
 
         ticketsJpaRepository.saveAndFlush(ticketDatabaseModel);
     }
