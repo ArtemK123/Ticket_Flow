@@ -1,18 +1,23 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
+import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 RedirectComponent.propTypes = {
-    link: PropTypes.string
+    link: PropTypes.string,
+    redirectCallback: PropTypes.func
 };
 
 function RedirectComponent(props) {
-    if (props.link !== undefined) {
-        return (<Redirect to={props.link}/>);
-    } 
-    else {
-        return null;
-    }
+    const history = useHistory();
+
+    useEffect(() => {
+        if (props.link !== undefined) {
+            history.push(props.link);
+            props.redirectCallback(undefined);
+        }
+    });
+
+    return null;
 }
 
 export default RedirectComponent;

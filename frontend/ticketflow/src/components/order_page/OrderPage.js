@@ -123,7 +123,7 @@ function OrderPage(props) {
                 </Grid>
             );
         });
-        seatComponents.push(<Grid container item justify="center" spacing={2}>{seatComponentsInRow}</Grid>);
+        seatComponents.push(<Grid container item justify="center" spacing={2} key={JSON.stringify(ticketsArray)}>{seatComponentsInRow}</Grid>);
     }));
 
     if (props.token === null) {

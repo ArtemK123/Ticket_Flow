@@ -68,7 +68,7 @@ function App() {
     return (
         <Box width={1}>
             <Router>
-                <RedirectComponent link={rootState ? rootState.redirect : undefined}/>
+                <RedirectComponent link={rootState ? rootState.redirect : undefined} redirectCallback={redirectCallback}/>
                 <Header
                     isUserLoggedIn={rootState && rootState.token !== null}
                     username={rootState ? rootState.username : ""}
