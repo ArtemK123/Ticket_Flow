@@ -13,7 +13,7 @@ const useProfileModel = (token) => {
     const [profile, setProfile] = useState(undefined);
 
     useEffect(() => {
-        if (token !== null && profile === undefined) {
+        if (token !== null) {
             createBackendService()
                 .getProfile(token)
                 .then(response => {
@@ -26,7 +26,7 @@ const useProfileModel = (token) => {
                     setProfile(fetchedProfile);
                 });
         }
-    }, [token, profile]);
+    }, [token]);
 
     if (profile) {
         return profile;
