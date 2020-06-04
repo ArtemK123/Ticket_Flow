@@ -1,9 +1,7 @@
-import React, {useState} from "react";
-import { Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import useMovieById from "services/hooks/useMovieById";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
+import { Box, Button, Grid, Typography, TextField } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
 MoviePage.propTypes = {
@@ -31,15 +29,53 @@ function MoviePage(props) {
     }
 
     return (
-        <Box spacing={2}>
-            <Typography variant="h4">{movie.film.title}</Typography>
-            <Typography>Location: {`${movie.cinemaHall.name} (${movie.cinemaHall.location})`}</Typography>
-            <Typography>Duration: {`${movie.film.duration}`}</Typography>
-            <Typography>Creator: {`${movie.film.creator}`}</Typography>
-            <Typography>Premiere date: {`${movie.film.premiereDate}`}</Typography>
-            <Typography>Age limit: {`${movie.film.ageLimit}+`}</Typography>
-            <Typography>Discription: {`${movie.film.description}`}</Typography>
-            <Button variant="contained" color="primary" onClick={() => changeRedirectToOrderState(true)}>Order tickets</Button>
+        <Box w={1}>
+            <Grid container direction="row">
+                <Grid item xs={1}/>
+                <Grid item xs={9}>
+                    <Box m={5}>
+                        <Grid container direction="column" spacing={2}>
+                            <Grid item><Typography variant="h4">{movie.film.title}</Typography></Grid>
+                            <Grid item>
+                                <Typography>Location: {`${movie.cinemaHall.name} (${movie.cinemaHall.location})`}</Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography>Duration: {`${movie.film.duration} min`}</Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography>Creator: {`${movie.film.creator}`}</Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography>Premiere date: {`${movie.film.premiereDate}`}</Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography>Age limit: {`${movie.film.ageLimit}+`}</Typography>
+                            </Grid>
+                            <Grid item container direction="column">
+                                <Grid item>
+                                    <Typography>Description:</Typography>
+                                </Grid>
+                                <Grid item>
+                                    <TextField
+                                        defaultValue={movie.film.description}
+                                        variant="outlined"
+                                        multiline
+                                        rowsMax={10}
+                                        fullWidth="75%"
+                                        InputProps={{
+                                            readOnly: true
+                                        }}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid item>
+                                <Button variant="contained" color="primary" onClick={() => changeRedirectToOrderState(true)}>Order tickets</Button>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Grid>
+                <Grid item xs={2}/>
+            </Grid>
         </Box>
     );
 }

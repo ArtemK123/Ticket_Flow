@@ -51,7 +51,7 @@ function ProfilePage(props) {
             return "";
         }
 
-        return tickets.reduce((accumulator, ticket) => accumulator + formatTicketValue(ticket) + "\n", "\n");
+        return tickets.reduce((accumulator, ticket) => accumulator + formatTicketValue(ticket) + "\n", "Tickets:\n");
     };
 
     if (!props.isUserLoggedIn) {
@@ -66,7 +66,8 @@ function ProfilePage(props) {
     return (
         <Box w={1}>
             <Grid container direction="row">
-                <Grid item xs={1}/>
+                <Grid item xs={1}>
+                </Grid>
                 <Grid item xs={6}>
                     <Box m={5}>
                         <Grid container direction="column" spacing={2}>
@@ -77,29 +78,26 @@ function ProfilePage(props) {
                                 <ReadonlyTextInput
                                     label="Email"
                                     value={props.profileModel.userEmail}
-                                    isMultiline={false}
                                 />
                             </Grid>
                             <Grid item>
                                 <ReadonlyTextInput
                                     label="Phone number"
                                     value={props.profileModel.profile.phoneNumber}
-                                    isMultiline={false}
                                 />
                             </Grid>
                             <Grid item>
                                 <ReadonlyTextInput
                                     label="Birthday"
                                     value={props.profileModel.profile.birthday}
-                                    isMultiline={false}
                                 />
                             </Grid>
                             <Grid item>
                                 <TextField
-                                    label={"Tickets"}
                                     defaultValue={getTicketsValue(props.tickets)}
                                     variant="outlined"
                                     multiline
+                                    rowsMax={10}
                                     fullWidth="75%"
                                     InputProps={{
                                         readOnly: true

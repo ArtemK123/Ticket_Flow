@@ -10,7 +10,7 @@ const useMovieById = (id) => {
         "film": {
             "id": 1,
             "title": "Terminator",
-            "description": "Lorem ipsum (may be quite big)",
+            "description": "",
             "premiereDate": "1980-01-01",
             "creator": "May be a studio or a single director",
             "duration": "202",

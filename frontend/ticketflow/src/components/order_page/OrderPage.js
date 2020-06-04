@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import getTimeFromDate from "services/utils/getTimeFromDate";
 import createBackendService from "services/backend_service/createBackendService";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
     footerHolder: {
@@ -121,6 +122,15 @@ function OrderPage(props) {
         });
         seatComponents.push(<Grid container item justify="center" spacing={2}>{seatComponentsInRow}</Grid>);
     }));
+
+    if (props.token === null) {
+        return (
+            <div>
+                <p>You should log in if you want to order tickets</p>
+                <Link to="/login">Go to login page</Link>
+            </div>
+        );
+    }
 
     return (
         <Box w={1}>
