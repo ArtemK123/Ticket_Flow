@@ -128,10 +128,12 @@ function OrderPage(props) {
 
     if (props.token === null) {
         return (
-            <div>
-                <p>You should log in if you want to order tickets</p>
-                <Link to="/login">Go to login page</Link>
-            </div>
+            <Box m={5}>
+                <Typography variant="h6">You should log in if you want to order tickets</Typography>
+                <ul>
+                    <li><Link to="/login">Go to login page</Link></li>
+                </ul>
+            </Box>
         );
     }
 

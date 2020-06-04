@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ReadonlyTextInput from "components/common/ReadonlyTextInput";
@@ -51,10 +51,12 @@ function ProfilePage(props) {
 
     if (props.token === null) {
         return (
-            <div>
-                <p>You should log in if you want to see your profile</p>
-                <Link to="/login">Go to login page</Link>
-            </div>
+            <Box m={5}>
+                <Typography variant="h6">You should log in if you want to see your profile</Typography>
+                <ul>
+                    <li><Link to="/login">Go to login page</Link></li>
+                </ul>
+            </Box>
         );
     }
 
