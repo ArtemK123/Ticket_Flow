@@ -26,7 +26,7 @@ ProfilePage.propTypes = {
         movie: PropTypes.shape({
             id: PropTypes.number,
             title: PropTypes.string,
-            startTime: PropTypes.instanceOf(Date),
+            startTime: PropTypes.string,
             cinemaHallName: PropTypes.string
         })
     }))
