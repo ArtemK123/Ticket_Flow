@@ -67,8 +67,13 @@ public class TicketsService {
             return new ArrayList<>();
         }
 
-        Movie movie = movieServiceProxy.getById(tickets.get(0).getMovieId());
-        return tickets.stream().map(ticket -> ticketClientModelFactory.create(ticket, movie)).collect(Collectors.toList());
+        List<TicketClientModel> resultList = new ArrayList<>();
+        for(Ticket ticket : tickets) {
+            Movie movie =  movieServiceProxy.getById(ticket.getMovieId());
+            resultList.add(ticketClientModelFactory.create(ticket, movie));
+        }
+
+        return resultList;
     }
 
     public void order(OrderRequestModel orderRequestModel) throws TicketAlreadyOrderedException, InvalidTokenException, NotFoundException {
