@@ -37,6 +37,12 @@ const useStyles = makeStyles(() => ({
         width: 70,
         "user-select": "none",
         backgroundColor: "grey"
+    },
+    brokenPaper: {
+        height: 50,
+        width: 70,
+        "user-select": "none",
+        backgroundColor: "blue"
     }
 }));
 
@@ -68,7 +74,7 @@ function Seat(props) {
     }
     else {
         return (
-            <Paper className={styles.takenPaper}>
+            <Paper className={styles.brokenPaper}>
                 <SeatTitle value={"error"}/>
             </Paper>
         );

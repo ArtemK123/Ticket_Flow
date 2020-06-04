@@ -7,6 +7,7 @@ import Seat from "components/order_page/Seat";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import getTimeFromDate from "services/utils/getTimeFromDate";
+import createBackendService from "services/backend_service/createBackendService";
 
 const useStyles = makeStyles(() => ({
     footerHolder: {
@@ -46,6 +47,7 @@ function OrderPage(props) {
     const tickets = useTicketsByMovie(movieId);
 
     const [ticketsState, changeTicketsState] = useState({});
+    // const [makeOrderState, changeMakeOrderState] = useState(false);
 
     useEffect(() => {
         if (Object.keys(ticketsState).length === 0) {
@@ -55,6 +57,30 @@ function OrderPage(props) {
             changeTicketsState(Object.assign({}, ticketsState));
         }
     }, [ticketsState, tickets]);
+
+    const makeOrderHandler = async () => {
+        const backendService = createBackendService();
+        const ticketIds = Object.keys(ticketsState);
+        for (let ticketId in ticketIds) {
+            if (ticketsState[ticketId] === "selected") {
+                await backendService.order({
+                    ticketId: ticketId,
+                    token: props.token
+                }).then(response => {
+                    ticketsState[ticketId] = response.ok ? "taken" : "error";
+                });
+            }
+        }
+        changeTicketsState(Object.assign({}, ticketsState));
+    };
+
+    // useEffect(() => {
+    //     if (makeOrderState === true) {
+            
+
+    //         makeOrderHandler();
+    //     }
+    // }, [makeOrderState, ticketsState, props.token]);
 
     const handleSeatClick = (ticketId) => {
         const currentState = ticketsState[ticketId];
@@ -66,10 +92,6 @@ function OrderPage(props) {
             ticketsState[ticketId] = "available";
             changeTicketsState(Object.assign({}, ticketsState));
         }
-    };
-
-    const makeOrder = () => {
-
     };
 
     const seatComponents = [];
@@ -103,7 +125,6 @@ function OrderPage(props) {
                             <Typography> - white: available</Typography>
                             <Typography> - red: selected</Typography>
                             <Typography> - grey: taken</Typography>
-                            <Typography>Token: {props.token}</Typography>
                         </Box>
                     </Box>
                 </Grid>
@@ -118,7 +139,7 @@ function OrderPage(props) {
                                 {seatComponents}
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" color="primary" onClick={makeOrder}>Order tickets</Button>
+                                <Button variant="contained" color="primary" onClick={() => makeOrderHandler()}>Order tickets</Button>
                             </Grid>
                         </Grid>
                     </Container>
