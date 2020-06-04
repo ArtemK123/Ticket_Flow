@@ -11,14 +11,14 @@ MoviesPerDate.propTypes = {
     movies: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string,
-        startTime: PropTypes.instanceOf(Date),
+        startTime: PropTypes.string,
         cinemaHallName: PropTypes.string
     })),
 };
 
 function MoviesPerDate(props) {
     const movieCardComponents = [];
-    const sortedMovies = props.movies.sort((a, b) => a.startTime.getHours() - b.startTime.getHours());
+    const sortedMovies = props.movies.sort((a, b) => new Date(a.startTime).getHours() - new Date(b.startTime).getHours());
 
     sortedMovies.forEach(movie => {
         movieCardComponents.push(<Grid key={"grid" + movie.id} item><MovieCard key={movie.id} movie={movie}/></Grid>);

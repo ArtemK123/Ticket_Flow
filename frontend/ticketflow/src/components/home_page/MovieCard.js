@@ -11,7 +11,7 @@ MovieCard.propTypes = {
     movie: PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string,
-        startTime: PropTypes.instanceOf(Date),
+        startTime: PropTypes.string,
         cinemaHallName: PropTypes.string
     })
 };
@@ -46,7 +46,7 @@ function MovieCard(props) {
             <Box p={1}>
                 <Typography variant="h5">{props.movie.title}</Typography>
                 <Typography>Cinema hall: {props.movie.cinemaHallName}</Typography>
-                <Typography>Time: {getTimeFromDate(props.movie.startTime)}</Typography>
+                <Typography>Time: {getTimeFromDate(new Date(props.movie.startTime))}</Typography>
             </Box>
         </Paper>
     );

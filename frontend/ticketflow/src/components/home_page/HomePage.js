@@ -20,37 +20,55 @@ const useStyles = makeStyles(() => ({
 }));
 
 const groupMoviesByDay = (movies) => {
-    const dateGroupings = {};
-    movies.forEach((movie) => {
-        movie.startTime = new Date(movie.startTime);
-        const dateFormat = { day: "numeric", month: "short", year: "numeric"};
-        const dayInString = movie.startTime.toLocaleString("en-US", dateFormat);
+    const dateGroupings = [];
+    const dateFormat = { day: "numeric", month: "short", year: "numeric"};
 
-        if (dateGroupings[dayInString] === undefined) {
-            dateGroupings[dayInString] = [movie];
+    for (let movie of movies) {
+        const key = new Date(movie.startTime).toLocaleString("en-US", dateFormat);
+        const grouping = dateGroupings.find(record => record.key === key);
+        if (grouping === undefined) {
+            dateGroupings.push({
+                key: key,
+                movies: [movie]
+            });
         }
         else {
-            dateGroupings[dayInString].push(movie);
+            grouping.movies.push(movie);
         }
-    });
-    return dateGroupings;
+    }
+
+    return dateGroupings.sort((a, b) => new Date(a.key) - new Date(b.key));
+
+    // movies.forEach((movie) => {
+    //     movie.startTime = new Date(movie.startTime);
+    //     const dateFormat = { day: "numeric", month: "short", year: "numeric"};
+    //     const dayInString = movie.startTime.toLocaleString("en-US", dateFormat);
+
+    //     if (dateGroupings[dayInString] === undefined) {
+    //         dateGroupings[dayInString] = [movie];
+    //     }
+    //     else {
+    //         dateGroupings[dayInString].push(movie);
+    //     }
+    // });
+    // return dateGroupings;
 };
 
 function HomePage(props) {
     const styles = useStyles();
-    const moviesByDate = groupMoviesByDay(props.movies);
+    const moviesByDateGroupingArray = groupMoviesByDay(props.movies);
   
     const moviesPerDateComponents = [];
-    Object.entries(moviesByDate).forEach(([dateString, moviesArray]) => {
+    moviesByDateGroupingArray.forEach(dateGrouping => {
         moviesPerDateComponents.push(<MoviesPerDate
-            key={dateString}
-            date={new Date(dateString)}
-            movies={moviesArray}
+            key={dateGrouping.key}
+            date={new Date(dateGrouping.key)}
+            movies={dateGrouping.movies}
         />);
     });
 
     return (
-        <Box>
+        <Box w={1}>
             {moviesPerDateComponents}
             <Box className={styles.footerHolder}>
             </Box>
