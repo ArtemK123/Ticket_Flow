@@ -12,7 +12,6 @@ import Footer from "./components/footer/Footer";
 import NotFoundPage from "./components/not_found_page/NotFoundPage";
 import useProfileModel from "services/hooks/useProfileModel";
 import useTicketsByUser from "services/hooks/useTicketsByUser";
-import { Link } from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import useMovies from "services/hooks/useMovies";
 

@@ -54,7 +54,7 @@ function OrderPage(props) {
             });
             changeTicketsState(Object.assign({}, ticketsState));
         }
-    });
+    }, [ticketsState, tickets]);
 
     const handleSeatClick = (ticketId) => {
         const currentState = ticketsState[ticketId];
@@ -79,6 +79,7 @@ function OrderPage(props) {
             seatComponentsInRow.push(
                 <Grid item>
                     <Seat
+                        key={ticket.id}
                         ticket={ticket}
                         state={ticketsState[ticket.id]}
                         handleClick={handleSeatClick}

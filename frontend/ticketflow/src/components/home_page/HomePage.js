@@ -42,7 +42,8 @@ function HomePage(props) {
   
     const moviesPerDateComponents = [];
     Object.entries(moviesByDate).forEach(([dateString, moviesArray]) => {
-        moviesPerDateComponents.push(<MoviesPerDate 
+        moviesPerDateComponents.push(<MoviesPerDate
+            key={dateString}
             date={new Date(dateString)}
             movies={moviesArray}
         />);

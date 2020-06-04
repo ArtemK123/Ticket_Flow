@@ -20,7 +20,7 @@ function MoviesPerDate(props) {
     
     const movieCardComponents = [];
     props.movies.forEach(movie => {
-        movieCardComponents.push(<Grid item><MovieCard movie={movie}/></Grid>);
+        movieCardComponents.push(<Grid key={"grid" + movie.id} item><MovieCard key={movie.id} movie={movie}/></Grid>);
     });
 
     return (
