@@ -1,4 +1,0 @@
-FROM postgres:12
-
-# Root folder (with docker-compose.yml) should be specified as context
-COPY ./docker/init-database.sh /docker-entrypoint-initdb.d/
