@@ -142,6 +142,20 @@ services:
                     "/app/wait-for-it.sh", "ticket-service:9003", "-t", "180", "--",
                     "/app/wait-for-it.sh", "movie-service:9004", "-t", "180", "--",
                     "java", "-jar", "/app/spring-boot-application.jar"]
+                    
+                    
+    web-client:
+        image: darkmode1012/ticketflow:web-clinet
+        build:
+            context: .
+            dockerfile: ./docker/WebClientDockerfile
+        networks:
+            - ticketflow-network
+        depends_on:
+            - api-gateway
+        ports:
+            - 3000:3000
+        stdin_open: true
 
 networks: 
   ticketflow-network:

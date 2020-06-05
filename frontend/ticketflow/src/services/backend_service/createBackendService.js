@@ -1,6 +1,8 @@
+const backendLink = "http://localhost:8080";
+
 const createBackendService = () => ({
     async login(loginRequestModel) {
-        return fetch("http://localhost:8080/login", {
+        return fetch(`${backendLink}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -9,7 +11,7 @@ const createBackendService = () => ({
         });
     },
     async register(registerRequestModel) {
-        return fetch("http://localhost:8080/register", {
+        return fetch(`${backendLink}/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -18,7 +20,7 @@ const createBackendService = () => ({
         });
     },
     async logout(token) {
-        return fetch("http://localhost:8080/logout", {
+        return fetch(`${backendLink}/logout`, {
             method: "POST",
             headers: {
                 "Content-Type": "text/plain"
@@ -27,7 +29,7 @@ const createBackendService = () => ({
         });
     },
     async getProfile(token) {
-        return fetch("http://localhost:8080/profile", {
+        return fetch(`${backendLink}/profile`, {
             method: "POST",
             headers: {
                 "Content-Type": "text/plain"
@@ -36,12 +38,12 @@ const createBackendService = () => ({
         });
     },
     async getTicketsByMovie(movieId) {
-        return fetch(`http://localhost:8080/tickets/by-movie/${movieId}`, {
+        return fetch(`${backendLink}/tickets/by-movie/${movieId}`, {
             method: "GET"
         });
     },
     async getTicketsByUser(token) {
-        return fetch("http://localhost:8080/tickets/by-user", {
+        return fetch(`${backendLink}/tickets/by-user`, {
             method: "POST",
             headers: {
                 "Content-Type": "text/plain"
@@ -50,7 +52,7 @@ const createBackendService = () => ({
         });
     },
     async order(orderModel) {
-        return fetch("http://localhost:8080/tickets/order", {
+        return fetch(`${backendLink}/tickets/order`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -59,12 +61,12 @@ const createBackendService = () => ({
         });
     },
     async getMovies() {
-        return fetch("http://localhost:8080/movies", {
+        return fetch(`${backendLink}/movies`, {
             method: "GET"
         });
     },
     async getMovieById(id) {
-        return fetch(`http://localhost:8080/movies/${id}`, {
+        return fetch(`${backendLink}/movies/${id}`, {
             method: "GET"
         });
     }
