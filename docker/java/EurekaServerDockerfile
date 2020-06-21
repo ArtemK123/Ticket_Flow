@@ -1,8 +1,8 @@
 FROM maven:3.6.3-jdk-14 AS build
 
 # Root folder (with docker-compose.yml) should be specified as context
-COPY ./backend/eureka_server/pom.xml /tmp/
-COPY ./backend/eureka_server/src /tmp/src
+COPY ./backend/java/eureka_server/pom.xml /tmp/
+COPY ./backend/java/eureka_server/src /tmp/src
 WORKDIR /tmp/
 RUN mvn -B package
 

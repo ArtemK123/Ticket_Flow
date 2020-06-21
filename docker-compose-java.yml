@@ -19,7 +19,7 @@ services:
         image: darkmode1012/ticketflow:eureka-server
         build:
             context: .
-            dockerfile: ./docker/EurekaServerDockerfile
+            dockerfile: ./docker/java/EurekaServerDockerfile
         networks:
             - ticketflow-network
         restart: unless-stopped
@@ -38,7 +38,7 @@ services:
         image: darkmode1012/ticketflow:config-server
         build:
             context: .
-            dockerfile: ./docker/ConfigServerDockerfile
+            dockerfile: ./docker/java/ConfigServerDockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -55,7 +55,7 @@ services:
         image: darkmode1012/ticketflow:identity-service
         build:
             context: .
-            dockerfile: ./docker/IdentityServiceDockerfile
+            dockerfile: ./docker/java/IdentityServiceDockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -72,7 +72,7 @@ services:
         image: darkmode1012/ticketflow:profile-service
         build:
             context: .
-            dockerfile: ./docker/ProfileServiceDockerfile
+            dockerfile: ./docker/java/ProfileServiceDockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -89,7 +89,7 @@ services:
         image: darkmode1012/ticketflow:ticket-service
         build:
             context: .
-            dockerfile: ./docker/TicketServiceDockerfile
+            dockerfile: ./docker/java/TicketServiceDockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -106,7 +106,7 @@ services:
         image: darkmode1012/ticketflow:movie-service
         build:
             context: .
-            dockerfile: ./docker/MovieServiceDockerfile
+            dockerfile: ./docker/java/MovieServiceDockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -123,7 +123,7 @@ services:
         image: darkmode1012/ticketflow:api-gateway
         build:
             context: .
-            dockerfile: ./docker/ApiGatewayDockerfile
+            dockerfile: ./docker/java/ApiGatewayDockerfile
         networks:
             - ticketflow-network
         depends_on:

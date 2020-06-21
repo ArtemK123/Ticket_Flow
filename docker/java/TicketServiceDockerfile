@@ -2,8 +2,8 @@ FROM maven:3.6.3-jdk-14 AS build
 
 # Root folder (with docker-compose.yml) should be specified as context
 RUN mkdir /tmp/ticket_service
-COPY ./backend/ticket_service/pom.xml /tmp/ticket_service
-COPY ./backend/ticket_service/src /tmp/ticket_service/src
+COPY ./backend/java/ticket_service/pom.xml /tmp/ticket_service
+COPY ./backend/java/ticket_service/src /tmp/ticket_service/src
 
 WORKDIR /tmp/ticket_service
 RUN mvn -B package

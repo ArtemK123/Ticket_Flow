@@ -6,12 +6,12 @@ As alternative, you can use version from local branch
 
 Configs for project are fetched from github repo: - https://github.com/ArtemK123/Ticket_Flow_Configs
 
-How to run:
+How to run (Java backend):
 	
 	1. git clone https://github.com/ArtemK123/Ticket_Flow
 
 	2. cd ./Ticket_Flow
 	
-	3. docker-compose build -q --parallel
+	3. docker-compose -f docker-compose-java.yml build -q --parallel
 	
-	4. docker-compose up
+	4. docker-compose -f docker-compose-java.yml up
