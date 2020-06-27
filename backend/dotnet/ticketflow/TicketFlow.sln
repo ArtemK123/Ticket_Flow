@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileService", "ProfileService\ProfileService.csproj", "{D87E3B52-6A01-4C37-9EB6-A1CEE2569AAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D87E3B52-6A01-4C37-9EB6-A1CEE2569AAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D87E3B52-6A01-4C37-9EB6-A1CEE2569AAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D87E3B52-6A01-4C37-9EB6-A1CEE2569AAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D87E3B52-6A01-4C37-9EB6-A1CEE2569AAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
