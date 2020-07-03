@@ -7,4 +7,10 @@
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
         <AdditionalFiles Include="../stylecop.json" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Api" />
+      <Folder Include="Domain" />
+      <Folder Include="Service" />
+    </ItemGroup>
 </Project>
