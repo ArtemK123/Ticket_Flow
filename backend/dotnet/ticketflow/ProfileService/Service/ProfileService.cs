@@ -1,10 +1,30 @@
-﻿namespace ProfileService.Service
+﻿using ProfileService.Domain;
+using ProfileService.Models;
+
+namespace ProfileService.Service
 {
-    public class ProfileService : IProfileService
+    internal class ProfileService : IProfileService
     {
-        public string GetMessage()
+        private readonly IProfileRepository profileRepository;
+
+        public ProfileService(IProfileRepository profileRepository)
         {
-            return "Hello from ProfilesService";
+            this.profileRepository = profileRepository;
+        }
+
+        public Profile GetById(int id)
+        {
+            return profileRepository.GetById(id);
+        }
+
+        public Profile GetByUserEmail(string email)
+        {
+            return profileRepository.GetByUserEmail(email);
+        }
+
+        public int Add(Profile profile)
+        {
+            return profileRepository.Add(profile);
         }
     }
 }

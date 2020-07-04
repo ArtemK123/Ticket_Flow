@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <CodeAnalysisRuleSet>../Custom.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" />
-        <AdditionalFiles Include="../stylecop.json" />
+        <PackageReference Include="Dapper" Version="2.0.35" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.0" />
+        <PackageReference Include="Npgsql" Version="5.0.0-alpha1" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     </ItemGroup>
-
+    
     <ItemGroup>
-      <Folder Include="Api" />
-      <Folder Include="Domain" />
-      <Folder Include="Service" />
+        <AdditionalFiles Include="../stylecop.json" />
     </ItemGroup>
 </Project>

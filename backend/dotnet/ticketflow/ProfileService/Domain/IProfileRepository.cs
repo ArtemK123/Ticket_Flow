@@ -1,8 +1,8 @@
 ﻿using ProfileService.Models;
 
-namespace ProfileService.Service
+namespace ProfileService.Domain
 {
-    public interface IProfileService
+    internal interface IProfileRepository
     {
         Profile GetById(int id);
 
