@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProfileService.Domain;
+using ProfileService.Domain.Repositories;
 using ProfileService.Service;
 
 namespace ProfileService
@@ -12,9 +13,9 @@ namespace ProfileService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddTransient(typeof(IProfileService), typeof(Service.ProfileService));
-            services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
+            AddDomain(services);
+            AddService(services);
+            AddApi(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,6 +29,22 @@ namespace ProfileService
             app.UseRouting();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
+
+        private static void AddApi(IServiceCollection services)
+        {
+            services.AddControllers();
+        }
+
+        private static void AddService(IServiceCollection services)
+        {
+            services.AddTransient(typeof(IProfileService), typeof(Service.ProfileService));
+        }
+
+        private static void AddDomain(IServiceCollection services)
+        {
+            services.AddTransient(typeof(IDbConnectionProvider), typeof(NpgsqlConnectionProvider));
+            services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
         }
     }
 }

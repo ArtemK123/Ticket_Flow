@@ -1,4 +1,5 @@
 ﻿using ProfileService.Domain;
+using ProfileService.Domain.Repositories;
 using ProfileService.Models;
 
 namespace ProfileService.Service

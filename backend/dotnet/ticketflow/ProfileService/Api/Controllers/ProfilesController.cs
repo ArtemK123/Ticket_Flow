@@ -21,18 +21,11 @@ namespace ProfileService.Api.Controllers
         [HttpGet("/")]
         public IActionResult Index()
         {
-            var host = configuration["Database:Host"];
-            var name = configuration["Database:Name"];
-            var user = configuration["Database:User"];
-            var password = configuration["Database:Password"];
-            var message = $"host: {host}\n name:{name}\n user:{user}\n password:{password}";
-
-            // return new OkObjectResult("Hello from Profiles Api");
-            return new OkObjectResult(message);
+            return new OkObjectResult("Hello from Profiles Api");
         }
 
         [HttpGet("by-id/{id}")]
-        public Profile GetById(int id)
+        public Profile GetById([FromRoute] int id)
         {
             return profileService.GetById(id);
         }

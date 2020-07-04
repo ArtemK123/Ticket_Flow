@@ -1,6 +1,6 @@
 ﻿using ProfileService.Models;
 
-namespace ProfileService.Domain
+namespace ProfileService.Domain.Repositories
 {
     internal interface IProfileRepository
     {
