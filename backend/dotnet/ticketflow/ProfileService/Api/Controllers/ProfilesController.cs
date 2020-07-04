@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using ProfileService.Models;
 using ProfileService.Service;
@@ -31,8 +35,9 @@ namespace ProfileService.Api.Controllers
         }
 
         [HttpPost("by-user")]
-        public Profile GetById([FromBody] string userEmail)
+        public async Task<Profile> GetByUser()
         {
+            string userEmail = await GetStringFromStreamAsync(Request.Body, Encoding.UTF8);
             return profileService.GetByUserEmail(userEmail);
         }
 
@@ -41,6 +46,12 @@ namespace ProfileService.Api.Controllers
         {
             int addedProfileId = profileService.Add(profile);
             return $"Added successfully. Id - {addedProfileId}";
+        }
+
+        private async Task<string> GetStringFromStreamAsync(Stream stream, Encoding encoding)
+        {
+            using var reader = new StreamReader(stream, encoding);
+            return await reader.ReadToEndAsync();
         }
     }
 }
