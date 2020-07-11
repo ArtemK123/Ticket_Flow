@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProfileService.Domain;
+using ProfileService.Domain.Providers;
 using ProfileService.Domain.Repositories;
 using ProfileService.Service;
 
@@ -45,6 +46,7 @@ namespace ProfileService
         {
             services.AddTransient(typeof(IDbConnectionProvider), typeof(NpgsqlConnectionProvider));
             services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
+            services.AddTransient(typeof(IRandomValueProvider), typeof(RandomValueProvider));
         }
     }
 }

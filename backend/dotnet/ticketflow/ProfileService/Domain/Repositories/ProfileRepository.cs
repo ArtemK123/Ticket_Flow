@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Dapper;
+using ProfileService.Domain.Providers;
 using ProfileService.Models;
 using ProfileService.Models.Exceptions;
 
@@ -10,10 +11,12 @@ namespace ProfileService.Domain.Repositories
         private const string ProfileSelectMapping = "id AS Id, birthday AS Birthday, phone_number AS PhoneNumber, user_email AS UserEmail";
 
         private readonly IDbConnectionProvider dbConnectionProvider;
+        private readonly IRandomValueProvider randomValueProvider;
 
-        public ProfileRepository(IDbConnectionProvider dbConnectionProvider)
+        public ProfileRepository(IDbConnectionProvider dbConnectionProvider, IRandomValueProvider randomValueProvider)
         {
             this.dbConnectionProvider = dbConnectionProvider;
+            this.randomValueProvider = randomValueProvider;
         }
 
         public Profile GetById(int id)
@@ -44,11 +47,13 @@ namespace ProfileService.Domain.Repositories
 
         public int Add(Profile profile)
         {
+            int entityId = randomValueProvider.GetRandomInt(0, int.MaxValue);
+            profile.Id = entityId;
             using var dbConnection = dbConnectionProvider.Get();
-            const string sql = "INSERT INTO profiles (birthday, phone_number, user_email) VALUES (@birthday, @phone_number, @user_email) RETURNING id;";
-            int insertedRecordId = dbConnection.Query<int>(sql, new { profile.Birthday, profile.PhoneNumber, profile.UserEmail }).FirstOrDefault();
+            const string sql = "INSERT INTO profiles (id, birthday, phone_number, user_email) VALUES (@Id, @Birthday, @PhoneNumber, @UserEmail);";
+            dbConnection.Execute(sql, profile);
 
-            return insertedRecordId;
+            return entityId;
         }
     }
 }
