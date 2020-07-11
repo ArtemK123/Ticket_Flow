@@ -4,12 +4,32 @@ namespace ProfileService.Models
 {
     public class Profile
     {
-        public int Id { get; set; }
+        public Profile(int id, string userEmail, long phoneNumber, DateTime birthday)
+        {
+            Id = id;
+            UserEmail = userEmail;
+            PhoneNumber = phoneNumber;
+            Birthday = birthday;
+        }
 
-        public string UserEmail { get; set; }
+        public Profile(string userEmail, long phoneNumber, DateTime birthday)
+        {
+            UserEmail = userEmail;
+            PhoneNumber = phoneNumber;
+            Birthday = birthday;
+        }
 
-        public long PhoneNumber { get; set; }
+        // This constructor is used only by dapper
+        public Profile()
+        {
+        }
 
-        public DateTime Birthday { get; set; }
+        public int Id { get; }
+
+        public string UserEmail { get; }
+
+        public long PhoneNumber { get; }
+
+        public DateTime Birthday { get; }
     }
 }

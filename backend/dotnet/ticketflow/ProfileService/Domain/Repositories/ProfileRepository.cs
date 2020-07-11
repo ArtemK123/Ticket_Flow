@@ -45,15 +45,15 @@ namespace ProfileService.Domain.Repositories
             return profile;
         }
 
-        public int Add(Profile profile)
+        public Profile Add(Profile profile)
         {
             int entityId = randomValueProvider.GetRandomInt(0, int.MaxValue);
-            profile.Id = entityId;
+            Profile insertedEntity = new Profile(entityId, profile.UserEmail, profile.PhoneNumber, profile.Birthday);
             using var dbConnection = dbConnectionProvider.Get();
             const string sql = "INSERT INTO profiles (id, birthday, phone_number, user_email) VALUES (@Id, @Birthday, @PhoneNumber, @UserEmail);";
-            dbConnection.Execute(sql, profile);
+            dbConnection.Execute(sql, insertedEntity);
 
-            return entityId;
+            return insertedEntity;
         }
     }
 }

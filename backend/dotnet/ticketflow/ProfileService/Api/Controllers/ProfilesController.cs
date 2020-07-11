@@ -1,9 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using ProfileService.Api.ClientModels;
 using ProfileService.Models;
 using ProfileService.Service;
 
@@ -14,18 +15,16 @@ namespace ProfileService.Api.Controllers
     public class ProfilesController : ControllerBase
     {
         private readonly IProfileService profileService;
-        private readonly IConfiguration configuration;
 
-        public ProfilesController(IProfileService profileService, IConfiguration configuration)
+        public ProfilesController(IProfileService profileService)
         {
             this.profileService = profileService;
-            this.configuration = configuration;
         }
 
         [HttpGet("/")]
         public IActionResult Index()
         {
-            return new OkObjectResult("Hello from Profiles Api");
+            return new OkObjectResult("Hello from Profile service API");
         }
 
         [HttpGet("by-id/{id}")]
@@ -42,16 +41,27 @@ namespace ProfileService.Api.Controllers
         }
 
         [HttpPost]
-        public string Add([FromBody] Profile profile)
+        public IActionResult Add([FromBody] ProfileClientModel profileClientModel)
         {
-            int addedProfileId = profileService.Add(profile);
-            return $"Added successfully. Id - {addedProfileId}";
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            Profile addedProfile = profileService.Add(Convert(profileClientModel));
+            var createdEntityUri = new Uri(new Uri(GetAppBaseUrl(Request)), Url.Action(nameof(GetById), new { id = addedProfile.Id }));
+            return new CreatedResult(createdEntityUri, addedProfile);
         }
 
-        private async Task<string> GetStringFromStreamAsync(Stream stream, Encoding encoding)
+        private static async Task<string> GetStringFromStreamAsync(Stream stream, Encoding encoding)
         {
             using var reader = new StreamReader(stream, encoding);
             return await reader.ReadToEndAsync();
         }
+
+        private static Profile Convert(ProfileClientModel clientModel)
+            => new Profile(clientModel.UserEmail, clientModel.PhoneNumber, clientModel.Birthday);
+
+        private static string GetAppBaseUrl(HttpRequest request) => $"{request.Scheme}://{request.Host}{request.PathBase}";
     }
 }

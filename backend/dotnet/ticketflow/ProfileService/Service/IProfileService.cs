@@ -8,6 +8,6 @@ namespace ProfileService.Service
 
         Profile GetByUserEmail(string email);
 
-        int Add(Profile profile);
+        Profile Add(Profile profile);
     }
 }

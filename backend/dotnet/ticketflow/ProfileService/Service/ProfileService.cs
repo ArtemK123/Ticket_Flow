@@ -1,5 +1,4 @@
-﻿using ProfileService.Domain;
-using ProfileService.Domain.Repositories;
+﻿using ProfileService.Domain.Repositories;
 using ProfileService.Models;
 
 namespace ProfileService.Service
@@ -23,7 +22,7 @@ namespace ProfileService.Service
             return profileRepository.GetByUserEmail(email);
         }
 
-        public int Add(Profile profile)
+        public Profile Add(Profile profile)
         {
             return profileRepository.Add(profile);
         }
