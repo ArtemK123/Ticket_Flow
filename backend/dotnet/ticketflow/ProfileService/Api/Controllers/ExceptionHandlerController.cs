@@ -13,7 +13,7 @@ namespace ProfileService.Api.Controllers
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
             var exception = context?.Error;
 
-            if (exception is NotFoundException)
+            if (exception == null || exception is NotFoundException)
             {
                 return new NotFoundResult();
             }
