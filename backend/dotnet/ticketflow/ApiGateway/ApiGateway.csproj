@@ -12,8 +12,4 @@
     <ItemGroup>
         <AdditionalFiles Include="../stylecop.json" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Proxy" />
-    </ItemGroup>
 </Project>

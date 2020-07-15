@@ -12,11 +12,11 @@ namespace ProfileService.Api.Controllers
 {
     [ApiController]
     [Route("/profiles")]
-    public class ProfilesController : ControllerBase
+    public class ProfilesApiController : ControllerBase
     {
         private readonly IProfileService profileService;
 
-        public ProfilesController(IProfileService profileService)
+        public ProfilesApiController(IProfileService profileService)
         {
             this.profileService = profileService;
         }

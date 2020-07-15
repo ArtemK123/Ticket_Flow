@@ -1,41 +1,45 @@
+using System;
+using Consul;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ProfileService.Domain;
 using ProfileService.Domain.Providers;
 using ProfileService.Domain.Repositories;
 using ProfileService.Service;
+using ProfileService.Service.Extentions;
 
 namespace ProfileService
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public Startup(IConfiguration configuration)
         {
-            AddDomain(services);
-            AddService(services);
-            AddApi(services);
+            Configuration = configuration;
         }
 
+        private IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
             app.UseExceptionHandler("/error");
 
             app.UseRouting();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            app.RegisterWithConsul(lifetime, Configuration);
         }
 
-        private static void AddApi(IServiceCollection services)
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-        }
-
-        private static void AddService(IServiceCollection services)
-        {
-            services.AddTransient(typeof(IProfileService), typeof(Service.ProfileService));
+            AddDomain(services);
+            AddService(services);
+            AddApi(services);
+            AddConsul(services);
         }
 
         private static void AddDomain(IServiceCollection services)
@@ -43,6 +47,25 @@ namespace ProfileService
             services.AddTransient(typeof(IDbConnectionProvider), typeof(NpgsqlConnectionProvider));
             services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
             services.AddTransient(typeof(IRandomValueProvider), typeof(RandomValueProvider));
+        }
+
+        private static void AddService(IServiceCollection services)
+        {
+            services.AddTransient(typeof(IProfileService), typeof(Service.ProfileService));
+        }
+
+        private static void AddApi(IServiceCollection services)
+        {
+            services.AddControllers();
+        }
+
+        private void AddConsul(IServiceCollection services)
+        {
+            services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
+            {
+                var address = Configuration["Consul:Address"];
+                consulConfig.Address = new Uri(address);
+            }));
         }
     }
 }
