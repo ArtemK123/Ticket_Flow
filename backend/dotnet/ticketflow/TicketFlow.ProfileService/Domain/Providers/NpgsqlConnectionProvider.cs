@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 
-namespace ProfileService.Domain
+namespace TicketFlow.ProfileService.Domain
 {
     internal class NpgsqlConnectionProvider : IDbConnectionProvider
     {

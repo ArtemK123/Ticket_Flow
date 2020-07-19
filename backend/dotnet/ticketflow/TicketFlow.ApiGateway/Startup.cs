@@ -1,10 +1,10 @@
-using ApiGateway.Proxy;
-using ApiGateway.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using TicketFlow.ApiGateway.Proxy;
+using TicketFlow.ApiGateway.Service;
 
-namespace ApiGateway
+namespace TicketFlow.ApiGateway
 {
     public class Startup
     {

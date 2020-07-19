@@ -1,9 +1,9 @@
-﻿using ApiGateway.Models.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TicketFlow.ApiGateway.Models.Exceptions;
 
-namespace ApiGateway.Api.Controllers
+namespace TicketFlow.ApiGateway.Api.Controllers
 {
     [Route("/error")]
     public class ExceptionHandlerController : ControllerBase

@@ -1,6 +1,6 @@
-﻿using ApiGateway.Models.ProfileService;
+﻿using TicketFlow.ApiGateway.Models.ProfileService;
 
-namespace ApiGateway.Proxy
+namespace TicketFlow.ApiGateway.Proxy
 {
     internal interface IProfilesApiProxy
     {

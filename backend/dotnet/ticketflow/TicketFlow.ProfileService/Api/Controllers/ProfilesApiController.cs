@@ -4,11 +4,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProfileService.Api.ClientModels;
-using ProfileService.Models;
-using ProfileService.Service;
+using TicketFlow.ProfileService.Api.ClientModels;
+using TicketFlow.ProfileService.Models;
+using TicketFlow.ProfileService.Service;
 
-namespace ProfileService.Api.Controllers
+namespace TicketFlow.ProfileService.Api.Controllers
 {
     [ApiController]
     [Route("/profiles")]

@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <CodeAnalysisRuleSet>../Custom.ruleset</CodeAnalysisRuleSet>
-        <RootNamespace>ProfileService</RootNamespace>
+        <RootNamespace>TicketFlow.ProfileService</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

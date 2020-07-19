@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProfileService.Models.Exceptions;
+using TicketFlow.ProfileService.Models.Exceptions;
 
-namespace ProfileService.Api.Controllers
+namespace TicketFlow.ProfileService.Api.Controllers
 {
     [Route("/error")]
     public class ExceptionHandlerController : ControllerBase

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ApiGateway.Api.Controllers
+namespace TicketFlow.ApiGateway.Api.Controllers
 {
     public class HomeApiController : ControllerBase
     {

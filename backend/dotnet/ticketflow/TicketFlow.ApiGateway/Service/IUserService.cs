@@ -1,6 +1,6 @@
-﻿using ApiGateway.Models.ApiGateway.UserApi;
+﻿using TicketFlow.ApiGateway.Models.ApiGateway.UserApi;
 
-namespace ApiGateway.Service
+namespace TicketFlow.ApiGateway.Service
 {
     public interface IUserService
     {

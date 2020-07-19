@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProfileService.Models.Exceptions
+namespace TicketFlow.ProfileService.Models.Exceptions
 {
     internal class NotFoundException : Exception
     {

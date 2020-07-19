@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 
-namespace ProfileService.Domain
+namespace TicketFlow.ProfileService.Domain
 {
     internal interface IDbConnectionProvider
     {

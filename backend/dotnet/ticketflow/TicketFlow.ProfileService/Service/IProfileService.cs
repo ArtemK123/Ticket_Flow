@@ -1,6 +1,6 @@
-﻿using ProfileService.Models;
+﻿using TicketFlow.ProfileService.Models;
 
-namespace ProfileService.Service
+namespace TicketFlow.ProfileService.Service
 {
     public interface IProfileService
     {

@@ -1,4 +1,4 @@
-﻿namespace ApiGateway.Models.ApiGateway.UserApi
+﻿namespace TicketFlow.ApiGateway.Models.ApiGateway.UserApi
 {
     public class RegisterRequest
     {

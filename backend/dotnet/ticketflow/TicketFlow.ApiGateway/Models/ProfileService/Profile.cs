@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApiGateway.Models.ProfileService
+namespace TicketFlow.ApiGateway.Models.ProfileService
 {
     public class Profile
     {

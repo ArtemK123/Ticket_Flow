@@ -1,4 +1,4 @@
-﻿namespace ProfileService.Domain.Providers
+﻿namespace TicketFlow.ProfileService.Domain.Providers
 {
     internal interface IRandomValueProvider
     {

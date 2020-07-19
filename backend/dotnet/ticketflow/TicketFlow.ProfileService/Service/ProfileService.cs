@@ -1,7 +1,7 @@
-﻿using ProfileService.Domain.Repositories;
-using ProfileService.Models;
+﻿using TicketFlow.ProfileService.Domain.Repositories;
+using TicketFlow.ProfileService.Models;
 
-namespace ProfileService.Service
+namespace TicketFlow.ProfileService.Service
 {
     internal class ProfileService : IProfileService
     {

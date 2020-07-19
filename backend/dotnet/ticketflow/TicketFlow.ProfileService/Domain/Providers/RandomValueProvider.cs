@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProfileService.Domain.Providers
+namespace TicketFlow.ProfileService.Domain.Providers
 {
     internal class RandomValueProvider : IRandomValueProvider
     {

@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ProfileService.Domain;
-using ProfileService.Domain.Providers;
-using ProfileService.Domain.Repositories;
-using ProfileService.Service;
-using ProfileService.Service.Extensions;
+using TicketFlow.ProfileService.Domain;
+using TicketFlow.ProfileService.Domain.Providers;
+using TicketFlow.ProfileService.Domain.Repositories;
+using TicketFlow.ProfileService.Service;
+using TicketFlow.ProfileService.Service.Extensions;
 
-namespace ProfileService
+namespace TicketFlow.ProfileService
 {
     public class Startup
     {

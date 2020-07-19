@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ProfileService.Api.ClientModels
+namespace TicketFlow.ProfileService.Api.ClientModels
 {
     public class ProfileClientModel
     {

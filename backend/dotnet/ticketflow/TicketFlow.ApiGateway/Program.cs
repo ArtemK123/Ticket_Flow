@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace ApiGateway
+namespace TicketFlow.ApiGateway
 {
     public class Program
     {

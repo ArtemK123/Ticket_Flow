@@ -1,4 +1,4 @@
-﻿namespace ApiGateway.Models.IdentityService
+﻿namespace TicketFlow.ApiGateway.Models.IdentityService
 {
     public class LoginModel
     {

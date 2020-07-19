@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Dapper;
-using ProfileService.Domain.Providers;
-using ProfileService.Models;
-using ProfileService.Models.Exceptions;
+using TicketFlow.ProfileService.Domain.Providers;
+using TicketFlow.ProfileService.Models;
+using TicketFlow.ProfileService.Models.Exceptions;
 
-namespace ProfileService.Domain.Repositories
+namespace TicketFlow.ProfileService.Domain.Repositories
 {
     internal class ProfileRepository : IProfileRepository
     {

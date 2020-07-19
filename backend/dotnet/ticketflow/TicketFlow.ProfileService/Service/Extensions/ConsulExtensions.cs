@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace ProfileService.Service.Extensions
+namespace TicketFlow.ProfileService.Service.Extensions
 {
     public static class ConsulExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ApiGateway.Models.Exceptions
+namespace TicketFlow.ApiGateway.Models.Exceptions
 {
     internal class NotFoundException : Exception
     {

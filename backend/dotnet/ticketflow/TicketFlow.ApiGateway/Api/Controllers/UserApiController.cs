@@ -2,12 +2,12 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using ApiGateway.Models.ApiGateway.UserApi;
-using ApiGateway.Models.IdentityService;
-using ApiGateway.Service;
 using Microsoft.AspNetCore.Mvc;
+using TicketFlow.ApiGateway.Models.ApiGateway.UserApi;
+using TicketFlow.ApiGateway.Models.IdentityService;
+using TicketFlow.ApiGateway.Service;
 
-namespace ApiGateway.Api.Controllers
+namespace TicketFlow.ApiGateway.Api.Controllers
 {
     public class UserApiController : ControllerBase
     {
