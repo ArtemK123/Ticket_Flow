@@ -9,33 +9,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace ProfileService.Service.Extentions
+namespace ProfileService.Service.Extensions
 {
-    internal static class ConsulExtensions
+    public static class ConsulExtensions
     {
-        public static IApplicationBuilder RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
+        public static void RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
         {
-            IConsulClient consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>();
-
+            AgentServiceRegistration registration = GetServiceRegistration(app, configuration);
             var logger = app.ApplicationServices.GetRequiredService<ILogger<IConsulClient>>();
 
-            FeatureCollection features = app.Properties["server.Features"] as FeatureCollection;
-            IServerAddressesFeature addresses = features.Get<IServerAddressesFeature>();
-            string address = addresses.Addresses.First();
-
-            string serviceName = configuration["Consul:ServiceName"];
-            string[] serviceTags = configuration.GetSection("Consul:ServiceTags").GetChildren().Select(c => c.Value).ToArray();
-            var serviceId = $"{serviceName}:{Guid.NewGuid()}";
-
-            var uri = new Uri(address);
-            var registration = new AgentServiceRegistration()
-            {
-                ID = $"{serviceId}-{uri.Port}",
-                Name = serviceName,
-                Address = $"{uri.Scheme}://{uri.Host}",
-                Port = uri.Port,
-                Tags = serviceTags
-            };
+            IConsulClient consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>();
 
             logger.LogInformation("Registering with Consul");
             consulClient.Agent.ServiceDeregister(registration.ID).Wait();
@@ -46,8 +29,28 @@ namespace ProfileService.Service.Extentions
                 logger.LogInformation("Deregistering from Consul");
                 consulClient.Agent.ServiceDeregister(registration.ID).Wait();
             });
+        }
 
-            return app;
+        private static AgentServiceRegistration GetServiceRegistration(IApplicationBuilder app, IConfiguration configuration)
+        {
+            FeatureCollection features = app.Properties["server.Features"] as FeatureCollection;
+            IServerAddressesFeature addresses = features.Get<IServerAddressesFeature>();
+            string address = addresses.Addresses.First();
+
+            string serviceName = configuration["Consul:ServiceName"];
+            string[] serviceTags = configuration.GetSection("Consul:ServiceTags").GetChildren().Select(c => c.Value).ToArray();
+            var serviceId = $"{serviceName}:{Guid.NewGuid()}";
+
+            var uri = new Uri(address);
+            var registration = new AgentServiceRegistration
+            {
+                ID = $"{serviceId}-{uri.Port}",
+                Name = serviceName,
+                Address = $"{uri.Scheme}://{uri.Host}",
+                Port = uri.Port,
+                Tags = serviceTags
+            };
+            return registration;
         }
     }
 }

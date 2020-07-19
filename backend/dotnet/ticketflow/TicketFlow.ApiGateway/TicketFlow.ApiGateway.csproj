@@ -2,6 +2,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <CodeAnalysisRuleSet>../Custom.ruleset</CodeAnalysisRuleSet>
+        <RootNamespace>ApiGateway</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

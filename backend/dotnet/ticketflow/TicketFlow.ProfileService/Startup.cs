@@ -8,7 +8,7 @@ using ProfileService.Domain;
 using ProfileService.Domain.Providers;
 using ProfileService.Domain.Repositories;
 using ProfileService.Service;
-using ProfileService.Service.Extentions;
+using ProfileService.Service.Extensions;
 
 namespace ProfileService
 {

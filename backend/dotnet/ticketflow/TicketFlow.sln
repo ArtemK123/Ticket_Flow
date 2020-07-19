@@ -1,8 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProfileService", "ProfileService\ProfileService.csproj", "{D87E3B52-6A01-4C37-9EB6-A1CEE2569AAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.ProfileService", "TicketFlow.ProfileService\TicketFlow.ProfileService.csproj", "{D87E3B52-6A01-4C37-9EB6-A1CEE2569AAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{F375DF1F-2FBA-4C70-989F-2751982E33E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.ApiGateway", "TicketFlow.ApiGateway\TicketFlow.ApiGateway.csproj", "{F375DF1F-2FBA-4C70-989F-2751982E33E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Common", "TicketFlow.Common\TicketFlow.Common.csproj", "{1A52E2D8-566A-4AC2-8B68-C2DF2552B099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +20,9 @@ Global
 		{F375DF1F-2FBA-4C70-989F-2751982E33E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F375DF1F-2FBA-4C70-989F-2751982E33E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F375DF1F-2FBA-4C70-989F-2751982E33E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A52E2D8-566A-4AC2-8B68-C2DF2552B099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A52E2D8-566A-4AC2-8B68-C2DF2552B099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A52E2D8-566A-4AC2-8B68-C2DF2552B099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A52E2D8-566A-4AC2-8B68-C2DF2552B099}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
