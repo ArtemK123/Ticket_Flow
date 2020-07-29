@@ -1,16 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <CodeAnalysisRuleSet>../Custom.ruleset</CodeAnalysisRuleSet>
-        <RootNamespace>TicketFlow.ApiGateway</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.0.35" />
-        <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <AdditionalFiles Include="../stylecop.json" />
     </ItemGroup>
 </Project>
