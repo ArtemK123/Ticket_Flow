@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <Version>1.1.0</Version>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <RootNamespace>TicketFlow.Common</RootNamespace>
+        <PackageId>TicketFlow.Common</PackageId>
+        <Authors>darkmode1012@gmail.com</Authors>
+        <Company>darkmode1012@gmail.com</Company>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 </Project>
