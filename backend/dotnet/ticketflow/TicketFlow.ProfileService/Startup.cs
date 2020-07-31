@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TicketFlow.Common.Extensions;
 using TicketFlow.ProfileService.Domain;
 using TicketFlow.ProfileService.Domain.Providers;
 using TicketFlow.ProfileService.Domain.Repositories;
 using TicketFlow.ProfileService.Service;
-using TicketFlow.ProfileService.Service.Extensions;
 
 namespace TicketFlow.ProfileService
 {
