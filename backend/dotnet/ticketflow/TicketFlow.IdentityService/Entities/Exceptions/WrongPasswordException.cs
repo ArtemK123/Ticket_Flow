@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.IdentityService.Service.Entities.Exceptions
+namespace TicketFlow.IdentityService.Entities.Exceptions
 {
     internal class WrongPasswordException : Exception
     {

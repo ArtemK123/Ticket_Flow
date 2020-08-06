@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.IdentityService.Service.Entities
+﻿namespace TicketFlow.IdentityService.Entities
 {
     public enum Role
     {

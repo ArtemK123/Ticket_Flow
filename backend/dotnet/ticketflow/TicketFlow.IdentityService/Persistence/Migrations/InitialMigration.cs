@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace TicketFlow.IdentityService.Domain.Migrations
+namespace TicketFlow.IdentityService.Persistence.Migrations
 {
     [Migration(1)]
     public class InitialMigration : Migration

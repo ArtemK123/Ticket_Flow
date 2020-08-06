@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Dapper;
 using TicketFlow.Common.Providers;
-using TicketFlow.IdentityService.Domain.EntityModels;
-using TicketFlow.IdentityService.Service.Entities;
+using TicketFlow.IdentityService.Entities;
+using TicketFlow.IdentityService.Persistence.EntityModels;
 
-namespace TicketFlow.IdentityService.Domain
+namespace TicketFlow.IdentityService.Persistence
 {
     internal class UserRepository : IUserRepository
     {

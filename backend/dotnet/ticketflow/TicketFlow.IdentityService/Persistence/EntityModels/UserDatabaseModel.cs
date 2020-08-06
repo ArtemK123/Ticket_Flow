@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.IdentityService.Domain.EntityModels
+﻿namespace TicketFlow.IdentityService.Persistence.EntityModels
 {
     public class UserDatabaseModel
     {

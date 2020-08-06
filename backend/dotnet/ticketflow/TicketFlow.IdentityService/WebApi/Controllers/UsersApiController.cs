@@ -2,11 +2,11 @@
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TicketFlow.IdentityService.Api.ClientModels.Requests;
+using TicketFlow.IdentityService.Entities;
 using TicketFlow.IdentityService.Service;
-using TicketFlow.IdentityService.Service.Entities;
+using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
 
-namespace TicketFlow.IdentityService.Api.Controllers
+namespace TicketFlow.IdentityService.WebApi.Controllers
 {
     [ApiController]
     [Route("/users")]

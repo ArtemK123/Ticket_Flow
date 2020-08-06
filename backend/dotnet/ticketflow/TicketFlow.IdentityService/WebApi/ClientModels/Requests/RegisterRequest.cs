@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.IdentityService.Api.ClientModels.Requests
+﻿namespace TicketFlow.IdentityService.WebApi.ClientModels.Requests
 {
     public class RegisterRequest
     {

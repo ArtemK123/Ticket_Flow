@@ -1,4 +1,4 @@
-﻿using TicketFlow.IdentityService.Service.Entities;
+﻿using TicketFlow.IdentityService.Entities;
 
 namespace TicketFlow.IdentityService.Service
 {

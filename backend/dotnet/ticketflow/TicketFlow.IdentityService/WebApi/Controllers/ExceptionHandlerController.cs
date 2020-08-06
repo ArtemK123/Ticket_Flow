@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TicketFlow.IdentityService.Service.Entities.Exceptions;
+using TicketFlow.IdentityService.Entities.Exceptions;
 
-namespace TicketFlow.IdentityService.Api.Controllers
+namespace TicketFlow.IdentityService.WebApi.Controllers
 {
     [Route("/error")]
     public class ExceptionHandlerController : ControllerBase

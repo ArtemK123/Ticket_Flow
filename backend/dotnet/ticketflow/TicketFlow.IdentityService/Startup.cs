@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
-using TicketFlow.IdentityService.Domain;
+using TicketFlow.IdentityService.Persistence;
 using TicketFlow.IdentityService.Service;
 
 namespace TicketFlow.IdentityService

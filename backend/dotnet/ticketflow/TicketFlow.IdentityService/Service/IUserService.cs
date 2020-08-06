@@ -1,5 +1,5 @@
-﻿using TicketFlow.IdentityService.Api.ClientModels.Requests;
-using TicketFlow.IdentityService.Service.Entities;
+﻿using TicketFlow.IdentityService.Entities;
+using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
 
 namespace TicketFlow.IdentityService.Service
 {
