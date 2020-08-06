@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
-using TicketFlow.ProfileService.Domain.Repositories;
-using TicketFlow.ProfileService.Service;
+using TicketFlow.IdentityService.Domain;
+using TicketFlow.IdentityService.Service;
 
-namespace TicketFlow.ProfileService
+namespace TicketFlow.IdentityService
 {
     public class Startup
     {
@@ -22,12 +22,18 @@ namespace TicketFlow.ProfileService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCommonServices();
-            services.AddFluentMigrator(Configuration, typeof(Startup).Assembly);
-            services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
-            services.AddTransient(typeof(IProfileService), typeof(Service.ProfileService));
             services.AddControllers();
+
+            services.AddCommonServices();
+
+            services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
+            services.AddTransient(typeof(IUserService), typeof(UserService));
+            services.AddTransient(typeof(IJwtGenerator), typeof(JwtGenerator));
+            services.AddTransient(typeof(IDateTimeProvider), typeof(DateTimeProvider));
+
             services.AddConsul(Configuration);
+
+            services.AddFluentMigrator(Configuration, typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

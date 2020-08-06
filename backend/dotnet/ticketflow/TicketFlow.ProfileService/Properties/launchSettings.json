@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "TicketFlow": {
+    "TicketFlow.ProfileService": {
       "commandName": "Project",
       "launchBrowser": false,
       "launchUrl": "",

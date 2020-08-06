@@ -31,6 +31,15 @@ namespace TicketFlow.Common.Extensions
             });
         }
 
+        public static void AddConsul(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
+            {
+                var address = configuration["Consul:Address"];
+                consulConfig.Address = new Uri(address);
+            }));
+        }
+
         private static AgentServiceRegistration GetServiceRegistration(IApplicationBuilder app, IConfiguration configuration)
         {
             FeatureCollection features = app.Properties["server.Features"] as FeatureCollection;

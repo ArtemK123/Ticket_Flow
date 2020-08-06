@@ -1,9 +1,9 @@
 ﻿using System.Data.Common;
 using Npgsql;
 
-namespace TicketFlow.ProfileService.Domain.Providers
+namespace TicketFlow.Common.Providers
 {
-    internal class PostgresDbConnectionProvider : IPosgtresDbConnectionProvider
+    internal class PostgresDbConnectionProvider : IPostgresDbConnectionProvider
     {
         private readonly IPostgresConnectionStringProvider connectionStringProvider;
 
