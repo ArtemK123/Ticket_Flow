@@ -10,7 +10,7 @@ namespace TicketFlow.IdentityService.Service
     internal class JwtGenerator : IJwtGenerator
     {
         private const int DefaultExpireDays = 7;
-        private const string SecretKey = "top_secret";
+        private const string SecretKey = "asdv234234^&%&^%&^hjsdfb2%%%";
         private const string JwtIssuerName = "IdentityService.JwtGenerator";
 
         private readonly IDateTimeProvider dateTimeProvider;
