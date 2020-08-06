@@ -39,28 +39,23 @@ namespace TicketFlow.IdentityService.Persistence
         public void Update(User user)
         {
             var sql = $"UPDATE {TableName} SET password=@Password, role=@Role, token=@Token WHERE email = @Email";
-            var sqlParams = new
-            {
-                user.Email,
-                user.Password,
-                Role = user.Role.ToString(),
-                user.Token
-            };
 
             using var dbConnection = dbConnectionProvider.Get();
-            dbConnection.Execute(sql, sqlParams);
+            dbConnection.Execute(sql, Convert(user));
         }
 
         public void Add(User user)
         {
             using var dbConnection = dbConnectionProvider.Get();
             var sql = $"INSERT INTO {TableName} (email, password, role, token) VALUES (@Email, @Password, @Role, @Token);";
-            dbConnection.Execute(sql, user);
+            dbConnection.Execute(sql, Convert(user));
         }
 
         private static User Convert(UserDatabaseModel userDatabaseModel)
             => userDatabaseModel != null
                 ? new User(userDatabaseModel.Email, userDatabaseModel.Password, userDatabaseModel.Role, userDatabaseModel.Token)
                 : null;
+
+        private static UserDatabaseModel Convert(User user) => new UserDatabaseModel() { Email = user.Email, Password = user.Password, Role = (int)user.Role, Token = user.Token };
     }
 }
