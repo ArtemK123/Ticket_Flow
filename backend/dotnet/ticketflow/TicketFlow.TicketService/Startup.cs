@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
+using TicketFlow.TicketService.Persistence;
 using TicketFlow.TicketService.Service;
 
 namespace TicketFlow.TicketService
@@ -28,6 +29,7 @@ namespace TicketFlow.TicketService
 
             services.AddTransient(typeof(ITicketFactory), typeof(TicketFactory));
             services.AddTransient(typeof(ITicketService), typeof(Service.TicketService));
+            services.AddTransient(typeof(ITicketRepository), typeof(TicketRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,1 +1,2 @@
-1. Add indexes for user table (email, token)
+- Add indexes for user table (email, token)
+- Extract IOrderedTicket from ITicket
