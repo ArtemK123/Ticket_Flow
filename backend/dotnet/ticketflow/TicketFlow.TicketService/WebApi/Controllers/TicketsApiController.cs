@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TicketFlow.Common.Extractors;
+using TicketFlow.Common.Readers;
 using TicketFlow.TicketService.Domain.Entities;
 using TicketFlow.TicketService.Domain.Models;
 using TicketFlow.TicketService.Service;

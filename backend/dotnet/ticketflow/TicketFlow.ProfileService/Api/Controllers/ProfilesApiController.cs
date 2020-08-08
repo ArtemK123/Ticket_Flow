@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TicketFlow.Common.Extractors;
+using TicketFlow.Common.Readers;
 using TicketFlow.ProfileService.Api.ClientModels;
 using TicketFlow.ProfileService.Models;
 using TicketFlow.ProfileService.Service;

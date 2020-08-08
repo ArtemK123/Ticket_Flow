@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using TicketFlow.Common.Extractors;
 
 namespace TicketFlow.Common.Readers
 {

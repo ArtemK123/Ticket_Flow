@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TicketFlow.Common.Extractors
+namespace TicketFlow.Common.Readers
 {
     public interface IStringFromStreamReader
     {

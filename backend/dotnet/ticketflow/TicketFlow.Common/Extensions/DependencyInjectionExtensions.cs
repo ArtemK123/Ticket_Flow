@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TicketFlow.Common.Extractors;
 using TicketFlow.Common.Providers;
 using TicketFlow.Common.Readers;
 
