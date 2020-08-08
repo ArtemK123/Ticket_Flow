@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Common", "Ticket
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.IdentityService", "TicketFlow.IdentityService\TicketFlow.IdentityService.csproj", "{E7EFADC2-4BF1-48A2-957F-5D83E1441101}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.TicketService", "TicketFlow.TicketService\TicketFlow.TicketService.csproj", "{BB5AFE36-1FA3-4071-BB54-BF56A8E70FA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{E7EFADC2-4BF1-48A2-957F-5D83E1441101}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7EFADC2-4BF1-48A2-957F-5D83E1441101}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7EFADC2-4BF1-48A2-957F-5D83E1441101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB5AFE36-1FA3-4071-BB54-BF56A8E70FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB5AFE36-1FA3-4071-BB54-BF56A8E70FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB5AFE36-1FA3-4071-BB54-BF56A8E70FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB5AFE36-1FA3-4071-BB54-BF56A8E70FA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
