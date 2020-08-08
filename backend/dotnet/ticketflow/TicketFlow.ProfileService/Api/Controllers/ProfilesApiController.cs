@@ -1,9 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TicketFlow.Common.Extractors;
 using TicketFlow.ProfileService.Api.ClientModels;
 using TicketFlow.ProfileService.Models;
 using TicketFlow.ProfileService.Service;
@@ -15,10 +15,12 @@ namespace TicketFlow.ProfileService.Api.Controllers
     public class ProfilesApiController : ControllerBase
     {
         private readonly IProfileService profileService;
+        private readonly IStringFromStreamReader stringFromStreamReader;
 
-        public ProfilesApiController(IProfileService profileService)
+        public ProfilesApiController(IProfileService profileService, IStringFromStreamReader stringFromStreamReader)
         {
             this.profileService = profileService;
+            this.stringFromStreamReader = stringFromStreamReader;
         }
 
         [HttpGet("/")]
@@ -36,7 +38,7 @@ namespace TicketFlow.ProfileService.Api.Controllers
         [HttpPost("by-user")]
         public async Task<Profile> GetByUser()
         {
-            string userEmail = await GetStringFromStreamAsync(Request.Body, Encoding.UTF8);
+            string userEmail = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
             return profileService.GetByUserEmail(userEmail);
         }
 
@@ -51,12 +53,6 @@ namespace TicketFlow.ProfileService.Api.Controllers
             Profile addedProfile = profileService.Add(Convert(profileClientModel));
             var createdEntityUri = new Uri(new Uri(GetAppBaseUrl(Request)), Url.Action(nameof(GetById), new { id = addedProfile.Id }));
             return new CreatedResult(createdEntityUri, addedProfile);
-        }
-
-        private static async Task<string> GetStringFromStreamAsync(Stream stream, Encoding encoding)
-        {
-            using var reader = new StreamReader(stream, encoding);
-            return await reader.ReadToEndAsync();
         }
 
         private static Profile Convert(ProfileClientModel clientModel)

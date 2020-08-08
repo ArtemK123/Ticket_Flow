@@ -1,7 +1,7 @@
-﻿using System.IO;
-using System.Text;
+﻿using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TicketFlow.Common.Extractors;
 using TicketFlow.IdentityService.Entities;
 using TicketFlow.IdentityService.Service;
 using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
@@ -13,10 +13,12 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
     public class UsersApiController : ControllerBase
     {
         private readonly IUserService userService;
+        private readonly IStringFromStreamReader stringFromStreamReader;
 
-        public UsersApiController(IUserService userService)
+        public UsersApiController(IUserService userService, IStringFromStreamReader stringFromStreamReader)
         {
             this.userService = userService;
+            this.stringFromStreamReader = stringFromStreamReader;
         }
 
         [HttpGet("/")]
@@ -28,7 +30,7 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         [HttpPost("getByToken")]
         public async Task<User> GetByToken()
         {
-            string token = await GetStringFromStreamAsync(Request.Body, Encoding.UTF8);
+            string token = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
             User user = userService.GetByToken(token);
             return user;
         }
@@ -36,7 +38,7 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         [HttpPost("getByEmail")]
         public async Task<User> GetByEmail()
         {
-            string email = await GetStringFromStreamAsync(Request.Body, Encoding.UTF8);
+            string email = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
             User user = userService.GetByEmail(email);
             return user;
         }
@@ -58,15 +60,9 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         [HttpPost("logout")]
         public async Task<string> Logout()
         {
-            string token = await GetStringFromStreamAsync(Request.Body, Encoding.UTF8);
+            string token = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
             userService.Logout(token);
             return "Logout successful";
-        }
-
-        private static async Task<string> GetStringFromStreamAsync(Stream stream, Encoding encoding)
-        {
-            using var reader = new StreamReader(stream, encoding);
-            return await reader.ReadToEndAsync();
         }
     }
 }
