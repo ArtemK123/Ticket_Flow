@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.TicketService.Entities
+﻿namespace TicketFlow.TicketService.Domain.Entities
 {
     public interface ITicket
     {
@@ -13,5 +13,9 @@
         public int Seat { get; }
 
         public int Price { get; }
+
+        public bool IsOrdered { get; }
+
+        public void Order(string buyerEmail);
     }
 }

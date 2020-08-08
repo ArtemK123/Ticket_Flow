@@ -1,6 +1,6 @@
 ﻿using TicketFlow.Common.Providers;
-using TicketFlow.TicketService.Entities;
-using TicketFlow.TicketService.Service.Models;
+using TicketFlow.TicketService.Domain.Entities;
+using TicketFlow.TicketService.Domain.Models;
 
 namespace TicketFlow.TicketService.Service
 {

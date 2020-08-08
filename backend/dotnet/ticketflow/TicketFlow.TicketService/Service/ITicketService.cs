@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.TicketService.Entities;
-using TicketFlow.TicketService.Service.Models;
+using TicketFlow.TicketService.Domain.Entities;
+using TicketFlow.TicketService.Domain.Models;
 
 namespace TicketFlow.TicketService.Service
 {
-    public interface ITicketsService
+    public interface ITicketService
     {
         IReadOnlyCollection<ITicket> GetByMovieId(int movieId);
 

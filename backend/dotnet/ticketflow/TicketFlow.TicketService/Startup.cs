@@ -27,6 +27,7 @@ namespace TicketFlow.TicketService
             services.AddConsul(Configuration);
 
             services.AddTransient(typeof(ITicketFactory), typeof(TicketFactory));
+            services.AddTransient(typeof(ITicketService), typeof(Service.TicketService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

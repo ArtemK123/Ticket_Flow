@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.TicketService.Service.Models
+﻿namespace TicketFlow.TicketService.Domain.Models
 {
     public class TicketModelWithoutId
     {
