@@ -20,9 +20,15 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         {
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
             var exception = context?.Error;
-            logger.LogError(exception, "Error handled by exception handler");
 
-            if (exception == null || exception is NotFoundException)
+            if (exception == null)
+            {
+                logger.LogError("Executed without exception. Probably, direct request to /error page");
+                return new NotFoundResult();
+            }
+
+            logger.LogError(exception.Message, "Error handled by exception handler");
+            if (exception is NotFoundException)
             {
                 return new NotFoundResult();
             }
@@ -32,6 +38,7 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
                 return new UnauthorizedResult();
             }
 
+            logger.LogError(exception, "Internal server error");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
