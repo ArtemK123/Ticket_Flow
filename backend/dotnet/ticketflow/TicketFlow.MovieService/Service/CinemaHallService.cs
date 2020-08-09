@@ -2,6 +2,7 @@
 using TicketFlow.MovieService.Domain.Entities;
 using TicketFlow.MovieService.Domain.Exceptions;
 using TicketFlow.MovieService.Domain.Models;
+using TicketFlow.MovieService.Domain.Models.CinemaHallModels;
 using TicketFlow.MovieService.Persistence;
 using TicketFlow.MovieService.Service.Factories;
 
@@ -28,7 +29,7 @@ namespace TicketFlow.MovieService.Service
 
         public ICinemaHall Add(CinemaHallCreationModel cinemaHallCreationModel)
         {
-            var addedEntity = cinemaHallFactory.Create(cinemaHallCreationModel);
+            ICinemaHall addedEntity = cinemaHallFactory.Create(cinemaHallCreationModel);
             cinemaHallRepository.Add(addedEntity);
             return addedEntity;
         }

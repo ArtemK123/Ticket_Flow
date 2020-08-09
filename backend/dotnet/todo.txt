@@ -1,2 +1,3 @@
 - Add indexes for user table (email, token)
 - Extract IOrderedTicket from ITicket
+- Refactor ProfileRepository. Move logic to the service

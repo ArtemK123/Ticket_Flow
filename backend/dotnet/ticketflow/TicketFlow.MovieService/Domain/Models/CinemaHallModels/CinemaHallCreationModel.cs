@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.MovieService.Domain.Models
+﻿namespace TicketFlow.MovieService.Domain.Models.CinemaHallModels
 {
     public class CinemaHallCreationModel
     {
