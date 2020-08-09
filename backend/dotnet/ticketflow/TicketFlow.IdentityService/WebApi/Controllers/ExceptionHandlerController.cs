@@ -1,45 +1,24 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TicketFlow.Common.WebApi;
 using TicketFlow.IdentityService.Entities.Exceptions;
 
 namespace TicketFlow.IdentityService.WebApi.Controllers
 {
     [Route("/error")]
-    public class ExceptionHandlerController : ControllerBase
+    public class ExceptionHandlerController : ExceptionHandlerControllerBase
     {
-        private readonly ILogger logger;
-
         public ExceptionHandlerController(ILoggerFactory loggerFactory)
+            : base(loggerFactory.CreateLogger(nameof(ExceptionHandlerController)))
         {
-            logger = loggerFactory.CreateLogger(nameof(ExceptionHandlerController));
         }
 
-        public IActionResult Error()
+        protected override IReadOnlyDictionary<Type, Func<Exception, IActionResult>> GetAllowedExceptionMappings() => new Dictionary<Type, Func<Exception, IActionResult>>
         {
-            var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-            var exception = context?.Error;
-
-            if (exception == null)
-            {
-                logger.LogError("Executed without exception. Probably, direct request to /error page");
-                return new NotFoundResult();
-            }
-
-            logger.LogError(exception.Message, "Error handled by exception handler");
-            if (exception is NotFoundException)
-            {
-                return new NotFoundResult();
-            }
-
-            if (exception is WrongPasswordException)
-            {
-                return new UnauthorizedResult();
-            }
-
-            logger.LogError(exception, "Internal server error");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+            { typeof(NotFoundException), _ => new NotFoundResult() },
+            { typeof(WrongPasswordException), _ => new UnauthorizedResult() }
+        };
     }
 }
