@@ -22,7 +22,7 @@ namespace TicketFlow.MovieService.Service
             => cinemaHallRepository.GetAll();
 
         public ICinemaHall GetById(int id)
-            => cinemaHallRepository.TryGetById(id, out ICinemaHall cinemaHall)
+            => cinemaHallRepository.TryGet(id, out ICinemaHall cinemaHall)
                 ? cinemaHall
                 : throw new NotFoundException($"Cinema hall with id=${id} is not found");
 

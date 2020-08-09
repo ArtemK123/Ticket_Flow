@@ -2,9 +2,9 @@
 
 namespace TicketFlow.MovieService.Persistence
 {
-    public interface ICrudRepository<TEntity, in TIdentifier>
+    public interface ICrudRepository<in TIdentifier, TEntity>
     {
-        bool TryGet(TIdentifier id, out TEntity entity);
+        bool TryGet(TIdentifier identifier, out TEntity entity);
 
         IReadOnlyCollection<TEntity> GetAll();
 
@@ -12,6 +12,6 @@ namespace TicketFlow.MovieService.Persistence
 
         void Update(TEntity entity);
 
-        void Delete(TIdentifier id);
+        void Delete(TIdentifier identifier);
     }
 }

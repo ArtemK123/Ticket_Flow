@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Dapper;
-using TicketFlow.Common.Providers;
+﻿using TicketFlow.Common.Providers;
 using TicketFlow.MovieService.Domain.Entities;
 using TicketFlow.MovieService.Domain.Models.CinemaHallModels;
 using TicketFlow.MovieService.Persistence.EntityModels;
@@ -9,66 +6,30 @@ using TicketFlow.MovieService.Service.Factories;
 
 namespace TicketFlow.MovieService.Persistence
 {
-    internal class CinemaHallRepository : ICinemaHallRepository
+    internal class CinemaHallRepository : PostgresCrudRepositoryBase<int, ICinemaHall, StoredCinemaHallCreationModel, CinemaHallDatabaseModel>
     {
-        // private const string SelectMapping = "id AS Id, name AS Name, location AS Location, seat_rows as SeatRows, seats_in_row as SeatsInRow";
-        // private const string TableName = "tickets";
-        //
-        // private readonly IPostgresDbConnectionProvider dbConnectionProvider;
-        // private readonly ICinemaHallFactory cinemaHallFactory;
-        //
-        // public CinemaHallRepository(IPostgresDbConnectionProvider dbConnectionProvider, ICinemaHallFactory cinemaHallFactory)
-        // {
-        //     this.dbConnectionProvider = dbConnectionProvider;
-        //     this.cinemaHallFactory = cinemaHallFactory;
-        // }
-        //
-        // public bool TryGetById(int id, out ICinemaHall cinemaHall)
-        // {
-        //     var sql = $"SELECT {SelectMapping} FROM {TableName} WHERE id = @id;";
-        //     using var dbConnection = dbConnectionProvider.Get();
-        //     CinemaHallDatabaseModel databaseModel = dbConnection.Query<CinemaHallDatabaseModel>(sql, new { id }).SingleOrDefault();
-        //     cinemaHall = Convert(databaseModel);
-        //     return databaseModel != null;
-        // }
-        //
-        // public IReadOnlyCollection<ICinemaHall> GetAll()
-        // {
-        //     var sql = $"SELECT {SelectMapping} FROM {TableName}";
-        //     using var dbConnection = dbConnectionProvider.Get();
-        //     IEnumerable<CinemaHallDatabaseModel> databaseModels = dbConnection.Query<CinemaHallDatabaseModel>(sql);
-        //     return databaseModels.Select(Convert).ToList();
-        // }
-        //
-        // public void Add(ICinemaHall cinemaHall)
-        // {
-        //     using var dbConnection = dbConnectionProvider.Get();
-        //     var sql = $"INSERT INTO {TableName} (id, buyer_email, movie_id, row, seat, price) VALUES (@Id, @BuyerEmail, @MovieId, @Row, @Seat, @Price);";
-        //     dbConnection.Execute(sql, Convert(cinemaHall));
-        // }
-        //
-        // private static CinemaHallDatabaseModel Convert(ICinemaHall cinemaHall)
-        //     => cinemaHall != null ?
-        //         new CinemaHallDatabaseModel { Id = cinemaHall.Id, Name = cinemaHall.Name, Location = cinemaHall.Location, SeatRows = cinemaHall.SeatRows, SeatsInRow = cinemaHall.SeatsInRow }
-        //         : null;
-        //
-        // private ICinemaHall Convert(CinemaHallDatabaseModel databaseModel)
-        //     => databaseModel != null ?
-        //         cinemaHallFactory.Create(new StoredCinemaHallCreationModel(databaseModel.Id, databaseModel.Name, databaseModel.Location, databaseModel.SeatRows, databaseModel.SeatsInRow))
-        //         : null;
-        public bool TryGetById(int id, out ICinemaHall cinemaHall)
+        private const string SelectMapping = "id AS Id, name AS Name, location AS Location, seat_rows as SeatRows, seats_in_row as SeatsInRow";
+        private const string TableName = "tickets";
+
+        public CinemaHallRepository(IPostgresDbConnectionProvider dbConnectionProvider, IEntityFactory<ICinemaHall, StoredCinemaHallCreationModel> entityFactory)
+            : base(dbConnectionProvider, entityFactory)
         {
-            throw new System.NotImplementedException();
         }
 
-        public IReadOnlyCollection<ICinemaHall> GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override string SelectByIdentifierQuery => $"SELECT {SelectMapping} FROM {TableName} WHERE id = @identifier;";
 
-        public void Add(ICinemaHall cinemaHall)
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override string SelectAllQuery => $"SELECT {SelectMapping} FROM {TableName};";
+
+        protected override string InsertQuery => $"INSERT INTO {TableName} (id, name, location, seat_rows, seats_in_row) VALUES (@Id, @Name, @Location, @SeatRows, @SeatsInRow);";
+
+        protected override string UpdateQuery => $"UPDATE {TableName} SET name=@Name, location=@Location, seat_rows=@SeatRows, seats_in_row=@SeatsInRow WHERE id = @identifier;";
+
+        protected override string DeleteQuery => $"DELETE FROM {TableName} WHERE id = @identifier;";
+
+        protected override StoredCinemaHallCreationModel Convert(CinemaHallDatabaseModel databaseModel)
+            => new StoredCinemaHallCreationModel(databaseModel.Id, databaseModel.Name, databaseModel.Location, databaseModel.SeatRows, databaseModel.SeatsInRow);
+
+        protected override CinemaHallDatabaseModel Convert(ICinemaHall entity)
+            => new CinemaHallDatabaseModel { Id = entity.Id, Name = entity.Name, Location = entity.Location, SeatRows = entity.SeatRows, SeatsInRow = entity.SeatsInRow };
     }
 }
