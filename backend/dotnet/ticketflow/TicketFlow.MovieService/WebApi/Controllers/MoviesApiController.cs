@@ -33,7 +33,7 @@ namespace TicketFlow.MovieService.WebApi.Controllers
         [HttpPost]
         public int Add([FromBody] AddMovieRequestModel addMovieRequestModel)
         {
-            var creationModel = new MovieCreationModel(addMovieRequestModel.StartTime, addMovieRequestModel.FilmId, addMovieRequestModel.CinemaHallId);
+            var creationModel = new MovieCreationIdReferencedModel(addMovieRequestModel.StartTime, addMovieRequestModel.FilmId, addMovieRequestModel.CinemaHallId);
             IMovie createdEntity = movieService.Add(creationModel);
             return createdEntity.Id;
         }

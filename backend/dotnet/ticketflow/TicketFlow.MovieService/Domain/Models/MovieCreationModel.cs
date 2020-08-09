@@ -1,20 +1,21 @@
 ﻿using System;
+using TicketFlow.MovieService.Domain.Entities;
 
 namespace TicketFlow.MovieService.Domain.Models
 {
     public class MovieCreationModel
     {
-        public MovieCreationModel(DateTime startTime, int filmId, int cinemaHallId)
+        public MovieCreationModel(DateTime startTime, IFilm film, ICinemaHall cinemaHall)
         {
             StartTime = startTime;
-            FilmId = filmId;
-            CinemaHallId = cinemaHallId;
+            Film = film;
+            CinemaHall = cinemaHall;
         }
 
         public DateTime StartTime { get; }
 
-        public int FilmId { get; }
+        public IFilm Film { get; }
 
-        public int CinemaHallId { get; }
+        public ICinemaHall CinemaHall { get; }
     }
 }

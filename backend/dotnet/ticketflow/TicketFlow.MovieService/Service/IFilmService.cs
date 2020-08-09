@@ -8,6 +8,8 @@ namespace TicketFlow.MovieService.Service
     {
         IReadOnlyCollection<IFilm> GetAll();
 
+        IFilm GetById(int id);
+
         IFilm Add(FilmCreationModel creationModel);
     }
 }

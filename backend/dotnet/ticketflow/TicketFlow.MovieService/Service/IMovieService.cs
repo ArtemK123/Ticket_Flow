@@ -10,6 +10,6 @@ namespace TicketFlow.MovieService.Service
 
         IMovie GetById(int id);
 
-        IMovie Add(MovieCreationModel creationModel);
+        IMovie Add(MovieCreationIdReferencedModel creationIdReferencedModel);
     }
 }
