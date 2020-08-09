@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TicketFlow.MovieService.Domain.Entities;
 using TicketFlow.MovieService.Domain.Exceptions;
-using TicketFlow.MovieService.Domain.Models;
+using TicketFlow.MovieService.Domain.Models.FilmModels;
 using TicketFlow.MovieService.Persistence;
 using TicketFlow.MovieService.Service.Factories;
 
@@ -10,12 +10,12 @@ namespace TicketFlow.MovieService.Service
     internal class FilmService : IFilmService
     {
         private readonly IFilmRepository filmRepository;
-        private readonly IFilmFactory filmFactory;
+        private readonly IEntityFactory<IFilm, FilmCreationModel> entityFactory;
 
-        public FilmService(IFilmRepository filmRepository, IFilmFactory filmFactory)
+        public FilmService(IFilmRepository filmRepository, IEntityFactory<IFilm, FilmCreationModel> entityFactory)
         {
             this.filmRepository = filmRepository;
-            this.filmFactory = filmFactory;
+            this.entityFactory = entityFactory;
         }
 
         public IReadOnlyCollection<IFilm> GetAll()
@@ -28,7 +28,7 @@ namespace TicketFlow.MovieService.Service
 
         public IFilm Add(FilmCreationModel creationModel)
         {
-            var addedEntity = filmFactory.Create(creationModel);
+            var addedEntity = entityFactory.Create(creationModel);
             filmRepository.Add(addedEntity);
             return addedEntity;
         }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using TicketFlow.MovieService.Domain.Entities;
 using TicketFlow.MovieService.Domain.Exceptions;
-using TicketFlow.MovieService.Domain.Models;
 using TicketFlow.MovieService.Domain.Models.CinemaHallModels;
 using TicketFlow.MovieService.Persistence;
 using TicketFlow.MovieService.Service.Factories;
@@ -11,12 +10,12 @@ namespace TicketFlow.MovieService.Service
     internal class CinemaHallService : ICinemaHallService
     {
         private readonly ICinemaHallRepository cinemaHallRepository;
-        private readonly ICinemaHallFactory cinemaHallFactory;
+        private readonly IEntityFactory<ICinemaHall, CinemaHallCreationModel> entityFactory;
 
-        public CinemaHallService(ICinemaHallRepository cinemaHallRepository, ICinemaHallFactory cinemaHallFactory)
+        public CinemaHallService(ICinemaHallRepository cinemaHallRepository, IEntityFactory<ICinemaHall, CinemaHallCreationModel> entityFactory)
         {
             this.cinemaHallRepository = cinemaHallRepository;
-            this.cinemaHallFactory = cinemaHallFactory;
+            this.entityFactory = entityFactory;
         }
 
         public IReadOnlyCollection<ICinemaHall> GetAll()
@@ -29,7 +28,7 @@ namespace TicketFlow.MovieService.Service
 
         public ICinemaHall Add(CinemaHallCreationModel cinemaHallCreationModel)
         {
-            ICinemaHall addedEntity = cinemaHallFactory.Create(cinemaHallCreationModel);
+            ICinemaHall addedEntity = entityFactory.Create(cinemaHallCreationModel);
             cinemaHallRepository.Add(addedEntity);
             return addedEntity;
         }

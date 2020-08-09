@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.MovieService.Domain.Models
+namespace TicketFlow.MovieService.Domain.Models.MovieModels
 {
     public class MovieCreationIdReferencedModel
     {

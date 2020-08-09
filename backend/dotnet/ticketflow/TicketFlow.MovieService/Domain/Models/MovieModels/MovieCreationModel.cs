@@ -1,7 +1,7 @@
 ﻿using System;
 using TicketFlow.MovieService.Domain.Entities;
 
-namespace TicketFlow.MovieService.Domain.Models
+namespace TicketFlow.MovieService.Domain.Models.MovieModels
 {
     public class MovieCreationModel
     {
