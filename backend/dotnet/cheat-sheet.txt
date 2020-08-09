@@ -1,2 +1,0 @@
-consul agent -dev - start consul
-dotnet restore -s D:\Temp\LocalNugetDirectory -s https://api.nuget.org/ -v n

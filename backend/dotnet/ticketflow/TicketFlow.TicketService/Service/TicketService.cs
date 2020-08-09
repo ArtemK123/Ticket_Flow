@@ -19,22 +19,12 @@ namespace TicketFlow.TicketService.Service
 
         public IReadOnlyCollection<ITicket> GetByMovieId(int movieId)
         {
-            if (ticketRepository.TryGetByMovie(movieId, out IReadOnlyCollection<ITicket> tickets))
-            {
-                return tickets;
-            }
-
-            throw new NotFoundException($"Tickets for movie with id={movieId} are not found");
+            return ticketRepository.GetByMovieId(movieId);
         }
 
         public IReadOnlyCollection<ITicket> GetByUserEmail(string userEmail)
         {
-            if (ticketRepository.TryGetByUserEmail(userEmail, out IReadOnlyCollection<ITicket> tickets))
-            {
-                return tickets;
-            }
-
-            throw new NotFoundException($"Tickets for user with email={userEmail} are not found");
+            return ticketRepository.GetByBuyerEmail(userEmail);
         }
 
         public int Add(TicketModelWithoutId ticketModelWithoutId)
@@ -59,7 +49,7 @@ namespace TicketFlow.TicketService.Service
             }
 
             ticket.Order(orderModel.BuyerEmail);
-            ticketRepository.Update(orderModel.TicketId, ticket);
+            ticketRepository.Update(ticket);
         }
     }
 }

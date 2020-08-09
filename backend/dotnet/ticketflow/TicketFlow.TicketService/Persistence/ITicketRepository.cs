@@ -7,12 +7,12 @@ namespace TicketFlow.TicketService.Persistence
     {
         bool TryGetById(int id, out ITicket ticket);
 
-        bool TryGetByMovie(int movieId, out IReadOnlyCollection<ITicket> tickets);
+        IReadOnlyCollection<ITicket> GetByMovieId(int movieId);
 
-        bool TryGetByUserEmail(string userEmail, out IReadOnlyCollection<ITicket> tickets);
+        IReadOnlyCollection<ITicket> GetByBuyerEmail(string buyerEmail);
 
         void Add(ITicket ticket);
 
-        void Update(int ticketId, ITicket ticket);
+        void Update(ITicket ticket);
     }
 }

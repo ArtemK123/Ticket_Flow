@@ -11,9 +11,9 @@ namespace TicketFlow.TicketService.Persistence.Migrations
                 .WithColumn("id").AsInt32().PrimaryKey().Identity()
                 .WithColumn("buyer_email").AsString(255).Nullable()
                 .WithColumn("movie_id").AsInt32().NotNullable()
-                .WithColumn("price").AsInt32().NotNullable()
                 .WithColumn("row").AsInt32().NotNullable()
-                .WithColumn("seat").AsInt32().NotNullable();
+                .WithColumn("seat").AsInt32().NotNullable()
+                .WithColumn("price").AsInt32().NotNullable();
         }
 
         public override void Down()
