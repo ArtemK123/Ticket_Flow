@@ -5,6 +5,6 @@ namespace TicketFlow.MovieService.Service.Factories
 {
     public interface IMovieFactory
     {
-        IMovie Create(MovieCreationModel movieCreationModel);
+        IMovie Create(MovieCreationModel creationModel);
     }
 }

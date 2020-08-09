@@ -5,6 +5,6 @@ namespace TicketFlow.MovieService.Service.Factories
 {
     public interface ICinemaHallFactory
     {
-        ICinemaHall Create(CinemaHallCreationModel cinemaHallCreationModel);
+        ICinemaHall Create(CinemaHallCreationModel creationModel);
     }
 }

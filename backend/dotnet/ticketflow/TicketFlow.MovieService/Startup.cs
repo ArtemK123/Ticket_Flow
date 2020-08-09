@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
 using TicketFlow.MovieService.Service;
+using TicketFlow.MovieService.Service.Factories;
 
 namespace TicketFlow.MovieService
 {
@@ -29,6 +30,9 @@ namespace TicketFlow.MovieService
             services.AddTransient(typeof(ICinemaHallService), typeof(CinemaHallService));
             services.AddTransient(typeof(IFilmService), typeof(FilmService));
             services.AddTransient(typeof(IMovieService), typeof(Service.MovieService));
+            services.AddTransient(typeof(ICinemaHallFactory), typeof(CinemaHallFactory));
+            services.AddTransient(typeof(IFilmFactory), typeof(FilmFactory));
+            services.AddTransient(typeof(IMovieFactory), typeof(MovieFactory));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
