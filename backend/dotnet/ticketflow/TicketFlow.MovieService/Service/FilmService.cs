@@ -22,7 +22,7 @@ namespace TicketFlow.MovieService.Service
             => filmRepository.GetAll();
 
         public IFilm GetById(int id)
-            => filmRepository.TryGetById(id, out IFilm film)
+            => filmRepository.TryGet(id, out IFilm film)
                 ? film
                 : throw new NotFoundException($"Film with id=${id} is not found");
 

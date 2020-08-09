@@ -32,7 +32,7 @@ namespace TicketFlow.MovieService.Persistence
         {
             entity = default;
             using var dbConnection = DbConnectionProvider.Get();
-            TEntityDatabaseModel databaseModel = dbConnection.Query<TEntityDatabaseModel>(SelectByIdentifierQuery, new { identifier }).SingleOrDefault();
+            TEntityDatabaseModel databaseModel = dbConnection.Query<TEntityDatabaseModel>(SelectByIdentifierQuery, new { Id = identifier }).SingleOrDefault();
             if (databaseModel == null)
             {
                 return false;
@@ -64,7 +64,7 @@ namespace TicketFlow.MovieService.Persistence
         public void Delete(TIdentifier identifier)
         {
             using var dbConnection = DbConnectionProvider.Get();
-            dbConnection.Execute(DeleteQuery, new { identifier });
+            dbConnection.Execute(DeleteQuery, new { Id = identifier });
         }
 
         protected abstract TEntityFactoryModel Convert(TEntityDatabaseModel databaseModel);

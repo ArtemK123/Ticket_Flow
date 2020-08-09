@@ -1,14 +1,8 @@
-﻿using System.Collections.Generic;
-using TicketFlow.MovieService.Domain.Entities;
+﻿using TicketFlow.MovieService.Domain.Entities;
 
 namespace TicketFlow.MovieService.Persistence
 {
-    internal interface IMovieRepository
+    internal interface IMovieRepository : ICrudRepository<int, IMovie>
     {
-        bool TryGetById(int id, out IMovie movie);
-
-        IReadOnlyCollection<IMovie> GetAll();
-
-        void Add(IMovie movie);
     }
 }

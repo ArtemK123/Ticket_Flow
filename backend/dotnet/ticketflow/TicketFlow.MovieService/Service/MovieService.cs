@@ -28,7 +28,7 @@ namespace TicketFlow.MovieService.Service
         }
 
         public IMovie GetById(int id)
-            => movieRepository.TryGetById(id, out IMovie movie)
+            => movieRepository.TryGet(id, out IMovie movie)
                 ? movie
                 : throw new NotFoundException($"Movie with id=${id} is not found");
 
