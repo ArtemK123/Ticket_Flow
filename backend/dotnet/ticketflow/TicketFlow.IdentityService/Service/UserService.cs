@@ -64,8 +64,10 @@ namespace TicketFlow.IdentityService.Service
 
         public void Logout(string token)
         {
-            IUser user = GetByToken(token);
-            userRepository.Update(user);
+            IUser storedUser = GetByToken(token);
+            IUser loggedOutUser = userFactory.Create(new UserCreationModel(storedUser.Email, storedUser.Password, storedUser.Role));
+
+            userRepository.Update(loggedOutUser);
         }
     }
 }
