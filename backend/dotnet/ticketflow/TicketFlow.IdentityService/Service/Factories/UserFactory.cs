@@ -1,10 +1,9 @@
-﻿using TicketFlow.Common.Factories;
-using TicketFlow.IdentityService.Domain.Entities;
+﻿using TicketFlow.IdentityService.Domain.Entities;
 using TicketFlow.IdentityService.Domain.Models;
 
 namespace TicketFlow.IdentityService.Service.Factories
 {
-    internal class UserFactory : IEntityFactory<IUser, UserCreationModel>
+    internal class UserFactory : IUserFactory
     {
         private readonly IJwtGenerator jwtGenerator;
 
@@ -14,8 +13,9 @@ namespace TicketFlow.IdentityService.Service.Factories
         }
 
         public IUser Create(UserCreationModel creationModel)
-        {
-            return new User(creationModel.Email, creationModel.Role, creationModel.Password, jwtGenerator);
-        }
+            => new User(creationModel.Email, creationModel.Role, creationModel.Password, jwtGenerator);
+
+        public IAuthorizedUser Create(AuthorizedUserCreationModel creationModel)
+            => new AuthorizedUser(creationModel.Email, creationModel.Role, creationModel.Password, jwtGenerator, creationModel.Token);
     }
 }

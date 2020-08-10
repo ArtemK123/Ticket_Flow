@@ -37,6 +37,7 @@ namespace TicketFlow.IdentityService
             services.AddTransient(typeof(IDateTimeProvider), typeof(DateTimeProvider));
             services.AddTransient(typeof(IEntityFactory<IUser, UserCreationModel>), typeof(UserFactory));
             services.AddTransient(typeof(IUserWebConverter), typeof(UserWebConverter));
+            services.AddTransient(typeof(IUserFactory), typeof(UserFactory));
 
             services.AddConsul(Configuration);
 

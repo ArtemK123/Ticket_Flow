@@ -60,7 +60,7 @@ namespace TicketFlow.Common.Repositories
         public void Delete(TIdentifier identifier)
         {
             using var dbConnection = DbConnectionProvider.Get();
-            dbConnection.Execute(DeleteQuery, new { Id = identifier });
+            dbConnection.Execute(DeleteQuery, );
         }
 
         protected abstract TEntity Convert(TEntityDatabaseModel databaseModel);

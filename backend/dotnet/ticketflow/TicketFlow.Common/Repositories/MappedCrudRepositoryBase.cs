@@ -28,17 +28,17 @@ namespace TicketFlow.Common.Repositories
 
         protected abstract IReadOnlyDictionary<string, string> NonPrimaryColumnsMapping { get; }
 
+        protected string GetSelectSqlMapping()
+            => string.Join(
+                ", ",
+                new List<string> { GetSelectSqlMemberMapping(PrimaryKeyMapping) }
+                    .Concat(NonPrimaryColumnsMapping.Select(GetSelectSqlMemberMapping)));
+
         private static string GetSelectSqlMemberMapping(KeyValuePair<string, string> columnFieldMapping) => $"{columnFieldMapping.Key} AS {columnFieldMapping.Value}";
 
         private static string GetUpdateSqlMemberMapping(KeyValuePair<string, string> columnFieldMapping) => $"{columnFieldMapping.Key}=@{columnFieldMapping.Value}";
 
         private string GetPrimaryKeyConditionMapping() => $"{PrimaryKeyMapping.Key}=@{PrimaryKeyMapping.Value}";
-
-        private string GetSelectSqlMapping()
-            => string.Join(
-                ", ",
-                new List<string> { GetSelectSqlMemberMapping(PrimaryKeyMapping) }
-                    .Concat(NonPrimaryColumnsMapping.Select(GetSelectSqlMemberMapping)));
 
         private string GetInsertColumnsList()
             => string.Join(

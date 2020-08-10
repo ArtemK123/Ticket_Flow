@@ -1,8 +1,8 @@
-﻿using TicketFlow.Common.Factories;
-using TicketFlow.IdentityService.Domain.Entities;
+﻿using TicketFlow.IdentityService.Domain.Entities;
 using TicketFlow.IdentityService.Domain.Exceptions;
 using TicketFlow.IdentityService.Domain.Models;
 using TicketFlow.IdentityService.Persistence;
+using TicketFlow.IdentityService.Service.Factories;
 using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
 
 namespace TicketFlow.IdentityService.Service
@@ -10,9 +10,9 @@ namespace TicketFlow.IdentityService.Service
     internal class UserService : IUserService
     {
         private readonly IUserRepository userRepository;
-        private readonly IEntityFactory<IUser, UserCreationModel> userFactory;
+        private readonly IUserFactory userFactory;
 
-        public UserService(IUserRepository userRepository, IEntityFactory<IUser, UserCreationModel> userFactory)
+        public UserService(IUserRepository userRepository, IUserFactory userFactory)
         {
             this.userRepository = userRepository;
             this.userFactory = userFactory;
