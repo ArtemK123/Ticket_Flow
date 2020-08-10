@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
+using TicketFlow.Common.Factories;
 using TicketFlow.MovieService.Domain.Entities;
 using TicketFlow.MovieService.Domain.Models.CinemaHallModels;
 using TicketFlow.MovieService.Domain.Models.FilmModels;

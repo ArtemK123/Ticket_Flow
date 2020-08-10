@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using TicketFlow.Common.Factories;
 using TicketFlow.MovieService.Domain.Entities;
 using TicketFlow.MovieService.Domain.Exceptions;
 using TicketFlow.MovieService.Domain.Models.CinemaHallModels;
 using TicketFlow.MovieService.Persistence;
-using TicketFlow.MovieService.Service.Factories;
 
 namespace TicketFlow.MovieService.Service
 {

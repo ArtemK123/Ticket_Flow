@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TicketFlow.MovieService.Persistence
+namespace TicketFlow.Common.Repositories
 {
     public interface ICrudRepository<in TIdentifier, TEntity>
     {

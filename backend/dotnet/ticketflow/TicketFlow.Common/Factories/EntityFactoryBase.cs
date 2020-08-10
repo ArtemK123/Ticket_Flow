@@ -1,6 +1,6 @@
 ﻿using TicketFlow.Common.Providers;
 
-namespace TicketFlow.MovieService.Service.Factories
+namespace TicketFlow.Common.Factories
 {
     public abstract class EntityFactoryBase<TEntity, TCreationModel> : IEntityFactory<TEntity, TCreationModel>
     {

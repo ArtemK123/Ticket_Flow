@@ -1,4 +1,5 @@
-﻿using TicketFlow.Common.Providers;
+﻿using TicketFlow.Common.Factories;
+using TicketFlow.Common.Providers;
 using TicketFlow.MovieService.Domain.Entities;
 using TicketFlow.MovieService.Domain.Models.FilmModels;
 

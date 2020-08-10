@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TicketFlow.Common.Factories;
 using TicketFlow.Common.Providers;
-using TicketFlow.MovieService.Service.Factories;
 
-namespace TicketFlow.MovieService.Persistence
+namespace TicketFlow.Common.Repositories
 {
     public abstract class MappedPostgresCrudRepositoryBase<TIdentifier, TEntity, TEntityFactoryModel, TEntityDatabaseModel>
         : PostgresCrudRepositoryBase<TIdentifier, TEntity, TEntityFactoryModel, TEntityDatabaseModel>

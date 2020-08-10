@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dapper;
+using TicketFlow.Common.Factories;
 using TicketFlow.Common.Providers;
-using TicketFlow.MovieService.Service.Factories;
 
-namespace TicketFlow.MovieService.Persistence
+namespace TicketFlow.Common.Repositories
 {
     public abstract class PostgresCrudRepositoryBase<TIdentifier, TEntity, TEntityFactoryModel, TEntityDatabaseModel> : ICrudRepository<TIdentifier, TEntity>
     {

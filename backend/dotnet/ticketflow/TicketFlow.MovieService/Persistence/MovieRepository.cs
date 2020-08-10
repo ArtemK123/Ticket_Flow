@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using TicketFlow.Common.Factories;
 using TicketFlow.Common.Providers;
+using TicketFlow.Common.Repositories;
 using TicketFlow.MovieService.Domain.Entities;
 using TicketFlow.MovieService.Domain.Models.MovieModels;
 using TicketFlow.MovieService.Persistence.EntityModels;
 using TicketFlow.MovieService.Service;
-using TicketFlow.MovieService.Service.Factories;
 
 namespace TicketFlow.MovieService.Persistence
 {
