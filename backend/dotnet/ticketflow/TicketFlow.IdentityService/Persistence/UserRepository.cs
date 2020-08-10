@@ -28,7 +28,7 @@ namespace TicketFlow.IdentityService.Persistence
         {
             { "password", "Password" },
             { "role", "Role" },
-            { "token", "Token" },
+            { "token", "Token" }
         };
 
         public bool TryGetByToken(string token, out IAuthorizedUser authorizedUser)
@@ -63,5 +63,7 @@ namespace TicketFlow.IdentityService.Persistence
                 ? new UserDatabaseModel { Email = authorizedUser.Email, Password = authorizedUser.Password, Role = (int)authorizedUser.Role, Token = authorizedUser.Token }
                 : new UserDatabaseModel { Email = entity.Email, Password = entity.Password, Role = (int)entity.Role, Token = null };
         }
+
+        protected override object GetSearchByIdentifierParams(string identifier) => new { Email = identifier };
     }
 }

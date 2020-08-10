@@ -28,7 +28,7 @@ namespace TicketFlow.Common.Repositories
         {
             entity = default;
             using var dbConnection = DbConnectionProvider.Get();
-            TEntityDatabaseModel databaseModel = dbConnection.Query<TEntityDatabaseModel>(SelectByIdentifierQuery, new { Id = identifier }).SingleOrDefault();
+            TEntityDatabaseModel databaseModel = dbConnection.Query<TEntityDatabaseModel>(SelectByIdentifierQuery, GetSearchByIdentifierParams(identifier)).SingleOrDefault();
             if (databaseModel == null)
             {
                 return false;
@@ -48,23 +48,27 @@ namespace TicketFlow.Common.Repositories
         public void Add(TEntity entity)
         {
             using var dbConnection = DbConnectionProvider.Get();
-            dbConnection.Execute(InsertQuery, Convert(entity));
+            dbConnection.Execute(InsertQuery, GetModifyEntityQueryParams(entity));
         }
 
         public void Update(TEntity entity)
         {
             using var dbConnection = DbConnectionProvider.Get();
-            dbConnection.Execute(UpdateQuery, Convert(entity));
+            dbConnection.Execute(UpdateQuery, GetModifyEntityQueryParams(entity));
         }
 
         public void Delete(TIdentifier identifier)
         {
             using var dbConnection = DbConnectionProvider.Get();
-            dbConnection.Execute(DeleteQuery, );
+            dbConnection.Execute(DeleteQuery, GetSearchByIdentifierParams(identifier));
         }
 
         protected abstract TEntity Convert(TEntityDatabaseModel databaseModel);
 
         protected abstract TEntityDatabaseModel Convert(TEntity entity);
+
+        protected virtual object GetSearchByIdentifierParams(TIdentifier identifier) => new { Id = identifier };
+
+        protected virtual object GetModifyEntityQueryParams(TEntity entity) => Convert(entity);
     }
 }

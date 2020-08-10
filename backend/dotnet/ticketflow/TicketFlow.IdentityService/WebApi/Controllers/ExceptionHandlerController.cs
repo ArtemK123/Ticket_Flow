@@ -18,7 +18,8 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         protected override IReadOnlyDictionary<Type, Func<Exception, IActionResult>> GetAllowedExceptionMappings() => new Dictionary<Type, Func<Exception, IActionResult>>
         {
             { typeof(NotFoundException), _ => new NotFoundResult() },
-            { typeof(WrongPasswordException), _ => new UnauthorizedResult() }
+            { typeof(WrongPasswordException), _ => new UnauthorizedResult() },
+            { typeof(NotUniqueEntityException), exception => new BadRequestObjectResult(exception.Message) }
         };
     }
 }
