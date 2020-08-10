@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using TicketFlow.MovieService.Domain.Entities;
-using TicketFlow.MovieService.Domain.Models;
 using TicketFlow.MovieService.Domain.Models.MovieModels;
 using TicketFlow.MovieService.Service;
 using TicketFlow.MovieService.WebApi.ClientModels.Requests;
