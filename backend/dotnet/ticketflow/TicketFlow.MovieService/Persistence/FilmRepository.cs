@@ -8,7 +8,7 @@ using TicketFlow.MovieService.Persistence.EntityModels;
 
 namespace TicketFlow.MovieService.Persistence
 {
-    internal class FilmRepository : MappedPostgresCrudRepositoryBase<int, IFilm, StoredFilmCreationModel, FilmDatabaseModel>, IFilmRepository
+    internal class FilmRepository : FactoryCrudRepositoryBase<int, IFilm, FilmDatabaseModel, StoredFilmCreationModel>, IFilmRepository
     {
         public FilmRepository(IPostgresDbConnectionProvider dbConnectionProvider, IEntityFactory<IFilm, StoredFilmCreationModel> entityFactory)
             : base(dbConnectionProvider, entityFactory)
@@ -29,7 +29,7 @@ namespace TicketFlow.MovieService.Persistence
             { "age_limit", "AgeLimit" }
         };
 
-        protected override StoredFilmCreationModel Convert(FilmDatabaseModel databaseModel)
+        protected override StoredFilmCreationModel ConvertToFactoryModel(FilmDatabaseModel databaseModel)
             => new StoredFilmCreationModel(
                 databaseModel.Id,
                 databaseModel.Title,

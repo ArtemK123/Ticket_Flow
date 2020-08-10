@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dapper;
-using TicketFlow.Common.Factories;
 using TicketFlow.Common.Providers;
 
 namespace TicketFlow.Common.Repositories
 {
-    public abstract class PostgresCrudRepositoryBase<TIdentifier, TEntity, TEntityFactoryModel, TEntityDatabaseModel> : ICrudRepository<TIdentifier, TEntity>
+    public abstract class CrudRepositoryBase<TIdentifier, TEntity, TEntityDatabaseModel> : ICrudRepository<TIdentifier, TEntity>
     {
-        protected PostgresCrudRepositoryBase(IPostgresDbConnectionProvider dbConnectionProvider, IEntityFactory<TEntity, TEntityFactoryModel> entityFactory)
+        protected CrudRepositoryBase(IDbConnectionProvider dbConnectionProvider)
         {
             DbConnectionProvider = dbConnectionProvider;
-            EntityFactory = entityFactory;
         }
 
         protected abstract string SelectByIdentifierQuery { get; }
@@ -24,9 +22,7 @@ namespace TicketFlow.Common.Repositories
 
         protected abstract string DeleteQuery { get; }
 
-        protected IPostgresDbConnectionProvider DbConnectionProvider { get; }
-
-        protected IEntityFactory<TEntity, TEntityFactoryModel> EntityFactory { get; }
+        protected IDbConnectionProvider DbConnectionProvider { get; }
 
         public bool TryGet(TIdentifier identifier, out TEntity entity)
         {
@@ -38,7 +34,7 @@ namespace TicketFlow.Common.Repositories
                 return false;
             }
 
-            entity = CreateWithFactory(databaseModel);
+            entity = Convert(databaseModel);
             return true;
         }
 
@@ -46,7 +42,7 @@ namespace TicketFlow.Common.Repositories
         {
             using var dbConnection = DbConnectionProvider.Get();
             IEnumerable<TEntityDatabaseModel> databaseModels = dbConnection.Query<TEntityDatabaseModel>(SelectAllQuery);
-            return databaseModels.Select(CreateWithFactory).ToList();
+            return databaseModels.Select(Convert).ToList();
         }
 
         public void Add(TEntity entity)
@@ -67,10 +63,8 @@ namespace TicketFlow.Common.Repositories
             dbConnection.Execute(DeleteQuery, new { Id = identifier });
         }
 
-        protected abstract TEntityFactoryModel Convert(TEntityDatabaseModel databaseModel);
+        protected abstract TEntity Convert(TEntityDatabaseModel databaseModel);
 
         protected abstract TEntityDatabaseModel Convert(TEntity entity);
-
-        private TEntity CreateWithFactory(TEntityDatabaseModel entityDatabaseModel) => EntityFactory.Create(Convert(entityDatabaseModel));
     }
 }

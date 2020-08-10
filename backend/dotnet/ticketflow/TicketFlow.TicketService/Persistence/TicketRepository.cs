@@ -12,9 +12,9 @@ namespace TicketFlow.TicketService.Persistence
         private const string SelectMapping = "id AS Id, movie_id AS MovieId, buyer_email AS BuyerEmail, row as Row, seat as Seat, price as Price";
         private const string TableName = "tickets";
 
-        private readonly IPostgresDbConnectionProvider dbConnectionProvider;
+        private readonly IDbConnectionProvider dbConnectionProvider;
 
-        public TicketRepository(IPostgresDbConnectionProvider dbConnectionProvider)
+        public TicketRepository(IDbConnectionProvider dbConnectionProvider)
         {
             this.dbConnectionProvider = dbConnectionProvider;
         }

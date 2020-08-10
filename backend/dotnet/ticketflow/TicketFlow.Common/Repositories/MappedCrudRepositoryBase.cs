@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TicketFlow.Common.Factories;
 using TicketFlow.Common.Providers;
 
 namespace TicketFlow.Common.Repositories
 {
-    public abstract class MappedPostgresCrudRepositoryBase<TIdentifier, TEntity, TEntityFactoryModel, TEntityDatabaseModel>
-        : PostgresCrudRepositoryBase<TIdentifier, TEntity, TEntityFactoryModel, TEntityDatabaseModel>
+    public abstract class MappedCrudRepositoryBase<TIdentifier, TEntity, TEntityDatabaseModel>
+        : CrudRepositoryBase<TIdentifier, TEntity, TEntityDatabaseModel>
     {
-        protected MappedPostgresCrudRepositoryBase(IPostgresDbConnectionProvider dbConnectionProvider, IEntityFactory<TEntity, TEntityFactoryModel> entityFactory)
-            : base(dbConnectionProvider, entityFactory)
+        protected MappedCrudRepositoryBase(IDbConnectionProvider dbConnectionProvider)
+            : base(dbConnectionProvider)
         {
         }
 

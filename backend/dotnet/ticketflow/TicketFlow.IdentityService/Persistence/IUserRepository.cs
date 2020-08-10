@@ -1,15 +1,10 @@
-﻿using TicketFlow.IdentityService.Domain.Entities;
+﻿using TicketFlow.Common.Repositories;
+using TicketFlow.IdentityService.Domain.Entities;
 
 namespace TicketFlow.IdentityService.Persistence
 {
-    internal interface IUserRepository
+    internal interface IUserRepository : ICrudRepository<string, IUser>
     {
         bool TryGetByToken(string token, out IAuthorizedUser authorizedUser);
-
-        bool TryGetByEmail(string email, out IUser user);
-
-        void Update(IUser user);
-
-        void Add(IUser user);
     }
 }

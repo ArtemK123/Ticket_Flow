@@ -30,7 +30,7 @@ namespace TicketFlow.IdentityService.Service
 
         public IUser GetByEmail(string email)
         {
-            if (userRepository.TryGetByEmail(email, out IUser user))
+            if (userRepository.TryGet(email, out IUser user))
             {
                 return user;
             }
@@ -53,7 +53,7 @@ namespace TicketFlow.IdentityService.Service
 
         public void Register(RegisterRequest registerRequest)
         {
-            if (userRepository.TryGetByEmail(registerRequest.Email, out _))
+            if (userRepository.TryGet(registerRequest.Email, out _))
             {
                 throw new NotUniqueEntityException($"User with email={registerRequest.Email} already exists");
             }

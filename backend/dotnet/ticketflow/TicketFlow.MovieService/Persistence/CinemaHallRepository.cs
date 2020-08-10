@@ -8,7 +8,7 @@ using TicketFlow.MovieService.Persistence.EntityModels;
 
 namespace TicketFlow.MovieService.Persistence
 {
-    internal class CinemaHallRepository : MappedPostgresCrudRepositoryBase<int, ICinemaHall, StoredCinemaHallCreationModel, CinemaHallDatabaseModel>, ICinemaHallRepository
+    internal class CinemaHallRepository : FactoryCrudRepositoryBase<int, ICinemaHall, CinemaHallDatabaseModel, StoredCinemaHallCreationModel>, ICinemaHallRepository
     {
         public CinemaHallRepository(IPostgresDbConnectionProvider dbConnectionProvider, IEntityFactory<ICinemaHall, StoredCinemaHallCreationModel> entityFactory)
             : base(dbConnectionProvider, entityFactory)
@@ -27,7 +27,7 @@ namespace TicketFlow.MovieService.Persistence
             { "seats_in_row", "SeatsInRow" },
         };
 
-        protected override StoredCinemaHallCreationModel Convert(CinemaHallDatabaseModel databaseModel)
+        protected override StoredCinemaHallCreationModel ConvertToFactoryModel(CinemaHallDatabaseModel databaseModel)
             => new StoredCinemaHallCreationModel(databaseModel.Id, databaseModel.Name, databaseModel.Location, databaseModel.SeatRows, databaseModel.SeatsInRow);
 
         protected override CinemaHallDatabaseModel Convert(ICinemaHall entity)

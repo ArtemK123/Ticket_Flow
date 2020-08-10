@@ -1,9 +1,6 @@
-﻿using System.Data.Common;
-
-namespace TicketFlow.Common.Providers
+﻿namespace TicketFlow.Common.Providers
 {
-    public interface IPostgresDbConnectionProvider
+    public interface IPostgresDbConnectionProvider : IDbConnectionProvider
     {
-        DbConnection Get();
     }
 }

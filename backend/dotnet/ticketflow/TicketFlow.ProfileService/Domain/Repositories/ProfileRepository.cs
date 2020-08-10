@@ -11,10 +11,10 @@ namespace TicketFlow.ProfileService.Domain.Repositories
         private const string ProfileSelectMapping = "id AS Id, birthday AS Birthday, phone_number AS PhoneNumber, user_email AS UserEmail";
         private const string TableName = "profiles";
 
-        private readonly IPostgresDbConnectionProvider dbConnectionProvider;
+        private readonly IDbConnectionProvider dbConnectionProvider;
         private readonly IRandomValueProvider randomValueProvider;
 
-        public ProfileRepository(IPostgresDbConnectionProvider dbConnectionProvider, IRandomValueProvider randomValueProvider)
+        public ProfileRepository(IDbConnectionProvider dbConnectionProvider, IRandomValueProvider randomValueProvider)
         {
             this.dbConnectionProvider = dbConnectionProvider;
             this.randomValueProvider = randomValueProvider;

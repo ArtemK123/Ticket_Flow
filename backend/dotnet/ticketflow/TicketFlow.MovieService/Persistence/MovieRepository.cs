@@ -9,7 +9,7 @@ using TicketFlow.MovieService.Service;
 
 namespace TicketFlow.MovieService.Persistence
 {
-    internal class MovieRepository : MappedPostgresCrudRepositoryBase<int, IMovie, StoredMovieCreationModel, MovieDatabaseModel>, IMovieRepository
+    internal class MovieRepository : FactoryCrudRepositoryBase<int, IMovie, MovieDatabaseModel, StoredMovieCreationModel>, IMovieRepository
     {
         private readonly IFilmService filmService;
         private readonly ICinemaHallService cinemaHallService;
@@ -36,7 +36,7 @@ namespace TicketFlow.MovieService.Persistence
             { "cinema_hall_id", "CinemaHallId" }
         };
 
-        protected override StoredMovieCreationModel Convert(MovieDatabaseModel databaseModel)
+        protected override StoredMovieCreationModel ConvertToFactoryModel(MovieDatabaseModel databaseModel)
         {
             IFilm film = filmService.GetById(databaseModel.FilmId);
             ICinemaHall cinemaHall = cinemaHallService.GetById(databaseModel.CinemaHallId);
