@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using TicketFlow.IdentityService.Entities;
+using TicketFlow.IdentityService.Domain.Entities;
 
 namespace TicketFlow.IdentityService.Service
 {
@@ -20,12 +20,12 @@ namespace TicketFlow.IdentityService.Service
             this.dateTimeProvider = dateTimeProvider;
         }
 
-        public string Generate(User user)
+        public string Generate(IUser user)
         {
             return Generate(user, DefaultExpireDays);
         }
 
-        public string Generate(User user, int expireDays)
+        public string Generate(IUser user, int expireDays)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
             DateTime expiresDate = dateTimeProvider.GetCurrentUtcDateTime().AddDays(expireDays);

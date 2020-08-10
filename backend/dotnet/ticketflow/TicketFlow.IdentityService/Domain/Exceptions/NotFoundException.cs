@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.IdentityService.Entities.Exceptions
+namespace TicketFlow.IdentityService.Domain.Exceptions
 {
     internal class NotFoundException : Exception
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TicketFlow.Common.WebApi;
-using TicketFlow.IdentityService.Entities.Exceptions;
+using TicketFlow.IdentityService.Domain.Exceptions;
 
 namespace TicketFlow.IdentityService.WebApi.Controllers
 {

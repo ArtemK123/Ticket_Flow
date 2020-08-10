@@ -1,5 +1,7 @@
-﻿using TicketFlow.IdentityService.Entities;
-using TicketFlow.IdentityService.Entities.Exceptions;
+﻿using TicketFlow.Common.Factories;
+using TicketFlow.IdentityService.Domain.Entities;
+using TicketFlow.IdentityService.Domain.Exceptions;
+using TicketFlow.IdentityService.Domain.Models;
 using TicketFlow.IdentityService.Persistence;
 using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
 
@@ -8,17 +10,17 @@ namespace TicketFlow.IdentityService.Service
     internal class UserService : IUserService
     {
         private readonly IUserRepository userRepository;
-        private readonly IJwtGenerator jwtGenerator;
+        private readonly IEntityFactory<IUser, UserCreationModel> userFactory;
 
-         public UserService(IUserRepository userRepository, IJwtGenerator jwtGenerator)
-         {
-             this.userRepository = userRepository;
-             this.jwtGenerator = jwtGenerator;
-         }
-
-        public User GetByToken(string token)
+        public UserService(IUserRepository userRepository, IEntityFactory<IUser, UserCreationModel> userFactory)
         {
-            if (userRepository.TryGetByToken(token, out User user))
+            this.userRepository = userRepository;
+            this.userFactory = userFactory;
+        }
+
+        public IAuthorizedUser GetByToken(string token)
+        {
+            if (userRepository.TryGetByToken(token, out IAuthorizedUser user))
             {
                 return user;
             }
@@ -26,9 +28,9 @@ namespace TicketFlow.IdentityService.Service
             throw new NotFoundException($"User with token={token} is not found");
         }
 
-        public User GetByEmail(string email)
+        public IUser GetByEmail(string email)
         {
-            if (userRepository.TryGetByEmail(email, out User user))
+            if (userRepository.TryGetByEmail(email, out IUser user))
             {
                 return user;
             }
@@ -38,17 +40,15 @@ namespace TicketFlow.IdentityService.Service
 
         public string Login(LoginRequest loginRequest)
         {
-            User user = GetByEmail(loginRequest.Email);
+            IUser user = GetByEmail(loginRequest.Email);
 
-            if (!user.Password.Equals(loginRequest.Password))
+            if (!user.TryAuthorize(loginRequest.Password, out IAuthorizedUser authorizedUser))
             {
-                throw new WrongPasswordException($"Wrong password for user with email={loginRequest.Email}");
+                throw new WrongPasswordException($"Wrong password for user with email=${loginRequest.Email}");
             }
 
-            string newJwtToken = jwtGenerator.Generate(user);
-            user.Token = newJwtToken;
-            userRepository.Update(user);
-            return newJwtToken;
+            userRepository.Update(authorizedUser);
+            return authorizedUser.Token;
         }
 
         public void Register(RegisterRequest registerRequest)
@@ -58,15 +58,13 @@ namespace TicketFlow.IdentityService.Service
                 throw new NotUniqueEntityException($"User with email={registerRequest.Email} already exists");
             }
 
-            User user = new User(registerRequest.Email, registerRequest.Password, Role.User, null);
-
+            IUser user = userFactory.Create(new UserCreationModel(registerRequest.Email, registerRequest.Password, Role.User));
             userRepository.Add(user);
         }
 
         public void Logout(string token)
         {
-            User user = GetByToken(token);
-            user.Token = null;
+            IUser user = GetByToken(token);
             userRepository.Update(user);
         }
     }

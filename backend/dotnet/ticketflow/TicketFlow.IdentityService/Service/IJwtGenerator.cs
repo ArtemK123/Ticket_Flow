@@ -1,11 +1,11 @@
-﻿using TicketFlow.IdentityService.Entities;
+﻿using TicketFlow.IdentityService.Domain.Entities;
 
 namespace TicketFlow.IdentityService.Service
 {
     internal interface IJwtGenerator
     {
-        string Generate(User user);
+        string Generate(IUser user);
 
-        string Generate(User user, int expireDays);
+        string Generate(IUser user, int expireDays);
     }
 }

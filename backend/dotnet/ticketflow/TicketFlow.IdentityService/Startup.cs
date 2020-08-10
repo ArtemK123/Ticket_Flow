@@ -5,8 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
+using TicketFlow.Common.Factories;
+using TicketFlow.IdentityService.Domain.Entities;
+using TicketFlow.IdentityService.Domain.Models;
 using TicketFlow.IdentityService.Persistence;
 using TicketFlow.IdentityService.Service;
+using TicketFlow.IdentityService.Service.Factories;
+using TicketFlow.IdentityService.WebApi.Converters;
 
 namespace TicketFlow.IdentityService
 {
@@ -30,6 +35,8 @@ namespace TicketFlow.IdentityService
             services.AddTransient(typeof(IUserService), typeof(UserService));
             services.AddTransient(typeof(IJwtGenerator), typeof(JwtGenerator));
             services.AddTransient(typeof(IDateTimeProvider), typeof(DateTimeProvider));
+            services.AddTransient(typeof(IEntityFactory<IUser, UserCreationModel>), typeof(UserFactory));
+            services.AddTransient(typeof(IUserWebConverter), typeof(UserWebConverter));
 
             services.AddConsul(Configuration);
 

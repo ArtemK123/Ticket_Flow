@@ -1,13 +1,13 @@
-﻿using TicketFlow.IdentityService.Entities;
+﻿using TicketFlow.IdentityService.Domain.Entities;
 using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
 
 namespace TicketFlow.IdentityService.Service
 {
     public interface IUserService
     {
-        User GetByToken(string token);
+        IAuthorizedUser GetByToken(string token);
 
-        User GetByEmail(string email);
+        IUser GetByEmail(string email);
 
         string Login(LoginRequest loginRequest);
 

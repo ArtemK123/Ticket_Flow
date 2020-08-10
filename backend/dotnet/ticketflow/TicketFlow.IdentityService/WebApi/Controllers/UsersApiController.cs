@@ -2,9 +2,11 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TicketFlow.Common.Readers;
-using TicketFlow.IdentityService.Entities;
+using TicketFlow.IdentityService.Domain.Entities;
 using TicketFlow.IdentityService.Service;
 using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
+using TicketFlow.IdentityService.WebApi.ClientModels.Responses;
+using TicketFlow.IdentityService.WebApi.Converters;
 
 namespace TicketFlow.IdentityService.WebApi.Controllers
 {
@@ -14,11 +16,13 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
     {
         private readonly IUserService userService;
         private readonly IStringFromStreamReader stringFromStreamReader;
+        private readonly IUserWebConverter userWebConverter;
 
-        public UsersApiController(IUserService userService, IStringFromStreamReader stringFromStreamReader)
+        public UsersApiController(IUserService userService, IStringFromStreamReader stringFromStreamReader, IUserWebConverter userWebConverter)
         {
             this.userService = userService;
             this.stringFromStreamReader = stringFromStreamReader;
+            this.userWebConverter = userWebConverter;
         }
 
         [HttpGet("/")]
@@ -28,19 +32,19 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         }
 
         [HttpPost("getByToken")]
-        public async Task<User> GetByToken()
+        public async Task<UserWebModel> GetByToken()
         {
             string token = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
-            User user = userService.GetByToken(token);
-            return user;
+            IAuthorizedUser authorizedUser = userService.GetByToken(token);
+            return userWebConverter.Convert(authorizedUser);
         }
 
         [HttpPost("getByEmail")]
-        public async Task<User> GetByEmail()
+        public async Task<UserWebModel> GetByEmail()
         {
             string email = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
-            User user = userService.GetByEmail(email);
-            return user;
+            IUser user = userService.GetByEmail(email);
+            return user is IAuthorizedUser authorizedUser ? userWebConverter.Convert(authorizedUser) : userWebConverter.Convert(user);
         }
 
         [HttpPost("login")]
