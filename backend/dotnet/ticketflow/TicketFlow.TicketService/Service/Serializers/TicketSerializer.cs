@@ -17,7 +17,7 @@ namespace TicketFlow.TicketService.Service.Serializers
             => new TicketSerializationModel
             {
                 Id = ticket.Id,
-                MovieId = ticket.Id,
+                MovieId = ticket.MovieId,
                 Row = ticket.Row,
                 Seat = ticket.Seat,
                 Price = ticket.Price,
