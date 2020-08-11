@@ -26,17 +26,25 @@ namespace TicketFlow.TicketService.Service.Serializers
 
         public ITicket Deserialize(TicketSerializationModel serializationModel)
         {
-            TicketCreationModel creationModel = !string.IsNullOrEmpty(serializationModel.BuyerEmail)
-                ? new OrderedTicketCreationModel(
-                    serializationModel.Id,
-                    serializationModel.MovieId,
-                    serializationModel.Row,
-                    serializationModel.Seat,
-                    serializationModel.Price,
-                    serializationModel.BuyerEmail)
-                : new StoredTicketCreationModel(serializationModel.Id, serializationModel.MovieId, serializationModel.Row, serializationModel.Seat, serializationModel.Price);
+            if (!string.IsNullOrEmpty(serializationModel.BuyerEmail))
+            {
+                return ticketFactory.Create(
+                    new OrderedTicketCreationModel(
+                        serializationModel.Id,
+                        serializationModel.MovieId,
+                        serializationModel.Row,
+                        serializationModel.Seat,
+                        serializationModel.Price,
+                        serializationModel.BuyerEmail));
+            }
 
-            return ticketFactory.Create(creationModel);
+            return ticketFactory.Create(
+                    new StoredTicketCreationModel(
+                        serializationModel.Id,
+                        serializationModel.MovieId,
+                        serializationModel.Row,
+                        serializationModel.Seat,
+                        serializationModel.Price));
         }
     }
 }
