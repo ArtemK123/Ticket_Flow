@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TicketFlow.Common.Readers;
 using TicketFlow.IdentityService.Domain.Entities;
+using TicketFlow.IdentityService.Domain.Models;
 using TicketFlow.IdentityService.Service;
+using TicketFlow.IdentityService.Service.Serializers;
 using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
-using TicketFlow.IdentityService.WebApi.ClientModels.Responses;
-using TicketFlow.IdentityService.WebApi.Converters;
 
 namespace TicketFlow.IdentityService.WebApi.Controllers
 {
@@ -16,13 +16,13 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
     {
         private readonly IUserService userService;
         private readonly IStringFromStreamReader stringFromStreamReader;
-        private readonly IUserWebConverter userWebConverter;
+        private readonly IUserSerializer userSerializer;
 
-        public UsersApiController(IUserService userService, IStringFromStreamReader stringFromStreamReader, IUserWebConverter userWebConverter)
+        public UsersApiController(IUserService userService, IStringFromStreamReader stringFromStreamReader, IUserSerializer userSerializer)
         {
             this.userService = userService;
             this.stringFromStreamReader = stringFromStreamReader;
-            this.userWebConverter = userWebConverter;
+            this.userSerializer = userSerializer;
         }
 
         [HttpGet("/")]
@@ -32,19 +32,19 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         }
 
         [HttpPost("getByToken")]
-        public async Task<UserWebModel> GetByToken()
+        public async Task<UserSerializationModel> GetByToken()
         {
             string token = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
             IAuthorizedUser authorizedUser = userService.GetByToken(token);
-            return userWebConverter.Convert(authorizedUser);
+            return userSerializer.Serialize(authorizedUser);
         }
 
         [HttpPost("getByEmail")]
-        public async Task<UserWebModel> GetByEmail()
+        public async Task<UserSerializationModel> GetByEmail()
         {
             string email = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
             IUser user = userService.GetByEmail(email);
-            return user is IAuthorizedUser authorizedUser ? userWebConverter.Convert(authorizedUser) : userWebConverter.Convert(user);
+            return userSerializer.Serialize(user);
         }
 
         [HttpPost("login")]

@@ -11,7 +11,7 @@ using TicketFlow.IdentityService.Domain.Models;
 using TicketFlow.IdentityService.Persistence;
 using TicketFlow.IdentityService.Service;
 using TicketFlow.IdentityService.Service.Factories;
-using TicketFlow.IdentityService.WebApi.Converters;
+using TicketFlow.IdentityService.Service.Serializers;
 
 namespace TicketFlow.IdentityService
 {
@@ -36,8 +36,8 @@ namespace TicketFlow.IdentityService
             services.AddTransient(typeof(IJwtGenerator), typeof(JwtGenerator));
             services.AddTransient(typeof(IDateTimeProvider), typeof(DateTimeProvider));
             services.AddTransient(typeof(IEntityFactory<IUser, UserCreationModel>), typeof(UserFactory));
-            services.AddTransient(typeof(IUserWebConverter), typeof(UserWebConverter));
             services.AddTransient(typeof(IUserFactory), typeof(UserFactory));
+            services.AddTransient(typeof(IUserSerializer), typeof(UserSerializer));
 
             services.AddConsul(Configuration);
 

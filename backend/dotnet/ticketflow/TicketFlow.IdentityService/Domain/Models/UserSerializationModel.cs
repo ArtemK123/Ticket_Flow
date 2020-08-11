@@ -1,6 +1,6 @@
-﻿namespace TicketFlow.IdentityService.Persistence.EntityModels
+﻿namespace TicketFlow.IdentityService.Domain.Models
 {
-    public class UserDatabaseModel
+    public class UserSerializationModel
     {
         public string Email { get; set; }
 
