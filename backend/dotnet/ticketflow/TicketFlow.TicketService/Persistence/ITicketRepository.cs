@@ -1,18 +1,13 @@
 ﻿using System.Collections.Generic;
+using TicketFlow.Common.Repositories;
 using TicketFlow.TicketService.Domain.Entities;
 
 namespace TicketFlow.TicketService.Persistence
 {
-    internal interface ITicketRepository
+    internal interface ITicketRepository : ICrudRepository<int, ITicket>
     {
-        bool TryGetById(int id, out ITicket ticket);
-
         IReadOnlyCollection<ITicket> GetByMovieId(int movieId);
 
         IReadOnlyCollection<ITicket> GetByBuyerEmail(string buyerEmail);
-
-        void Add(ITicket ticket);
-
-        void Update(ITicket ticket);
     }
 }

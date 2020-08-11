@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using TicketFlow.Common.Readers;
 using TicketFlow.TicketService.Domain.Entities;
 using TicketFlow.TicketService.Domain.Models;
 using TicketFlow.TicketService.Service;
+using TicketFlow.TicketService.Service.Serializers;
 using TicketFlow.TicketService.WebApi.ClientModels.Requests;
 
 namespace TicketFlow.TicketService.WebApi.Controllers
@@ -16,11 +18,13 @@ namespace TicketFlow.TicketService.WebApi.Controllers
     {
         private readonly ITicketService ticketService;
         private readonly IStringFromStreamReader stringFromStreamReader;
+        private readonly ITicketSerializer ticketSerializer;
 
-        public TicketsApiController(ITicketService ticketService, IStringFromStreamReader stringFromStreamReader)
+        public TicketsApiController(ITicketService ticketService, IStringFromStreamReader stringFromStreamReader, ITicketSerializer ticketSerializer)
         {
             this.ticketService = ticketService;
             this.stringFromStreamReader = stringFromStreamReader;
+            this.ticketSerializer = ticketSerializer;
         }
 
         [HttpGet("/")]
@@ -30,16 +34,18 @@ namespace TicketFlow.TicketService.WebApi.Controllers
         }
 
         [HttpGet("by-movie/{movieId}")]
-        public IReadOnlyCollection<ITicket> GetByMovieId([FromRoute] int movieId)
+        public IReadOnlyCollection<TicketSerializationModel> GetByMovieId([FromRoute] int movieId)
         {
-            return ticketService.GetByMovieId(movieId);
+            IReadOnlyCollection<ITicket> tickets = ticketService.GetByMovieId(movieId);
+            return tickets.Select(ticketSerializer.Serialize).ToArray();
         }
 
         [HttpPost("by-user")]
-        public async Task<IReadOnlyCollection<ITicket>> GetByUserEmail()
+        public async Task<IReadOnlyCollection<TicketSerializationModel>> GetByUserEmail()
         {
             string userEmail = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
-            return ticketService.GetByUserEmail(userEmail);
+            IReadOnlyCollection<ITicket> tickets = ticketService.GetByUserEmail(userEmail);
+            return tickets.Select(ticketSerializer.Serialize).ToArray();
         }
 
         [HttpPost("")]
@@ -58,7 +64,7 @@ namespace TicketFlow.TicketService.WebApi.Controllers
             return "Ordered successfully";
         }
 
-        private static TicketModelWithoutId Convert(AddTicketRequestModel requestModel)
-            => new TicketModelWithoutId(requestModel.MovieId, requestModel.BuyerEmail, requestModel.Row, requestModel.Seat, requestModel.Price);
+        private static TicketCreationModel Convert(AddTicketRequestModel requestModel)
+            => new TicketCreationModel(requestModel.MovieId, requestModel.Row, requestModel.Seat, requestModel.Price);
     }
 }

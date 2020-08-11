@@ -3,6 +3,7 @@ using TicketFlow.TicketService.Domain.Entities;
 using TicketFlow.TicketService.Domain.Exceptions;
 using TicketFlow.TicketService.Domain.Models;
 using TicketFlow.TicketService.Persistence;
+using TicketFlow.TicketService.Service.Factories;
 
 namespace TicketFlow.TicketService.Service
 {
@@ -27,29 +28,27 @@ namespace TicketFlow.TicketService.Service
             return ticketRepository.GetByBuyerEmail(userEmail);
         }
 
-        public int Add(TicketModelWithoutId ticketModelWithoutId)
+        public int Add(TicketCreationModel ticketCreationModel)
         {
-            ITicket newTicket = ticketFactory.CreateTicket(ticketModelWithoutId);
-
+            ITicket newTicket = ticketFactory.Create(ticketCreationModel);
             ticketRepository.Add(newTicket);
-
             return newTicket.Id;
         }
 
         public void Order(OrderModel orderModel)
         {
-            if (!ticketRepository.TryGetById(orderModel.TicketId, out ITicket ticket))
+            if (!ticketRepository.TryGet(orderModel.TicketId, out ITicket ticket))
             {
                 throw new NotFoundException($"Ticket with id={orderModel.TicketId} is not found");
             }
 
-            if (ticket.IsOrdered)
+            if (ticket is IOrderedTicket _)
             {
                 throw new TicketAlreadyOrderedException($"Ticket with id={orderModel.TicketId} is already ordered");
             }
 
-            ticket.Order(orderModel.BuyerEmail);
-            ticketRepository.Update(ticket);
+            IOrderedTicket orderedTicket = ticket.Order(orderModel.BuyerEmail);
+            ticketRepository.Update(orderedTicket);
         }
     }
 }

@@ -1,19 +1,16 @@
 ﻿namespace TicketFlow.TicketService.Domain.Models
 {
-    public class TicketModelWithoutId
+    public class TicketCreationModel
     {
-        public TicketModelWithoutId(int movieId, string buyerEmail, int row, int seat, int price)
+        public TicketCreationModel(int movieId, int row, int seat, int price)
         {
             MovieId = movieId;
-            BuyerEmail = buyerEmail;
             Row = row;
             Seat = seat;
             Price = price;
         }
 
         public int MovieId { get; }
-
-        public string BuyerEmail { get; }
 
         public int Row { get; }
 

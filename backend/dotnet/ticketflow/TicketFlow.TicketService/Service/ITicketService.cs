@@ -10,7 +10,7 @@ namespace TicketFlow.TicketService.Service
 
         IReadOnlyCollection<ITicket> GetByUserEmail(string userEmail);
 
-        int Add(TicketModelWithoutId ticketModelWithoutId);
+        int Add(TicketCreationModel ticketCreationModel);
 
         void Order(OrderModel orderModel);
     }

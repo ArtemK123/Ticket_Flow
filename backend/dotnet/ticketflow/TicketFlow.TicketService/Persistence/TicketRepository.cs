@@ -2,73 +2,51 @@
 using System.Linq;
 using Dapper;
 using TicketFlow.Common.Providers;
+using TicketFlow.Common.Repositories;
 using TicketFlow.TicketService.Domain.Entities;
-using TicketFlow.TicketService.Persistence.EntityModels;
+using TicketFlow.TicketService.Domain.Models;
+using TicketFlow.TicketService.Service.Serializers;
 
 namespace TicketFlow.TicketService.Persistence
 {
-    internal class TicketRepository : ITicketRepository
+    internal class TicketRepository : MappedCrudRepositoryBase<int, ITicket, TicketSerializationModel>, ITicketRepository
     {
-        private const string SelectMapping = "id AS Id, movie_id AS MovieId, buyer_email AS BuyerEmail, row as Row, seat as Seat, price as Price";
-        private const string TableName = "tickets";
+        private readonly ITicketSerializer ticketSerializer;
 
-        private readonly IDbConnectionProvider dbConnectionProvider;
-
-        public TicketRepository(IDbConnectionProvider dbConnectionProvider)
+        public TicketRepository(IPostgresDbConnectionProvider dbConnectionProvider, ITicketSerializer ticketSerializer)
+            : base(dbConnectionProvider)
         {
-            this.dbConnectionProvider = dbConnectionProvider;
+            this.ticketSerializer = ticketSerializer;
         }
 
-        public bool TryGetById(int id, out ITicket ticket)
+        protected override string TableName => "tickets";
+
+        protected override KeyValuePair<string, string> PrimaryKeyMapping => new KeyValuePair<string, string>("id", "Id");
+
+        protected override IReadOnlyDictionary<string, string> NonPrimaryColumnsMapping => new Dictionary<string, string>
         {
-            var sql = $"SELECT {SelectMapping} FROM {TableName} WHERE id = @id;";
-            using var dbConnection = dbConnectionProvider.Get();
-            TicketDatabaseModel databaseModel = dbConnection.Query<TicketDatabaseModel>(sql, new { id }).SingleOrDefault();
-            ticket = Convert(databaseModel);
-            return databaseModel != null;
-        }
+            { "movie_id", "MovieId" },
+            { "row", "Row" },
+            { "seat", "Seat" },
+            { "price", "Price" },
+            { "buyer_email", "BuyerEmail" }
+        };
 
         public IReadOnlyCollection<ITicket> GetByMovieId(int movieId)
-        {
-            var sql = $"SELECT {SelectMapping} FROM {TableName} WHERE movie_id = @movieId;";
-            using var dbConnection = dbConnectionProvider.Get();
-            IEnumerable<TicketDatabaseModel> databaseModels = dbConnection.Query<TicketDatabaseModel>(sql, new { movieId });
-
-            return databaseModels.Select(Convert).ToList();
-        }
+            => SelectByField($"SELECT {GetSelectSqlMapping()} FROM {TableName} WHERE movie_id=@movieId;", new { movieId });
 
         public IReadOnlyCollection<ITicket> GetByBuyerEmail(string buyerEmail)
-        {
-            var sql = $"SELECT {SelectMapping} FROM {TableName} WHERE buyer_email = @buyerEmail;";
-            using var dbConnection = dbConnectionProvider.Get();
-            IEnumerable<TicketDatabaseModel> databaseModels = dbConnection.Query<TicketDatabaseModel>(sql, new { buyerEmail });
+            => SelectByField($"SELECT {GetSelectSqlMapping()} FROM {TableName} WHERE buyer_email=@buyerEmail;", new { buyerEmail });
 
+        protected override ITicket Convert(TicketSerializationModel databaseModel) => ticketSerializer.Deserialize(databaseModel);
+
+        protected override TicketSerializationModel Convert(ITicket entity) => ticketSerializer.Serialize(entity);
+
+        private IReadOnlyCollection<ITicket> SelectByField(string sql, object sqlParams)
+        {
+            using var dbConnection = DbConnectionProvider.Get();
+            IEnumerable<TicketSerializationModel> databaseModels = dbConnection.Query<TicketSerializationModel>(sql, sqlParams);
             return databaseModels.Select(Convert).ToList();
         }
-
-        public void Add(ITicket ticket)
-        {
-            using var dbConnection = dbConnectionProvider.Get();
-            var sql = $"INSERT INTO {TableName} (id, buyer_email, movie_id, row, seat, price) VALUES (@Id, @BuyerEmail, @MovieId, @Row, @Seat, @Price);";
-            dbConnection.Execute(sql, Convert(ticket));
-        }
-
-        public void Update(ITicket ticket)
-        {
-            var sql = $"UPDATE {TableName} SET buyer_email=@BuyerEmail, movie_id=@MovieId, row=@Row, seat=@Seat, price=@Price WHERE id = @Id";
-
-            using var dbConnection = dbConnectionProvider.Get();
-            dbConnection.Execute(sql, Convert(ticket));
-        }
-
-        private static ITicket Convert(TicketDatabaseModel databaseModel)
-            => databaseModel != null ?
-                new Ticket(databaseModel.Id, databaseModel.MovieId, databaseModel.BuyerEmail, databaseModel.Row, databaseModel.Seat, databaseModel.Price)
-                : null;
-
-        private static TicketDatabaseModel Convert(ITicket ticket)
-            => ticket != null ?
-                new TicketDatabaseModel { Id = ticket.Id, MovieId = ticket.MovieId, BuyerEmail = ticket.BuyerEmail, Row = ticket.Row, Seat = ticket.Seat, Price = ticket.Price }
-                : null;
     }
 }
