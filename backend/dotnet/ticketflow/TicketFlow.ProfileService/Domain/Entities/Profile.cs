@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TicketFlow.ProfileService.Models
+namespace TicketFlow.ProfileService.Domain.Entities
 {
-    public class Profile
+    internal class Profile : IProfile
     {
         public Profile(int id, string userEmail, long phoneNumber, DateTime birthday)
         {
@@ -10,18 +10,6 @@ namespace TicketFlow.ProfileService.Models
             UserEmail = userEmail;
             PhoneNumber = phoneNumber;
             Birthday = birthday;
-        }
-
-        public Profile(string userEmail, long phoneNumber, DateTime birthday)
-        {
-            UserEmail = userEmail;
-            PhoneNumber = phoneNumber;
-            Birthday = birthday;
-        }
-
-        // This constructor is used only by dapper
-        public Profile()
-        {
         }
 
         public int Id { get; }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TicketFlow.ProfileService.Api.ClientModels
+namespace TicketFlow.ProfileService.WebApi.ClientModels.Requests
 {
-    public class ProfileClientModel
+    public class AddProfileRequest
     {
         [Required]
         [EmailAddress]

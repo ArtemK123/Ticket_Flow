@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TicketFlow.Common.WebApi;
-using TicketFlow.ProfileService.Models.Exceptions;
+using TicketFlow.ProfileService.Domain.Exceptions;
 
-namespace TicketFlow.ProfileService.Api.Controllers
+namespace TicketFlow.ProfileService.WebApi.Controllers
 {
     [Route("/error")]
     public class ExceptionHandlerController : ExceptionHandlerControllerBase
@@ -17,7 +17,8 @@ namespace TicketFlow.ProfileService.Api.Controllers
 
         protected override IReadOnlyDictionary<Type, Func<Exception, IActionResult>> GetAllowedExceptionMappings() => new Dictionary<Type, Func<Exception, IActionResult>>
         {
-            { typeof(NotFoundException), _ => new NotFoundResult() }
+            { typeof(NotFoundException), _ => new NotFoundResult() },
+            { typeof(NotUniqueEntityException), exception => new BadRequestObjectResult(exception.Message) }
         };
     }
 }

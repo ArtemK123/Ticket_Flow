@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace TicketFlow.ProfileService.Domain.Migrations
+namespace TicketFlow.ProfileService.Persistence.Migrations
 {
     [Migration(1)]
     public class InitialMigration : Migration
@@ -9,9 +9,9 @@ namespace TicketFlow.ProfileService.Domain.Migrations
         {
             Create.Table("profiles")
                 .WithColumn("id").AsInt32().PrimaryKey().Identity()
-                .WithColumn("birthday").AsDate()
-                .WithColumn("phone_number").AsInt64()
-                .WithColumn("user_email").AsString(255);
+                .WithColumn("birthday").AsDate().NotNullable()
+                .WithColumn("phone_number").AsInt64().NotNullable()
+                .WithColumn("user_email").AsString(255).NotNullable().Unique();
         }
 
         public override void Down()

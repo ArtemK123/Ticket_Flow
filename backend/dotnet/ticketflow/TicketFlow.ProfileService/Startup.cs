@@ -5,8 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
-using TicketFlow.ProfileService.Domain.Repositories;
+using TicketFlow.ProfileService.Persistence.Repositories;
 using TicketFlow.ProfileService.Service;
+using TicketFlow.ProfileService.Service.Factories;
+using TicketFlow.ProfileService.Service.Serializers;
 
 namespace TicketFlow.ProfileService
 {
@@ -26,6 +28,9 @@ namespace TicketFlow.ProfileService
             services.AddFluentMigrator(Configuration, typeof(Startup).Assembly);
             services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
             services.AddTransient(typeof(IProfileService), typeof(Service.ProfileService));
+            services.AddTransient(typeof(IProfileFactory), typeof(ProfileFactory));
+            services.AddTransient(typeof(IProfileSerializer), typeof(ProfileSerializer));
+
             services.AddControllers();
             services.AddConsul(Configuration);
         }
