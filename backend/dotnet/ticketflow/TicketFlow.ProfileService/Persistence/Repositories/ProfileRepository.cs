@@ -9,14 +9,11 @@ using TicketFlow.ProfileService.Service.Serializers;
 
 namespace TicketFlow.ProfileService.Persistence.Repositories
 {
-    internal class ProfileRepository : MappedCrudRepositoryBase<int, IProfile, ProfileSerializationModel>, IProfileRepository
+    internal class ProfileRepository : SerializingCrudRepositoryBase<int, IProfile, ProfileSerializationModel>, IProfileRepository
     {
-        private readonly IProfileSerializer profileSerializer;
-
         public ProfileRepository(IPostgresDbConnectionProvider dbConnectionProvider, IProfileSerializer profileSerializer)
-            : base(dbConnectionProvider)
+            : base(dbConnectionProvider, profileSerializer)
         {
-            this.profileSerializer = profileSerializer;
         }
 
         protected override string TableName => "profiles";
@@ -44,9 +41,5 @@ namespace TicketFlow.ProfileService.Persistence.Repositories
             profile = Convert(databaseModel);
             return true;
         }
-
-        protected override IProfile Convert(ProfileSerializationModel databaseModel) => profileSerializer.Create(databaseModel);
-
-        protected override ProfileSerializationModel Convert(IProfile entity) => profileSerializer.Serialize(entity);
     }
 }

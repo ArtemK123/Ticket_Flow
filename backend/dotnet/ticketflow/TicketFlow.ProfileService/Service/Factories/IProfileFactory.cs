@@ -4,7 +4,7 @@ using TicketFlow.ProfileService.Domain.Models;
 
 namespace TicketFlow.ProfileService.Service.Factories
 {
-    public interface IProfileFactory : IEntityFactory<IProfile, ProfileCreationModel>
+    public interface IProfileFactory : IEntityFactory<IProfile, ProfileCreationModel>, IEntityFactory<IProfile, StoredProfileCreationModel>
     {
     }
 }

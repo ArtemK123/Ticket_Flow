@@ -10,15 +10,13 @@ using TicketFlow.IdentityService.Service.Serializers;
 
 namespace TicketFlow.IdentityService.Persistence
 {
-    internal class UserRepository : MappedCrudRepositoryBase<string, IUser, UserSerializationModel>, IUserRepository
+    internal class UserRepository : SerializingCrudRepositoryBase<string, IUser, UserSerializationModel>, IUserRepository
     {
-        private readonly IUserSerializer userSerializer;
         private readonly IUserFactory userFactory;
 
         public UserRepository(IPostgresDbConnectionProvider dbConnectionProvider, IUserSerializer userSerializer, IUserFactory userFactory)
-            : base(dbConnectionProvider)
+            : base(dbConnectionProvider, userSerializer)
         {
-            this.userSerializer = userSerializer;
             this.userFactory = userFactory;
         }
 
@@ -49,10 +47,6 @@ namespace TicketFlow.IdentityService.Persistence
             authorizedUser = userFactory.Create(new AuthorizedUserCreationModel(databaseModel.Email, databaseModel.Password, (Role)databaseModel.Role, databaseModel.Token));
             return true;
         }
-
-        protected override IUser Convert(UserSerializationModel databaseModel) => userSerializer.Deserialize(databaseModel);
-
-        protected override UserSerializationModel Convert(IUser entity) => userSerializer.Serialize(entity);
 
         protected override object GetSearchByIdentifierParams(string identifier) => new { Email = identifier };
     }

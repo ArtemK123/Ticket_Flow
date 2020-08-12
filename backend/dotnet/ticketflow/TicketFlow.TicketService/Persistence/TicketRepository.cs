@@ -9,14 +9,11 @@ using TicketFlow.TicketService.Service.Serializers;
 
 namespace TicketFlow.TicketService.Persistence
 {
-    internal class TicketRepository : MappedCrudRepositoryBase<int, ITicket, TicketSerializationModel>, ITicketRepository
+    internal class TicketRepository : SerializingCrudRepositoryBase<int, ITicket, TicketSerializationModel>, ITicketRepository
     {
-        private readonly ITicketSerializer ticketSerializer;
-
         public TicketRepository(IPostgresDbConnectionProvider dbConnectionProvider, ITicketSerializer ticketSerializer)
-            : base(dbConnectionProvider)
+            : base(dbConnectionProvider, ticketSerializer)
         {
-            this.ticketSerializer = ticketSerializer;
         }
 
         protected override string TableName => "tickets";
@@ -37,10 +34,6 @@ namespace TicketFlow.TicketService.Persistence
 
         public IReadOnlyCollection<ITicket> GetByBuyerEmail(string buyerEmail)
             => SelectByField($"SELECT {GetSelectSqlMapping()} FROM {TableName} WHERE buyer_email=@buyerEmail;", new { buyerEmail });
-
-        protected override ITicket Convert(TicketSerializationModel databaseModel) => ticketSerializer.Deserialize(databaseModel);
-
-        protected override TicketSerializationModel Convert(ITicket entity) => ticketSerializer.Serialize(entity);
 
         private IReadOnlyCollection<ITicket> SelectByField(string sql, object sqlParams)
         {

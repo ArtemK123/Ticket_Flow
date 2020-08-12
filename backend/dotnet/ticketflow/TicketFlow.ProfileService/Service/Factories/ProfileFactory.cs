@@ -19,7 +19,7 @@ namespace TicketFlow.ProfileService.Service.Factories
             return new Profile(newProfileId, creationModel.UserEmail, creationModel.PhoneNumber, creationModel.Birthday);
         }
 
-        public IProfile Create(ProfileSerializationModel creationModel)
+        public IProfile Create(StoredProfileCreationModel creationModel)
         {
             return new Profile(creationModel.Id, creationModel.UserEmail, creationModel.PhoneNumber, creationModel.Birthday);
         }
