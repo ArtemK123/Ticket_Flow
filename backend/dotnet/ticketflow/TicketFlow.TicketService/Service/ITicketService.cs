@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.TicketService.Domain.Entities;
-using TicketFlow.TicketService.Domain.Models;
+using TicketFlow.TicketService.Client.Extensibility.Entities;
+using TicketFlow.TicketService.Client.Extensibility.Models;
 
 namespace TicketFlow.TicketService.Service
 {

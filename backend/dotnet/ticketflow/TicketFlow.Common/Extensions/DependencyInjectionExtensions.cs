@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TicketFlow.Common.Providers;
 using TicketFlow.Common.Readers;
+using TicketFlow.Common.Serializers;
 
 namespace TicketFlow.Common.Extensions
 {
@@ -12,6 +13,7 @@ namespace TicketFlow.Common.Extensions
             services.AddTransient(typeof(IPostgresConnectionStringProvider), typeof(PostgresConnectionStringProvider));
             services.AddTransient(typeof(IRandomValueProvider), typeof(RandomValueProvider));
             services.AddTransient(typeof(IStringFromStreamReader), typeof(StringFromStreamReader));
+            services.AddTransient(typeof(IJsonSerializer), typeof(JsonSerializer));
         }
     }
 }

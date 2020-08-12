@@ -5,11 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
+using TicketFlow.TicketService.Client.Extensibility.DependencyInjection;
 using TicketFlow.TicketService.Persistence;
 using TicketFlow.TicketService.Service;
-using TicketFlow.TicketService.Service.Factories;
-using TicketFlow.TicketService.Service.Serializers;
-using TicketFlow.TicketService.Service.Validators;
 
 namespace TicketFlow.TicketService
 {
@@ -30,11 +28,9 @@ namespace TicketFlow.TicketService
             services.AddControllers();
             services.AddConsul(Configuration);
 
-            services.AddTransient(typeof(ITicketFactory), typeof(TicketFactory));
+            services.AddTicketServiceClientServices();
             services.AddTransient(typeof(ITicketService), typeof(Service.TicketService));
             services.AddTransient(typeof(ITicketRepository), typeof(TicketRepository));
-            services.AddTransient(typeof(ITicketCreationModelValidator), typeof(TicketCreationModelValidator));
-            services.AddTransient(typeof(ITicketSerializer), typeof(TicketSerializer));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

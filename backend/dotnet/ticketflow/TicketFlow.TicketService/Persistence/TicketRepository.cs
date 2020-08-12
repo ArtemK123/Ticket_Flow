@@ -3,9 +3,9 @@ using System.Linq;
 using Dapper;
 using TicketFlow.Common.Providers;
 using TicketFlow.Common.Repositories;
-using TicketFlow.TicketService.Domain.Entities;
-using TicketFlow.TicketService.Domain.Models;
-using TicketFlow.TicketService.Service.Serializers;
+using TicketFlow.TicketService.Client.Extensibility.Entities;
+using TicketFlow.TicketService.Client.Extensibility.Models;
+using TicketFlow.TicketService.Client.Extensibility.Serializers;
 
 namespace TicketFlow.TicketService.Persistence
 {

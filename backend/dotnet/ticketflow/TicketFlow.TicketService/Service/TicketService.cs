@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.TicketService.Domain.Entities;
-using TicketFlow.TicketService.Domain.Exceptions;
-using TicketFlow.TicketService.Domain.Models;
+using TicketFlow.TicketService.Client.Extensibility.Entities;
+using TicketFlow.TicketService.Client.Extensibility.Exceptions;
+using TicketFlow.TicketService.Client.Extensibility.Factories;
+using TicketFlow.TicketService.Client.Extensibility.Models;
 using TicketFlow.TicketService.Persistence;
-using TicketFlow.TicketService.Service.Factories;
 
 namespace TicketFlow.TicketService.Service
 {

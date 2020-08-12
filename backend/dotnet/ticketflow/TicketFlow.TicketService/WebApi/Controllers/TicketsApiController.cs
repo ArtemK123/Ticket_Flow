@@ -4,10 +4,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TicketFlow.Common.Readers;
-using TicketFlow.TicketService.Domain.Entities;
-using TicketFlow.TicketService.Domain.Models;
+using TicketFlow.TicketService.Client.Extensibility.Entities;
+using TicketFlow.TicketService.Client.Extensibility.Models;
+using TicketFlow.TicketService.Client.Extensibility.Serializers;
 using TicketFlow.TicketService.Service;
-using TicketFlow.TicketService.Service.Serializers;
 using TicketFlow.TicketService.WebApi.ClientModels.Requests;
 
 namespace TicketFlow.TicketService.WebApi.Controllers
@@ -49,22 +49,22 @@ namespace TicketFlow.TicketService.WebApi.Controllers
         }
 
         [HttpPost("")]
-        public int Add([FromBody] AddTicketRequestModel addTicketRequestModel)
+        public int Add([FromBody] TicketCreationApiModel ticketCreationApiModel)
         {
-            int createdEntityId = ticketService.Add(Convert(addTicketRequestModel));
+            int createdEntityId = ticketService.Add(Convert(ticketCreationApiModel));
             return createdEntityId;
         }
 
         [HttpPost("order")]
-        public string Order([FromBody] OrderRequestModel orderRequestModel)
+        public string Order([FromBody] OrderApiModel orderApiModel)
         {
-            var orderModel = new OrderModel(orderRequestModel.TicketId, orderRequestModel.BuyerEmail);
+            var orderModel = new OrderModel(orderApiModel.TicketId, orderApiModel.BuyerEmail);
             ticketService.Order(orderModel);
 
             return "Ordered successfully";
         }
 
-        private static TicketCreationModel Convert(AddTicketRequestModel requestModel)
-            => new TicketCreationModel(requestModel.MovieId, requestModel.Row, requestModel.Seat, requestModel.Price);
+        private static TicketCreationModel Convert(TicketCreationApiModel creationApiModel)
+            => new TicketCreationModel(creationApiModel.MovieId, creationApiModel.Row, creationApiModel.Seat, creationApiModel.Price);
     }
 }

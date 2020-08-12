@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TicketFlow.Common.Repositories;
-using TicketFlow.TicketService.Domain.Entities;
+using TicketFlow.TicketService.Client.Extensibility.Entities;
 
 namespace TicketFlow.TicketService.Persistence
 {
