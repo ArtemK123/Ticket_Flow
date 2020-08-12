@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Version>1.4.0-dev</Version>
+        <Version>1.4.0</Version>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageId>TicketFlow.Common</PackageId>
         <Authors>darkmode1012@gmail.com</Authors>
