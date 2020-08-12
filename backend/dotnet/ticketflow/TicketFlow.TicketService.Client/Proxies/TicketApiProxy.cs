@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.Serializers;
 using TicketFlow.TicketService.Client.Extensibility.Entities;
+using TicketFlow.TicketService.Client.Extensibility.Exceptions;
 using TicketFlow.TicketService.Client.Extensibility.Models;
 using TicketFlow.TicketService.Client.Extensibility.Proxies;
 using TicketFlow.TicketService.Client.Extensibility.Serializers;
@@ -33,6 +35,9 @@ namespace TicketFlow.TicketService.Client.Proxies
 
             HttpClient httpClient = httpClientFactory.CreateClient();
             HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequest);
+
+            await ThrowExceptionOnErrorAsync(httpResponse);
+
             string responseBodyJson = await httpResponse.Content.ReadAsStringAsync();
 
             TicketSerializationModel[] ticketSerializationModels = jsonSerializer.Deserialize<TicketSerializationModel[]>(responseBodyJson);
@@ -47,6 +52,9 @@ namespace TicketFlow.TicketService.Client.Proxies
 
             HttpClient httpClient = httpClientFactory.CreateClient();
             HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequest);
+
+            await ThrowExceptionOnErrorAsync(httpResponse);
+
             string responseBodyJson = await httpResponse.Content.ReadAsStringAsync();
 
             TicketSerializationModel[] ticketSerializationModels = jsonSerializer.Deserialize<TicketSerializationModel[]>(responseBodyJson);
@@ -61,6 +69,9 @@ namespace TicketFlow.TicketService.Client.Proxies
 
             HttpClient httpClient = httpClientFactory.CreateClient();
             HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequest);
+
+            await ThrowExceptionOnErrorAsync(httpResponse);
+
             string responseBody = await httpResponse.Content.ReadAsStringAsync();
 
             return int.Parse(responseBody);
@@ -73,7 +84,19 @@ namespace TicketFlow.TicketService.Client.Proxies
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(orderModel));
 
             HttpClient httpClient = httpClientFactory.CreateClient();
-            await httpClient.SendAsync(httpRequest);
+            var response = await httpClient.SendAsync(httpRequest);
+
+            await ThrowExceptionOnErrorAsync(response);
+        }
+
+        private static async Task ThrowExceptionOnErrorAsync(HttpResponseMessage httpResponse)
+        {
+            switch (httpResponse.StatusCode)
+            {
+                case HttpStatusCode.NotFound: throw new NotFoundException(await httpResponse.Content.ReadAsStringAsync());
+                case HttpStatusCode.BadRequest: throw new TicketAlreadyOrderedException(await httpResponse.Content.ReadAsStringAsync());
+                case HttpStatusCode.InternalServerError: throw new InternalServiceException();
+            }
         }
 
         private string GetTicketApiUrl()
