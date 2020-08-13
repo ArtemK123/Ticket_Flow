@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TicketFlow.Common.Readers;
-using TicketFlow.ProfileService.Domain.Entities;
-using TicketFlow.ProfileService.Domain.Models;
+using TicketFlow.ProfileService.Client.Extensibility.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Factories;
+using TicketFlow.ProfileService.Client.Extensibility.Models;
+using TicketFlow.ProfileService.Client.Extensibility.Serializers;
 using TicketFlow.ProfileService.Service;
-using TicketFlow.ProfileService.Service.Factories;
-using TicketFlow.ProfileService.Service.Serializers;
 using TicketFlow.ProfileService.WebApi.ClientModels.Requests;
 
 namespace TicketFlow.ProfileService.WebApi.Controllers

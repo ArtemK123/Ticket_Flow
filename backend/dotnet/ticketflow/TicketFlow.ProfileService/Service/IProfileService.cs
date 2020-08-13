@@ -1,4 +1,4 @@
-﻿using TicketFlow.ProfileService.Domain.Entities;
+﻿using TicketFlow.ProfileService.Client.Extensibility.Entities;
 
 namespace TicketFlow.ProfileService.Service
 {

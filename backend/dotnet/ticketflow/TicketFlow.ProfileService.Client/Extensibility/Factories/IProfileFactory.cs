@@ -1,8 +1,8 @@
 ﻿using TicketFlow.Common.Factories;
-using TicketFlow.ProfileService.Domain.Entities;
-using TicketFlow.ProfileService.Domain.Models;
+using TicketFlow.ProfileService.Client.Extensibility.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Models;
 
-namespace TicketFlow.ProfileService.Service.Factories
+namespace TicketFlow.ProfileService.Client.Extensibility.Factories
 {
     public interface IProfileFactory : IEntityFactory<IProfile, ProfileCreationModel>, IEntityFactory<IProfile, StoredProfileCreationModel>
     {

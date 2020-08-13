@@ -1,8 +1,10 @@
-﻿using TicketFlow.ProfileService.Domain.Entities;
-using TicketFlow.ProfileService.Domain.Models;
-using TicketFlow.ProfileService.Service.Factories;
+﻿using TicketFlow.ProfileService.Client.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Factories;
+using TicketFlow.ProfileService.Client.Extensibility.Models;
+using TicketFlow.ProfileService.Client.Extensibility.Serializers;
 
-namespace TicketFlow.ProfileService.Service.Serializers
+namespace TicketFlow.ProfileService.Client.Serializers
 {
     internal class ProfileSerializer : IProfileSerializer
     {

@@ -1,8 +1,10 @@
 ﻿using TicketFlow.Common.Providers;
-using TicketFlow.ProfileService.Domain.Entities;
-using TicketFlow.ProfileService.Domain.Models;
+using TicketFlow.ProfileService.Client.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Factories;
+using TicketFlow.ProfileService.Client.Extensibility.Models;
 
-namespace TicketFlow.ProfileService.Service.Factories
+namespace TicketFlow.ProfileService.Client.Factories
 {
     internal class ProfileFactory : IProfileFactory
     {

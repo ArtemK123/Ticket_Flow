@@ -1,5 +1,5 @@
 ﻿using TicketFlow.Common.Repositories;
-using TicketFlow.ProfileService.Domain.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Entities;
 
 namespace TicketFlow.ProfileService.Persistence.Repositories
 {

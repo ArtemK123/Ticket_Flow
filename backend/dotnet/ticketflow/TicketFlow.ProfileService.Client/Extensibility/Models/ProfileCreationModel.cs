@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.ProfileService.Domain.Models
+namespace TicketFlow.ProfileService.Client.Extensibility.Models
 {
     public class ProfileCreationModel
     {

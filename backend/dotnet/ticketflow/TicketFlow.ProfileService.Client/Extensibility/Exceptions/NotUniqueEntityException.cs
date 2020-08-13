@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TicketFlow.ProfileService.Domain.Exceptions
+namespace TicketFlow.ProfileService.Client.Extensibility.Exceptions
 {
-    internal class NotUniqueEntityException : Exception
+    public class NotUniqueEntityException : Exception
     {
         public NotUniqueEntityException(string message)
             : base(message)

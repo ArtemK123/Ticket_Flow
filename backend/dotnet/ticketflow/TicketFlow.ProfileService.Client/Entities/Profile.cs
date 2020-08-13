@@ -1,6 +1,7 @@
 ﻿using System;
+using TicketFlow.ProfileService.Client.Extensibility.Entities;
 
-namespace TicketFlow.ProfileService.Domain.Entities
+namespace TicketFlow.ProfileService.Client.Entities
 {
     internal class Profile : IProfile
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.ProfileService.Domain.Entities
+namespace TicketFlow.ProfileService.Client.Extensibility.Entities
 {
     public interface IProfile
     {
