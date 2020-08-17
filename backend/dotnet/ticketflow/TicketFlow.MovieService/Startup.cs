@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.Common.Extensions;
+using TicketFlow.MovieService.Client.Extensibility.DependencyInjection;
 using TicketFlow.MovieService.Persistence;
 using TicketFlow.MovieService.Service;
 
@@ -23,6 +24,7 @@ namespace TicketFlow.MovieService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCommonServices();
+            services.AddMovieServiceClientServices();
             services.AddFluentMigrator(Configuration, typeof(Startup).Assembly);
             services.AddConsul(Configuration);
             services.AddControllers();

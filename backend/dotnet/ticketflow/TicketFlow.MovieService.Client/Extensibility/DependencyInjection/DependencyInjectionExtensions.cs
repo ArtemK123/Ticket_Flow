@@ -5,6 +5,7 @@ using TicketFlow.MovieService.Client.Extensibility.Serializers;
 using TicketFlow.MovieService.Client.Factories;
 using TicketFlow.MovieService.Client.Providers;
 using TicketFlow.MovieService.Client.Proxies;
+using TicketFlow.MovieService.Client.Senders;
 using TicketFlow.MovieService.Client.Serializers;
 using TicketFlow.MovieService.Client.Validators;
 
@@ -12,7 +13,7 @@ namespace TicketFlow.MovieService.Client.Extensibility.DependencyInjection
 {
     public static class DependencyInjectionExtensions
     {
-        public static void AddProfileServiceClientServices(this IServiceCollection services)
+        public static void AddMovieServiceClientServices(this IServiceCollection services)
         {
             BindPublicServices(services);
             BindPrivateServices(services);
@@ -35,6 +36,7 @@ namespace TicketFlow.MovieService.Client.Extensibility.DependencyInjection
         {
             services.AddTransient(typeof(IMovieServiceResponseValidator), typeof(MovieServiceResponseValidator));
             services.AddTransient(typeof(IMovieServiceUrlProvider), typeof(MovieServiceUrlProvider));
+            services.AddTransient(typeof(IMovieServiceMessageSender), typeof(MovieServiceMessageSender));
         }
     }
 }
