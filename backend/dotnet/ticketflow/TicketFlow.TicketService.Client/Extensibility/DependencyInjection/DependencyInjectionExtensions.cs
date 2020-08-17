@@ -11,7 +11,7 @@ namespace TicketFlow.TicketService.Client.Extensibility.DependencyInjection
 {
     public static class DependencyInjectionExtensions
     {
-        public static void AddTicketServiceClientServices(this IServiceCollection services)
+        public static void AddTicketService(this IServiceCollection services)
         {
             BindPublicServices(services);
             BindInternalServices(services);

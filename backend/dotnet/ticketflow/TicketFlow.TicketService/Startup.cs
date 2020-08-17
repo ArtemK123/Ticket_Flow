@@ -28,7 +28,7 @@ namespace TicketFlow.TicketService
             services.AddControllers();
             services.AddConsul(Configuration);
 
-            services.AddTicketServiceClientServices();
+            services.AddTicketService();
             services.AddTransient(typeof(ITicketService), typeof(Service.TicketService));
             services.AddTransient(typeof(ITicketRepository), typeof(TicketRepository));
         }

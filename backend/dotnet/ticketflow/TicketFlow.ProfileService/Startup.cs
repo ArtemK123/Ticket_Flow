@@ -24,7 +24,7 @@ namespace TicketFlow.ProfileService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCommonServices();
-            services.AddProfileServiceClientServices();
+            services.AddProfileService();
             services.AddFluentMigrator(Configuration, typeof(Startup).Assembly);
             services.AddTransient(typeof(IProfileRepository), typeof(ProfileRepository));
             services.AddTransient(typeof(IProfileService), typeof(Service.ProfileService));

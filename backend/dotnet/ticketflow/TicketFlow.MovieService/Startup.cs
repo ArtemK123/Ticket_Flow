@@ -24,7 +24,7 @@ namespace TicketFlow.MovieService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCommonServices();
-            services.AddMovieServiceClientServices();
+            services.AddMovieService();
             services.AddFluentMigrator(Configuration, typeof(Startup).Assembly);
             services.AddConsul(Configuration);
             services.AddControllers();

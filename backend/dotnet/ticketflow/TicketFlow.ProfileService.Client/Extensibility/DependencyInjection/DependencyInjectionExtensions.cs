@@ -12,7 +12,7 @@ namespace TicketFlow.ProfileService.Client.Extensibility.DependencyInjection
 {
     public static class DependencyInjectionExtensions
     {
-        public static void AddProfileServiceClientServices(this IServiceCollection services)
+        public static void AddProfileService(this IServiceCollection services)
         {
             BindPublicServices(services);
             BindPrivateServices(services);

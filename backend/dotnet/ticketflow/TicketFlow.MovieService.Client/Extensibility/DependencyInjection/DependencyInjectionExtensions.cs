@@ -13,7 +13,7 @@ namespace TicketFlow.MovieService.Client.Extensibility.DependencyInjection
 {
     public static class DependencyInjectionExtensions
     {
-        public static void AddMovieServiceClientServices(this IServiceCollection services)
+        public static void AddMovieService(this IServiceCollection services)
         {
             BindPublicServices(services);
             BindPrivateServices(services);
