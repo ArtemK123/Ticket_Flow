@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.Common.Factories;
 using TicketFlow.Common.Providers;
 using TicketFlow.Common.Repositories;
-using TicketFlow.MovieService.Domain.Entities;
-using TicketFlow.MovieService.Domain.Models.MovieModels;
+using TicketFlow.MovieService.Client.Extensibility.Entities;
+using TicketFlow.MovieService.Client.Extensibility.Factories;
+using TicketFlow.MovieService.Client.Extensibility.Models.MovieModels;
 using TicketFlow.MovieService.Persistence.EntityModels;
 using TicketFlow.MovieService.Service;
 
@@ -16,7 +16,7 @@ namespace TicketFlow.MovieService.Persistence
 
         public MovieRepository(
             IPostgresDbConnectionProvider dbConnectionProvider,
-            IEntityFactory<IMovie, StoredMovieCreationModel> entityFactory,
+            IMovieFactory entityFactory,
             IFilmService filmService,
             ICinemaHallService cinemaHallService)
             : base(dbConnectionProvider, entityFactory)

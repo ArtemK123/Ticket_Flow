@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.Common.Factories;
 using TicketFlow.Common.Providers;
 using TicketFlow.Common.Repositories;
-using TicketFlow.MovieService.Domain.Entities;
-using TicketFlow.MovieService.Domain.Models.CinemaHallModels;
+using TicketFlow.MovieService.Client.Extensibility.Entities;
+using TicketFlow.MovieService.Client.Extensibility.Factories;
+using TicketFlow.MovieService.Client.Extensibility.Models.CinemaHallModels;
 using TicketFlow.MovieService.Persistence.EntityModels;
 
 namespace TicketFlow.MovieService.Persistence
 {
     internal class CinemaHallRepository : FactoryCrudRepositoryBase<int, ICinemaHall, CinemaHallDatabaseModel, StoredCinemaHallCreationModel>, ICinemaHallRepository
     {
-        public CinemaHallRepository(IPostgresDbConnectionProvider dbConnectionProvider, IEntityFactory<ICinemaHall, StoredCinemaHallCreationModel> entityFactory)
+        public CinemaHallRepository(IPostgresDbConnectionProvider dbConnectionProvider, ICinemaHallFactory entityFactory)
             : base(dbConnectionProvider, entityFactory)
         {
         }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.MovieService.Domain.Entities;
-using TicketFlow.MovieService.Domain.Models;
-using TicketFlow.MovieService.Domain.Models.CinemaHallModels;
+using TicketFlow.MovieService.Client.Extensibility.Entities;
+using TicketFlow.MovieService.Client.Extensibility.Models.CinemaHallModels;
 
 namespace TicketFlow.MovieService.Service
 {

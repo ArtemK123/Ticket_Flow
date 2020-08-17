@@ -1,5 +1,5 @@
 ﻿using TicketFlow.Common.Repositories;
-using TicketFlow.MovieService.Domain.Entities;
+using TicketFlow.MovieService.Client.Extensibility.Entities;
 
 namespace TicketFlow.MovieService.Persistence
 {
