@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
 using TicketFlow.MovieService.Client.Extensibility.Models.CinemaHallModels;
 
@@ -6,8 +7,8 @@ namespace TicketFlow.MovieService.Client.Extensibility.Proxies
 {
     public interface ICinemaHallApiProxy
     {
-        public IReadOnlyCollection<ICinemaHall> GetAll();
+        public Task<IReadOnlyCollection<ICinemaHall>> GetAllAsync();
 
-        public int Add(CinemaHallCreationModel cinemaHallCreationModel);
+        public Task<int> AddAsync(CinemaHallCreationModel cinemaHallCreationModel);
     }
 }

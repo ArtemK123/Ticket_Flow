@@ -3,8 +3,10 @@ using TicketFlow.MovieService.Client.Extensibility.Factories;
 using TicketFlow.MovieService.Client.Extensibility.Proxies;
 using TicketFlow.MovieService.Client.Extensibility.Serializers;
 using TicketFlow.MovieService.Client.Factories;
+using TicketFlow.MovieService.Client.Providers;
 using TicketFlow.MovieService.Client.Proxies;
 using TicketFlow.MovieService.Client.Serializers;
+using TicketFlow.MovieService.Client.Validators;
 
 namespace TicketFlow.MovieService.Client.Extensibility.DependencyInjection
 {
@@ -31,6 +33,8 @@ namespace TicketFlow.MovieService.Client.Extensibility.DependencyInjection
 
         private static void BindPrivateServices(IServiceCollection services)
         {
+            services.AddTransient(typeof(IMovieServiceResponseValidator), typeof(MovieServiceResponseValidator));
+            services.AddTransient(typeof(IMovieServiceUrlProvider), typeof(MovieServiceUrlProvider));
         }
     }
 }

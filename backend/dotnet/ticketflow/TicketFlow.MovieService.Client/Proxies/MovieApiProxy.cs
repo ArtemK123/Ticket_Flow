@@ -1,25 +1,65 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using TicketFlow.Common.Serializers;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
 using TicketFlow.MovieService.Client.Extensibility.Models.MovieModels;
 using TicketFlow.MovieService.Client.Extensibility.Proxies;
+using TicketFlow.MovieService.Client.Extensibility.Serializers;
+using TicketFlow.MovieService.Client.Providers;
+using TicketFlow.MovieService.Client.Senders;
 
 namespace TicketFlow.MovieService.Client.Proxies
 {
     internal class MovieApiProxy : IMovieApiProxy
     {
-        public IReadOnlyCollection<IMovie> GetAll()
+        private readonly IMovieSerializer movieSerializer;
+        private readonly IMovieServiceMessageSender serviceMessageSender;
+        private readonly IJsonSerializer jsonSerializer;
+        private readonly IMovieServiceUrlProvider movieServiceUrlProvider;
+
+        public MovieApiProxy(
+            IMovieSerializer movieSerializer,
+            IMovieServiceMessageSender serviceMessageSender,
+            IJsonSerializer jsonSerializer,
+            IMovieServiceUrlProvider movieServiceUrlProvider)
         {
-            throw new System.NotImplementedException();
+            this.movieSerializer = movieSerializer;
+            this.serviceMessageSender = serviceMessageSender;
+            this.jsonSerializer = jsonSerializer;
+            this.movieServiceUrlProvider = movieServiceUrlProvider;
         }
 
-        public IMovie GetById(int id)
+        public async Task<IReadOnlyCollection<IMovie>> GetAllAsync()
         {
-            throw new System.NotImplementedException();
+            string requestUrl = $"{GetApiUrl()}";
+            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+
+            IReadOnlyCollection<MovieSerializationModel> movieSerializationModels = await serviceMessageSender.SendAsync<MovieSerializationModel[]>(httpRequest);
+
+            return movieSerializationModels.Select(movieSerializer.Deserialize).ToList();
         }
 
-        public int Add(MovieCreationIdReferencedModel movieCreationIdReferencedModel)
+        public async Task<IMovie> GetByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            string requestUrl = $"{GetApiUrl()}/{id}";
+            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+
+            MovieSerializationModel serializationModel = await serviceMessageSender.SendAsync<MovieSerializationModel>(httpRequest);
+
+            return movieSerializer.Deserialize(serializationModel);
         }
+
+        public async Task<int> AddAsync(MovieCreationIdReferencedModel movieCreationIdReferencedModel)
+        {
+            string requestUrl = $"{GetApiUrl()}";
+            HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+            httpRequest.Content = new StringContent(jsonSerializer.Serialize(movieCreationIdReferencedModel));
+
+            return await serviceMessageSender.SendAsync<int>(httpRequest);
+        }
+
+        private string GetApiUrl() => $"{movieServiceUrlProvider.GetUrl()}/movies";
     }
 }
