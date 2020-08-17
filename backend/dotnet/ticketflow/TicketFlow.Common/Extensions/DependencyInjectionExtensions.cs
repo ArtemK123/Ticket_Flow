@@ -14,6 +14,7 @@ namespace TicketFlow.Common.Extensions
             services.AddTransient(typeof(IRandomValueProvider), typeof(RandomValueProvider));
             services.AddTransient(typeof(IStringFromStreamReader), typeof(StringFromStreamReader));
             services.AddTransient(typeof(IJsonSerializer), typeof(JsonSerializer));
+            services.AddTransient(typeof(IDateTimeProvider), typeof(DateTimeProvider));
             services.AddHttpClient();
         }
     }
