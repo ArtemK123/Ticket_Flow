@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TicketFlow.IdentityService.Domain.Exceptions
+namespace TicketFlow.IdentityService.Client.Extensibility.Exceptions
 {
-    internal class WrongPasswordException : Exception
+    public class WrongPasswordException : Exception
     {
         public WrongPasswordException(string message)
             : base(message)

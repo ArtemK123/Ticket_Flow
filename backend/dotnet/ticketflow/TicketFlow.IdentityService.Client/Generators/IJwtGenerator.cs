@@ -1,6 +1,6 @@
-﻿using TicketFlow.IdentityService.Domain.Entities;
+﻿using TicketFlow.IdentityService.Client.Extensibility.Entities;
 
-namespace TicketFlow.IdentityService.Service
+namespace TicketFlow.IdentityService.Client.Generators
 {
     internal interface IJwtGenerator
     {

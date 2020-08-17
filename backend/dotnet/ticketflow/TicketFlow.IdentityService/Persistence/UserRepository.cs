@@ -3,10 +3,11 @@ using System.Linq;
 using Dapper;
 using TicketFlow.Common.Providers;
 using TicketFlow.Common.Repositories;
-using TicketFlow.IdentityService.Domain.Entities;
-using TicketFlow.IdentityService.Domain.Models;
-using TicketFlow.IdentityService.Service.Factories;
-using TicketFlow.IdentityService.Service.Serializers;
+using TicketFlow.IdentityService.Client.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Factories;
+using TicketFlow.IdentityService.Client.Extensibility.Models;
+using TicketFlow.IdentityService.Client.Extensibility.Serializers;
 
 namespace TicketFlow.IdentityService.Persistence
 {

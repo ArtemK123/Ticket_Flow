@@ -1,7 +1,10 @@
-﻿using TicketFlow.IdentityService.Domain.Entities;
-using TicketFlow.IdentityService.Domain.Models;
+﻿using TicketFlow.IdentityService.Client.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Factories;
+using TicketFlow.IdentityService.Client.Extensibility.Models;
+using TicketFlow.IdentityService.Client.Generators;
 
-namespace TicketFlow.IdentityService.Service.Factories
+namespace TicketFlow.IdentityService.Client.Factories
 {
     internal class UserFactory : IUserFactory
     {

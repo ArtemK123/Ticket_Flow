@@ -1,6 +1,6 @@
 ﻿namespace TicketFlow.IdentityService.WebApi.ClientModels.Requests
 {
-    public class LoginRequest
+    public class RegisterRequestApiModel
     {
         public string Email { get; set; }
 

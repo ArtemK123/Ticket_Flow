@@ -1,6 +1,7 @@
-﻿using TicketFlow.IdentityService.Service;
+﻿using TicketFlow.IdentityService.Client.Extensibility.Entities;
+using TicketFlow.IdentityService.Client.Generators;
 
-namespace TicketFlow.IdentityService.Domain.Entities
+namespace TicketFlow.IdentityService.Client.Entities
 {
     internal class AuthorizedUser : User, IAuthorizedUser
     {

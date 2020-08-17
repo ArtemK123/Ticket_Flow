@@ -1,5 +1,5 @@
-﻿using TicketFlow.IdentityService.Domain.Entities;
-using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
+﻿using TicketFlow.IdentityService.Client.Extensibility.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Models;
 
 namespace TicketFlow.IdentityService.Service
 {

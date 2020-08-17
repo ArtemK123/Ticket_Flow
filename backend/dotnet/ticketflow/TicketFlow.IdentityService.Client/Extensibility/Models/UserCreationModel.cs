@@ -1,6 +1,6 @@
-﻿using TicketFlow.IdentityService.Domain.Entities;
+﻿using TicketFlow.IdentityService.Client.Entities;
 
-namespace TicketFlow.IdentityService.Domain.Models
+namespace TicketFlow.IdentityService.Client.Extensibility.Models
 {
     public class UserCreationModel
     {

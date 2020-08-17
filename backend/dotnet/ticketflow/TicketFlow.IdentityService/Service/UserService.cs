@@ -1,9 +1,9 @@
-﻿using TicketFlow.IdentityService.Domain.Entities;
-using TicketFlow.IdentityService.Domain.Exceptions;
-using TicketFlow.IdentityService.Domain.Models;
+﻿using TicketFlow.IdentityService.Client.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Exceptions;
+using TicketFlow.IdentityService.Client.Extensibility.Factories;
+using TicketFlow.IdentityService.Client.Extensibility.Models;
 using TicketFlow.IdentityService.Persistence;
-using TicketFlow.IdentityService.Service.Factories;
-using TicketFlow.IdentityService.WebApi.ClientModels.Requests;
 
 namespace TicketFlow.IdentityService.Service
 {

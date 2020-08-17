@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.IdentityService.Domain.Entities
+﻿namespace TicketFlow.IdentityService.Client.Extensibility.Entities
 {
     public interface IAuthorizedUser : IUser
     {

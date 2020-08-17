@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.IdentityService.Domain.Models
+﻿namespace TicketFlow.IdentityService.Client.Extensibility.Models
 {
     public class UserSerializationModel
     {

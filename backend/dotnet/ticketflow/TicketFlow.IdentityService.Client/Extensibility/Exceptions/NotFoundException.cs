@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TicketFlow.IdentityService.Domain.Exceptions
+namespace TicketFlow.IdentityService.Client.Extensibility.Exceptions
 {
-    internal class NotFoundException : Exception
+    public class NotFoundException : Exception
     {
         public NotFoundException(string message)
             : base(message)

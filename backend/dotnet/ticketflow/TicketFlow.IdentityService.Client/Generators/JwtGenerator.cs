@@ -3,9 +3,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using TicketFlow.IdentityService.Domain.Entities;
+using TicketFlow.Common.Providers;
+using TicketFlow.IdentityService.Client.Extensibility.Entities;
 
-namespace TicketFlow.IdentityService.Service
+namespace TicketFlow.IdentityService.Client.Generators
 {
     internal class JwtGenerator : IJwtGenerator
     {

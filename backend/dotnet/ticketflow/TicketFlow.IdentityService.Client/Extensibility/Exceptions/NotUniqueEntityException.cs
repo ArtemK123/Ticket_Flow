@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace TicketFlow.IdentityService.Domain.Exceptions
+namespace TicketFlow.IdentityService.Client.Extensibility.Exceptions
 {
-    internal class NotUniqueEntityException : Exception
+    public class NotUniqueEntityException : Exception
     {
         public NotUniqueEntityException(string message)
             : base(message)

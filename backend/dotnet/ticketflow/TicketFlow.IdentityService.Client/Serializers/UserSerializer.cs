@@ -1,8 +1,10 @@
-﻿using TicketFlow.IdentityService.Domain.Entities;
-using TicketFlow.IdentityService.Domain.Models;
-using TicketFlow.IdentityService.Service.Factories;
+﻿using TicketFlow.IdentityService.Client.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Entities;
+using TicketFlow.IdentityService.Client.Extensibility.Factories;
+using TicketFlow.IdentityService.Client.Extensibility.Models;
+using TicketFlow.IdentityService.Client.Extensibility.Serializers;
 
-namespace TicketFlow.IdentityService.Service.Serializers
+namespace TicketFlow.IdentityService.Client.Serializers
 {
     internal class UserSerializer : IUserSerializer
     {
