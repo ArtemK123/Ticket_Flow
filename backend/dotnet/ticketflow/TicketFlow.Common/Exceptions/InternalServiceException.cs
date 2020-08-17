@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.IdentityService.Client.Extensibility.Exceptions
+namespace TicketFlow.Common.Exceptions
 {
     public class InternalServiceException : Exception
     {

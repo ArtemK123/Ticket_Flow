@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TicketFlow.Common.Exceptions;
 using TicketFlow.IdentityService.Client.Extensibility.Exceptions;
 
 namespace TicketFlow.IdentityService.Client.Validators

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.ProfileService.Client.Extensibility.Exceptions
+namespace TicketFlow.Common.Exceptions
 {
     public class NotUniqueEntityException : Exception
     {

@@ -1,4 +1,5 @@
-﻿using TicketFlow.IdentityService.Client.Entities;
+﻿using TicketFlow.Common.Exceptions;
+using TicketFlow.IdentityService.Client.Entities;
 using TicketFlow.IdentityService.Client.Extensibility.Entities;
 using TicketFlow.IdentityService.Client.Extensibility.Exceptions;
 using TicketFlow.IdentityService.Client.Extensibility.Factories;

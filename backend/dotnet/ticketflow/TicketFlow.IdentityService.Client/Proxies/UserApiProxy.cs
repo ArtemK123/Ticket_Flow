@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using TicketFlow.Common.Exceptions;
 using TicketFlow.Common.Serializers;
 using TicketFlow.IdentityService.Client.Extensibility.Entities;
 using TicketFlow.IdentityService.Client.Extensibility.Exceptions;

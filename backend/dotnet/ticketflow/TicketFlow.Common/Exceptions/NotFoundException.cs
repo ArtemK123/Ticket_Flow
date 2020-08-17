@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.TicketService.Client.Extensibility.Exceptions
+namespace TicketFlow.Common.Exceptions
 {
     public class NotFoundException : Exception
     {

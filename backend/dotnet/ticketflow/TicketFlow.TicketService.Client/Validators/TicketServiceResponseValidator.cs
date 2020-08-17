@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TicketFlow.Common.Exceptions;
 using TicketFlow.TicketService.Client.Extensibility.Exceptions;
 
 namespace TicketFlow.TicketService.Client.Validators
@@ -13,7 +14,7 @@ namespace TicketFlow.TicketService.Client.Validators
             {
                 case HttpStatusCode.NotFound: throw new NotFoundException(await httpResponse.Content.ReadAsStringAsync());
                 case HttpStatusCode.BadRequest: throw new TicketAlreadyOrderedException(await httpResponse.Content.ReadAsStringAsync());
-                case HttpStatusCode.InternalServerError: throw new InternalServiceException();
+                case HttpStatusCode.InternalServerError: throw new InternalServiceException("Internal error in Ticket service");
             }
         }
     }

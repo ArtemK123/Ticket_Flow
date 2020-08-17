@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TicketFlow.Common.Exceptions;
 using TicketFlow.Common.WebApi;
 using TicketFlow.TicketService.Client.Extensibility.Exceptions;
 

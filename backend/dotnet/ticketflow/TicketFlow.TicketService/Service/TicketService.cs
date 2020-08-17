@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TicketFlow.Common.Exceptions;
 using TicketFlow.TicketService.Client.Extensibility.Entities;
 using TicketFlow.TicketService.Client.Extensibility.Exceptions;
 using TicketFlow.TicketService.Client.Extensibility.Factories;

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TicketFlow.MovieService.Client.Extensibility.Exceptions;
+using TicketFlow.Common.Exceptions;
 
 namespace TicketFlow.MovieService.Client.Validators
 {
