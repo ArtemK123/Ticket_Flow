@@ -9,20 +9,20 @@ using TicketFlow.ProfileService.Client.Extensibility.Factories;
 using TicketFlow.ProfileService.Client.Extensibility.Models;
 using TicketFlow.ProfileService.Client.Extensibility.Serializers;
 using TicketFlow.ProfileService.Service;
-using TicketFlow.ProfileService.WebApi.ClientModels.Requests;
+using TicketFlow.ProfileService.WebApi.ClientModels;
 
 namespace TicketFlow.ProfileService.WebApi.Controllers
 {
     [ApiController]
     [Route("/profiles")]
-    public class ProfilesApiController : ControllerBase
+    public class ProfileApiController : ControllerBase
     {
         private readonly IProfileService profileService;
         private readonly IStringFromStreamReader stringFromStreamReader;
         private readonly IProfileSerializer profileSerializer;
         private readonly IProfileFactory profileFactory;
 
-        public ProfilesApiController(IProfileService profileService, IStringFromStreamReader stringFromStreamReader, IProfileSerializer profileSerializer, IProfileFactory profileFactory)
+        public ProfileApiController(IProfileService profileService, IStringFromStreamReader stringFromStreamReader, IProfileSerializer profileSerializer, IProfileFactory profileFactory)
         {
             this.profileService = profileService;
             this.stringFromStreamReader = stringFromStreamReader;

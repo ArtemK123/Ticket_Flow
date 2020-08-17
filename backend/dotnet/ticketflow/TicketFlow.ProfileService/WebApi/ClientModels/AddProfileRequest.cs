@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TicketFlow.ProfileService.WebApi.ClientModels.Requests
+namespace TicketFlow.ProfileService.WebApi.ClientModels
 {
     public class AddProfileRequest
     {

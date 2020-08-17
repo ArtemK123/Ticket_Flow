@@ -8,19 +8,19 @@ using TicketFlow.TicketService.Client.Extensibility.Entities;
 using TicketFlow.TicketService.Client.Extensibility.Models;
 using TicketFlow.TicketService.Client.Extensibility.Serializers;
 using TicketFlow.TicketService.Service;
-using TicketFlow.TicketService.WebApi.ClientModels.Requests;
+using TicketFlow.TicketService.WebApi.ClientModels;
 
 namespace TicketFlow.TicketService.WebApi.Controllers
 {
     [ApiController]
     [Route("/tickets")]
-    public class TicketsApiController : ControllerBase
+    public class TicketApiController : ControllerBase
     {
         private readonly ITicketService ticketService;
         private readonly IStringFromStreamReader stringFromStreamReader;
         private readonly ITicketSerializer ticketSerializer;
 
-        public TicketsApiController(ITicketService ticketService, IStringFromStreamReader stringFromStreamReader, ITicketSerializer ticketSerializer)
+        public TicketApiController(ITicketService ticketService, IStringFromStreamReader stringFromStreamReader, ITicketSerializer ticketSerializer)
         {
             this.ticketService = ticketService;
             this.stringFromStreamReader = stringFromStreamReader;

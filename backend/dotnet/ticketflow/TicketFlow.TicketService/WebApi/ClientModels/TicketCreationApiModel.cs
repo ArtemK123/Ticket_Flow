@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.TicketService.WebApi.ClientModels.Requests
+﻿namespace TicketFlow.TicketService.WebApi.ClientModels
 {
     public class TicketCreationApiModel
     {
