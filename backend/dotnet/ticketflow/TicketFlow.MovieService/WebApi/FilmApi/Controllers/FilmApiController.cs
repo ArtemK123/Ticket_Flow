@@ -3,17 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
 using TicketFlow.MovieService.Client.Extensibility.Models.FilmModels;
 using TicketFlow.MovieService.Service;
-using TicketFlow.MovieService.WebApi.FilmsApi.ClientModels;
+using TicketFlow.MovieService.WebApi.FilmApi.ClientModels;
 
-namespace TicketFlow.MovieService.WebApi.FilmsApi.Controllers
+namespace TicketFlow.MovieService.WebApi.FilmApi.Controllers
 {
     [ApiController]
     [Route("films")]
-    public class FilmsApiController : ControllerBase
+    public class FilmApiController : ControllerBase
     {
         private readonly IFilmService filmService;
 
-        public FilmsApiController(IFilmService filmService)
+        public FilmApiController(IFilmService filmService)
         {
             this.filmService = filmService;
         }

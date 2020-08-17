@@ -1,4 +1,4 @@
-﻿namespace TicketFlow.MovieService.WebApi.CinemaHallsApi.ClientModels
+﻿namespace TicketFlow.MovieService.WebApi.CinemaHallApi.ClientModels
 {
     public class CinemaHallCreationApiModel
     {

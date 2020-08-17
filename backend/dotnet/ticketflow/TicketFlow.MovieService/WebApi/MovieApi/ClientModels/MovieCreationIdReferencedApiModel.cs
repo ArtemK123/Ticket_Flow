@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.MovieService.WebApi.MoviesApi.ClientModels
+namespace TicketFlow.MovieService.WebApi.MovieApi.ClientModels
 {
     public class MovieCreationIdReferencedApiModel
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TicketFlow.MovieService.WebApi.FilmsApi.ClientModels
+namespace TicketFlow.MovieService.WebApi.FilmApi.ClientModels
 {
     public class FilmCreationApiModel
     {
