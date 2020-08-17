@@ -1,5 +1,4 @@
-﻿using TicketFlow.ProfileService.Client.Entities;
-using TicketFlow.ProfileService.Client.Extensibility.Entities;
+﻿using TicketFlow.ProfileService.Client.Extensibility.Entities;
 using TicketFlow.ProfileService.Client.Extensibility.Factories;
 using TicketFlow.ProfileService.Client.Extensibility.Models;
 using TicketFlow.ProfileService.Client.Extensibility.Serializers;
@@ -14,9 +13,6 @@ namespace TicketFlow.ProfileService.Client.Serializers
         {
             this.profileFactory = profileFactory;
         }
-
-        public IProfile Create(ProfileSerializationModel creationModel)
-            => new Profile(creationModel.Id, creationModel.UserEmail, creationModel.PhoneNumber, creationModel.Birthday);
 
         public ProfileSerializationModel Serialize(IProfile profile)
             => new ProfileSerializationModel { Id = profile.Id, UserEmail = profile.UserEmail, PhoneNumber = profile.PhoneNumber, Birthday = profile.Birthday };
