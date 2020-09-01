@@ -1,5 +1,5 @@
-﻿using TicketFlow.ProfileService.Client.Extensibility.Entities;
-using TicketFlow.ProfileService.Client.Extensibility.Exceptions;
+﻿using TicketFlow.Common.Exceptions;
+using TicketFlow.ProfileService.Client.Extensibility.Entities;
 using TicketFlow.ProfileService.Persistence.Repositories;
 
 namespace TicketFlow.ProfileService.Service

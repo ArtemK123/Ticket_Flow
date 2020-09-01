@@ -11,7 +11,7 @@
         <PackageReference Include="FluentMigrator.Runner.Postgres" Version="3.2.8" />
         <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.0" />
         <PackageReference Include="Npgsql" Version="5.0.0-alpha1" />
-        <PackageReference Include="TicketFlow.Common" Version="1.5.0-dev" />
-        <PackageReference Include="TicketFlow.MovieService.Client" Version="1.0.0-dev" />
+        <PackageReference Include="TicketFlow.Common" Version="1.5.0" />
+        <PackageReference Include="TicketFlow.MovieService.Client" Version="1.0.0" />
     </ItemGroup>
 </Project>

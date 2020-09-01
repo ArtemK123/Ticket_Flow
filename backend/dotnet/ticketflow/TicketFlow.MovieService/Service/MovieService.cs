@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using TicketFlow.Common.Exceptions;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
-using TicketFlow.MovieService.Client.Extensibility.Exceptions;
 using TicketFlow.MovieService.Client.Extensibility.Factories;
 using TicketFlow.MovieService.Client.Extensibility.Models.MovieModels;
 using TicketFlow.MovieService.Persistence;
