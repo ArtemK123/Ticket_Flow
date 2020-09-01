@@ -4,6 +4,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dapper" Version="2.0.35" />
+        <PackageReference Include="Consul" Version="1.6.1.1" />
+        <PackageReference Include="TicketFlow.Common" Version="1.5.0-dev" />
+        <PackageReference Include="TicketFlow.IdentityService.Client" Version="1.0.0-dev" />
+        <PackageReference Include="TicketFlow.ProfileService.Client" Version="1.0.0-dev" />
+        <PackageReference Include="TicketFlow.TicketService.Client" Version="1.0.0-dev" />
+        <PackageReference Include="TicketFlow.MovieService.Client" Version="1.0.0-dev" />
     </ItemGroup>
 </Project>
