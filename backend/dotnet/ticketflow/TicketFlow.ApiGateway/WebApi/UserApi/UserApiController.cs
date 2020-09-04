@@ -9,6 +9,7 @@ using TicketFlow.IdentityService.Client.Entities;
 using TicketFlow.IdentityService.Client.Extensibility.Entities;
 using TicketFlow.IdentityService.Client.Extensibility.Factories;
 using TicketFlow.IdentityService.Client.Extensibility.Models;
+using TicketFlow.IdentityService.Client.Extensibility.Proxies;
 using TicketFlow.ProfileService.Client.Extensibility.Entities;
 using TicketFlow.ProfileService.Client.Extensibility.Factories;
 using TicketFlow.ProfileService.Client.Extensibility.Models;
@@ -19,39 +20,46 @@ namespace TicketFlow.ApiGateway.WebApi.UserApi
     [Route("/")]
     public class UserApiController : ControllerBase
     {
-        private readonly IUserService userService;
+        private readonly IUserWithProfileService userWithProfileService;
+        private readonly IUserApiProxy userApiProxy;
         private readonly IUserFactory userFactory;
         private readonly IProfileFactory profileFactory;
         private readonly IStringFromStreamReader stringFromStreamReader;
 
-        public UserApiController(IUserService userService, IUserFactory userFactory, IProfileFactory profileFactory, IStringFromStreamReader stringFromStreamReader)
+        public UserApiController(
+            IUserWithProfileService userWithProfileService,
+            IUserFactory userFactory,
+            IProfileFactory profileFactory,
+            IStringFromStreamReader stringFromStreamReader,
+            IUserApiProxy userApiProxy)
         {
-            this.userService = userService;
+            this.userWithProfileService = userWithProfileService;
             this.userFactory = userFactory;
             this.profileFactory = profileFactory;
             this.stringFromStreamReader = stringFromStreamReader;
+            this.userApiProxy = userApiProxy;
         }
 
         [HttpPost("login")]
-        public string Login([FromBody] LoginRequestApiModel loginRequestApiModel)
+        public async Task<string> LoginAsync([FromBody] LoginRequestApiModel loginRequestApiModel)
         {
-            return userService.Login(new LoginRequest(loginRequestApiModel.Email, loginRequestApiModel.Password));
+            return await userApiProxy.LoginAsync(new LoginRequest(loginRequestApiModel.Email, loginRequestApiModel.Password));
         }
 
         [HttpPost("register")]
-        public string Register([FromBody] RegistrationRequestApiModel registrationRequest)
+        public async Task RegisterAsync([FromBody] RegistrationRequestApiModel registrationRequest)
         {
             IUser user = userFactory.Create(new UserCreationModel(registrationRequest.Email, registrationRequest.Password, Role.User));
             IProfile profile = profileFactory.Create(new ProfileCreationModel(registrationRequest.Email, registrationRequest.Profile.PhoneNumber, registrationRequest.Profile.Birthday));
 
-            return userService.Register(new UserWithProfile(user, profile));
+            await userWithProfileService.RegisterAsync(new UserWithProfile(user, profile));
         }
 
         [HttpPost("profile")]
         public async Task<GetProfileResponse> GetProfileAsync()
         {
             string token = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
-            UserWithProfile userWithProfile = userService.GetUserWithProfile(token);
+            UserWithProfile userWithProfile = await userWithProfileService.GetUserWithProfileAsync(token);
             return new GetProfileResponse
             {
                 UserEmail = userWithProfile.User.Email,
@@ -64,11 +72,10 @@ namespace TicketFlow.ApiGateway.WebApi.UserApi
         }
 
         [HttpPost("logout")]
-        public async Task<string> LogoutAsync()
+        public async Task LogoutAsync()
         {
             string token = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
-            userService.Logout(token);
-            return "Logout is successful";
+            await userApiProxy.LogoutAsync(token);
         }
     }
 }

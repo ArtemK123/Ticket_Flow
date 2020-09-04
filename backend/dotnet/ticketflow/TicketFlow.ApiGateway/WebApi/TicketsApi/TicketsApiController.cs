@@ -15,27 +15,27 @@ namespace TicketFlow.ApiGateway.WebApi.TicketsApi
     [Route("/tickets")]
     public class TicketsApiController : ControllerBase
     {
-        private readonly ITicketService ticketService;
-        private readonly IStringFromStreamReader stringFromStreamReader;
         private readonly ITicketWithMovieService ticketWithMovieService;
+        private readonly IOrderTicketRequestHandler orderTicketRequestHandler;
+        private readonly IStringFromStreamReader stringFromStreamReader;
         private readonly ITicketWithMovieConverter ticketWithMovieConverter;
 
         public TicketsApiController(
-            ITicketService ticketService,
-            IStringFromStreamReader stringFromStreamReader,
             ITicketWithMovieService ticketWithMovieService,
+            IOrderTicketRequestHandler orderTicketRequestHandler,
+            IStringFromStreamReader stringFromStreamReader,
             ITicketWithMovieConverter ticketWithMovieConverter)
         {
-            this.ticketService = ticketService;
-            this.stringFromStreamReader = stringFromStreamReader;
             this.ticketWithMovieService = ticketWithMovieService;
+            this.orderTicketRequestHandler = orderTicketRequestHandler;
+            this.stringFromStreamReader = stringFromStreamReader;
             this.ticketWithMovieConverter = ticketWithMovieConverter;
         }
 
         [HttpGet("by-movie/{movieId}")]
-        public IReadOnlyCollection<TicketClientModel> GetTicketsByMovie([FromRoute] int movieId)
+        public async Task<IReadOnlyCollection<TicketClientModel>> GetTicketsByMovieAsync([FromRoute] int movieId)
         {
-            IReadOnlyCollection<TicketWithMovie> ticketsWithMovie = ticketWithMovieService.GetByMovieId(movieId);
+            IReadOnlyCollection<TicketWithMovie> ticketsWithMovie = await ticketWithMovieService.GetByMovieIdAsync(movieId);
             return ticketsWithMovie.Select(ticketWithMovieConverter.Convert).ToArray();
         }
 
@@ -43,14 +43,14 @@ namespace TicketFlow.ApiGateway.WebApi.TicketsApi
         public async Task<IReadOnlyCollection<TicketClientModel>> GetTicketsByUserAsync()
         {
             string token = await stringFromStreamReader.ReadAsync(Request.Body, Encoding.UTF8);
-            IReadOnlyCollection<TicketWithMovie> ticketsWithMovie = ticketWithMovieService.GetByToken(token);
+            IReadOnlyCollection<TicketWithMovie> ticketsWithMovie = await ticketWithMovieService.GetByTokenAsync(token);
             return ticketsWithMovie.Select(ticketWithMovieConverter.Convert).ToArray();
         }
 
         [HttpPost("order")]
         public string Order([FromBody] TicketOrderRequest ticketOrderRequest)
         {
-            ticketService.Order(ticketOrderRequest.TicketId, ticketOrderRequest.Token);
+            orderTicketRequestHandler.OrderAsync(ticketOrderRequest.TicketId, ticketOrderRequest.Token);
             return "Ordered successfully";
         }
     }

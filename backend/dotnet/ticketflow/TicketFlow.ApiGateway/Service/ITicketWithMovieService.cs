@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TicketFlow.ApiGateway.Models;
 
 namespace TicketFlow.ApiGateway.Service
 {
     public interface ITicketWithMovieService
     {
-        IReadOnlyCollection<TicketWithMovie> GetByMovieId(int movieId);
+        Task<IReadOnlyCollection<TicketWithMovie>> GetByMovieIdAsync(int movieId);
 
-        IReadOnlyCollection<TicketWithMovie> GetByToken(string token);
+        Task<IReadOnlyCollection<TicketWithMovie>> GetByTokenAsync(string token);
     }
 }

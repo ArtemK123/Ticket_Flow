@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using TicketFlow.ApiGateway.Service;
 using TicketFlow.ApiGateway.WebApi.MoviesApi.Models;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
+using TicketFlow.MovieService.Client.Extensibility.Proxies;
 
 namespace TicketFlow.ApiGateway.WebApi.MoviesApi
 {
@@ -11,19 +12,24 @@ namespace TicketFlow.ApiGateway.WebApi.MoviesApi
     [Route("/movies")]
     public class MoviesApiController : ControllerBase
     {
-        private readonly IMovieService movieService;
+        private readonly IMovieApiProxy movieApiProxy;
 
-        public MoviesApiController(IMovieService movieService)
+        public MoviesApiController(IMovieApiProxy movieApiProxy)
         {
-            this.movieService = movieService;
+            this.movieApiProxy = movieApiProxy;
         }
 
         [HttpGet]
-        public IReadOnlyCollection<ShortMovieModel> GetAll()
-            => movieService.GetAll().Select(movie => new ShortMovieModel(movie)).ToArray();
+        public async Task<IReadOnlyCollection<ShortMovieModel>> GetAllAsync()
+        {
+            IReadOnlyCollection<IMovie> movies = await movieApiProxy.GetAllAsync();
+            return movies.Select(movie => new ShortMovieModel(movie)).ToArray();
+        }
 
         [HttpGet("{id}")]
-        public IMovie GetById([FromRoute] int id)
-            => movieService.Get(id);
+        public async Task<IMovie> GetByIdAsync([FromRoute] int id)
+        {
+            return await movieApiProxy.GetByIdAsync(id);
+        }
     }
 }
