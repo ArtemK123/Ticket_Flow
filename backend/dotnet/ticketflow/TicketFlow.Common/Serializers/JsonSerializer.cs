@@ -12,7 +12,7 @@ namespace TicketFlow.Common.Serializers
 
         public T Deserialize<T>(string json, JsonSerializerOptions jsonSerializerOptions = null)
         {
-            return EmbeddedJsonSerializer.Deserialize<T>(json);
+            return EmbeddedJsonSerializer.Deserialize<T>(json, jsonSerializerOptions);
         }
     }
 }

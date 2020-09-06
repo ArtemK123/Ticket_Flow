@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TicketFlow.Common.Serializers;
 using TicketFlow.Common.Validators;
@@ -18,7 +20,7 @@ namespace TicketFlow.Common.Senders
             this.jsonSerializer = jsonSerializer;
         }
 
-        public async Task<T> SendAsync<T>(HttpRequestMessage httpRequestMessage)
+        public async Task<T> SendAsync<T>(HttpRequestMessage httpRequestMessage, Func<string, T> convertFunc = null)
         {
             HttpClient httpClient = httpClientFactory.CreateClient();
             HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequestMessage);
@@ -26,7 +28,9 @@ namespace TicketFlow.Common.Senders
             await responseValidator.ValidateAsync(httpResponse);
             string responseBodyJson = await httpResponse.Content.ReadAsStringAsync();
 
-            return jsonSerializer.Deserialize<T>(responseBodyJson);
+            return convertFunc != null ?
+                convertFunc(responseBodyJson) :
+                jsonSerializer.Deserialize<T>(responseBodyJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
 
         public async Task SendAsync(HttpRequestMessage httpRequestMessage)

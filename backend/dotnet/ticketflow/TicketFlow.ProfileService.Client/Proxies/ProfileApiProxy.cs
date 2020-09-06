@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.Serializers;
@@ -39,6 +40,7 @@ namespace TicketFlow.ProfileService.Client.Proxies
         {
             string requestUrl = $"{GetProfileApiUrl()}/by-user";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+            httpRequest.Content = new StringContent(email);
 
             ProfileSerializationModel serializationModel = await serviceMessageSender.SendAsync<ProfileSerializationModel>(httpRequest);
 
@@ -49,7 +51,7 @@ namespace TicketFlow.ProfileService.Client.Proxies
         {
             string requestUrl = $"{GetProfileApiUrl()}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            httpRequest.Content = new StringContent(jsonSerializer.Serialize(profileCreationModel));
+            httpRequest.Content = new StringContent(jsonSerializer.Serialize(profileCreationModel), Encoding.UTF8, "application/json");
 
             ProfileSerializationModel serializationModel = await serviceMessageSender.SendAsync<ProfileSerializationModel>(httpRequest);
 

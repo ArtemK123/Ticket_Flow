@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TicketFlow.ApiGateway.Service;
+using TicketFlow.ApiGateway.WebApi.TicketsApi.Converters;
 using TicketFlow.Common.Extensions;
 using TicketFlow.IdentityService.Client.Extensibility.DependencyInjection;
 using TicketFlow.MovieService.Client.Extensibility.DependencyInjection;
@@ -33,6 +34,7 @@ namespace TicketFlow.ApiGateway
             services.AddConsul(Configuration);
 
             services.AddTransient(typeof(ITicketWithMovieService), typeof(TicketWithMovieService));
+            services.AddTransient(typeof(ITicketWithMovieConverter), typeof(TicketWithMovieConverter));
             services.AddTransient(typeof(IOrderTicketRequestHandler), typeof(OrderTicketRequestHandler));
             services.AddTransient(typeof(IUserWithProfileService), typeof(UserWithProfileService));
         }

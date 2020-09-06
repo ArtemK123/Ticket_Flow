@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using TicketFlow.Common.Exceptions;
 using TicketFlow.Common.Serializers;
 using TicketFlow.IdentityService.Client.Extensibility.Entities;
-using TicketFlow.IdentityService.Client.Extensibility.Exceptions;
 using TicketFlow.IdentityService.Client.Extensibility.Models;
 using TicketFlow.IdentityService.Client.Extensibility.Proxies;
 using TicketFlow.IdentityService.Client.Extensibility.Serializers;
@@ -54,18 +54,18 @@ namespace TicketFlow.IdentityService.Client.Proxies
         {
             string requestUrl = $"{GetApiUrl()}/login";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            httpRequest.Content = new StringContent(jsonSerializer.Serialize(loginRequest));
+            httpRequest.Content = new StringContent(jsonSerializer.Serialize(loginRequest), Encoding.UTF8, "application/json");
 
-            return await serviceMessageSender.SendAsync<string>(httpRequest);
+            return await serviceMessageSender.SendAsync(httpRequest, text => text);
         }
 
         public async Task<string> RegisterAsync(RegisterRequest registerRequest)
         {
             string requestUrl = $"{GetApiUrl()}/register";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            httpRequest.Content = new StringContent(jsonSerializer.Serialize(registerRequest));
+            httpRequest.Content = new StringContent(jsonSerializer.Serialize(registerRequest), Encoding.UTF8, "application/json");
 
-            return await serviceMessageSender.SendAsync<string>(httpRequest);
+            return await serviceMessageSender.SendAsync(httpRequest, text => text);
         }
 
         public async Task<string> LogoutAsync(string token)
@@ -74,7 +74,7 @@ namespace TicketFlow.IdentityService.Client.Proxies
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(token);
 
-            return await serviceMessageSender.SendAsync<string>(httpRequest);
+            return await serviceMessageSender.SendAsync(httpRequest, text => text);
         }
 
         private string GetApiUrl() => $"{serviceUrlProvider.GetUrl()}/users";

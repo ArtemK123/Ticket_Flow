@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using TicketFlow.Common.Serializers;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
@@ -55,9 +56,9 @@ namespace TicketFlow.MovieService.Client.Proxies
         {
             string requestUrl = $"{GetApiUrl()}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            httpRequest.Content = new StringContent(jsonSerializer.Serialize(movieCreationIdReferencedModel));
+            httpRequest.Content = new StringContent(jsonSerializer.Serialize(movieCreationIdReferencedModel), Encoding.UTF8, "application/json");
 
-            return await serviceMessageSender.SendAsync<int>(httpRequest);
+            return await serviceMessageSender.SendAsync(httpRequest, int.Parse);
         }
 
         private string GetApiUrl() => $"{movieServiceUrlProvider.GetUrl()}/movies";

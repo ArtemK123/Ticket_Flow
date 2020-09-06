@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.Serializers;
@@ -54,16 +55,16 @@ namespace TicketFlow.TicketService.Client.Proxies
         {
             string requestUrl = $"{GetTicketApiUrl()}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            httpRequest.Content = new StringContent(jsonSerializer.Serialize(ticketCreationModel));
+            httpRequest.Content = new StringContent(jsonSerializer.Serialize(ticketCreationModel), Encoding.UTF8, "application/json");
 
-            return await serviceMessageSender.SendAsync<int>(httpRequest);
+            return await serviceMessageSender.SendAsync(httpRequest, int.Parse);
         }
 
         public async Task OrderAsync(OrderModel orderModel)
         {
             string requestUrl = $"{GetTicketApiUrl()}/order";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            httpRequest.Content = new StringContent(jsonSerializer.Serialize(orderModel));
+            httpRequest.Content = new StringContent(jsonSerializer.Serialize(orderModel), Encoding.UTF8, "application/json");
 
             await serviceMessageSender.SendAsync(httpRequest);
         }
