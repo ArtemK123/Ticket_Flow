@@ -17,6 +17,8 @@ namespace TicketFlow.ApiGateway
 {
     public class Startup
     {
+        private const string FrontendAppCorsPolicyName = "FrontendApp";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,6 +36,15 @@ namespace TicketFlow.ApiGateway
 
             services.AddControllers();
             services.AddHttpClient();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    FrontendAppCorsPolicyName,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000");
+                    });
+            });
             services.AddConsul(Configuration);
 
             services.AddTransient(typeof(ITicketWithMovieService), typeof(TicketWithMovieService));
@@ -53,6 +64,8 @@ namespace TicketFlow.ApiGateway
             app.UseExceptionHandler("/error");
 
             app.UseRouting();
+
+            app.UseCors(FrontendAppCorsPolicyName);
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
