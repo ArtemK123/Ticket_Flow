@@ -13,6 +13,7 @@ namespace TicketFlow.Common.Providers
 
         public int GetRandomInt(int from, int to)
         {
+            // from inclusive, to exclusive
             return random.Next(from, to);
         }
     }

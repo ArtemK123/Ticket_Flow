@@ -51,6 +51,6 @@ namespace TicketFlow.MovieService.Client.Proxies
             return await serviceMessageSender.SendAsync(httpRequest, int.Parse);
         }
 
-        private string GetApiUrl() => $"{movieServiceUrlProvider.GetUrl()}/cinemaHalls";
+        private string GetApiUrl() => $"{movieServiceUrlProvider.GetUrl()}/cinema-halls";
     }
 }

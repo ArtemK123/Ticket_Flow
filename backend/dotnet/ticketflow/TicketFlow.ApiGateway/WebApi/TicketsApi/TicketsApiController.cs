@@ -16,18 +16,18 @@ namespace TicketFlow.ApiGateway.WebApi.TicketsApi
     public class TicketsApiController : ControllerBase
     {
         private readonly ITicketWithMovieService ticketWithMovieService;
-        private readonly IOrderTicketRequestHandler orderTicketRequestHandler;
+        private readonly IOrderTicketUseCase orderTicketUseCase;
         private readonly IStringFromStreamReader stringFromStreamReader;
         private readonly ITicketWithMovieConverter ticketWithMovieConverter;
 
         public TicketsApiController(
             ITicketWithMovieService ticketWithMovieService,
-            IOrderTicketRequestHandler orderTicketRequestHandler,
+            IOrderTicketUseCase orderTicketUseCase,
             IStringFromStreamReader stringFromStreamReader,
             ITicketWithMovieConverter ticketWithMovieConverter)
         {
             this.ticketWithMovieService = ticketWithMovieService;
-            this.orderTicketRequestHandler = orderTicketRequestHandler;
+            this.orderTicketUseCase = orderTicketUseCase;
             this.stringFromStreamReader = stringFromStreamReader;
             this.ticketWithMovieConverter = ticketWithMovieConverter;
         }
@@ -50,7 +50,7 @@ namespace TicketFlow.ApiGateway.WebApi.TicketsApi
         [HttpPost("order")]
         public string Order([FromBody] TicketOrderRequest ticketOrderRequest)
         {
-            orderTicketRequestHandler.OrderAsync(ticketOrderRequest.TicketId, ticketOrderRequest.Token);
+            orderTicketUseCase.OrderAsync(ticketOrderRequest.TicketId, ticketOrderRequest.Token);
             return "Ordered successfully";
         }
     }

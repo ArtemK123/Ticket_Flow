@@ -2,7 +2,7 @@
 
 namespace TicketFlow.ApiGateway.Service
 {
-    public interface IOrderTicketRequestHandler
+    public interface IOrderTicketUseCase
     {
         Task OrderAsync(int ticketId, string token);
     }

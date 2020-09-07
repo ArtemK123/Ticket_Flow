@@ -6,12 +6,12 @@ using TicketFlow.TicketService.Client.Extensibility.Proxies;
 
 namespace TicketFlow.ApiGateway.Service
 {
-    internal class OrderTicketRequestHandler : IOrderTicketRequestHandler
+    internal class OrderTicketUseCase : IOrderTicketUseCase
     {
         private readonly ITicketApiProxy ticketApiProxy;
         private readonly IUserApiProxy userApiProxy;
 
-        public OrderTicketRequestHandler(ITicketApiProxy ticketApiProxy, IUserApiProxy userApiProxy)
+        public OrderTicketUseCase(ITicketApiProxy ticketApiProxy, IUserApiProxy userApiProxy)
         {
             this.ticketApiProxy = ticketApiProxy;
             this.userApiProxy = userApiProxy;
