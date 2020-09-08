@@ -14,4 +14,11 @@
         <PackageReference Include="TicketFlow.Common" Version="1.6.0-dev" />
         <PackageReference Include="TicketFlow.IdentityService.Client" Version="1.1.0-dev" />
     </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="publish\**" />
+        <Compile Remove="publish\**" />
+        <EmbeddedResource Remove="publish\**" />
+        <Content Remove="publish\**" />
+    </ItemGroup>
 </Project>
