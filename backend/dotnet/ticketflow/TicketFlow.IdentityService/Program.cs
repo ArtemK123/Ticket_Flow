@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -15,7 +14,8 @@ namespace TicketFlow.IdentityService
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
-            => Host.CreateDefaultBuilder(args)
+        {
+            return Host.CreateDefaultBuilder(args)
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
@@ -23,31 +23,16 @@ namespace TicketFlow.IdentityService
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls(GetUrlFromConfigs());
+                    IConfigurationRoot appsettings =
+                        new ConfigurationBuilder()
+                            .AddJsonFile("appsettings.json")
+                            .Build();
+
+                    IUrlFromConfigProvider urlFromConfigProvider = new UrlFromConfigProvider();
+
+                    webBuilder.UseUrls(urlFromConfigProvider.GetUrl(appsettings));
                     webBuilder.UseStartup<Startup>();
                 });
-
-        private static string GetUrlFromConfigs()
-        {
-            IConfigurationRoot appSettings = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            bool runOnRandomPort = appSettings.GetValue<bool>("TicketFlow:RunOnRandomPort");
-            int port;
-
-            if (runOnRandomPort)
-            {
-                IRandomValueProvider randomValueProvider = new RandomValueProvider();
-                port = randomValueProvider.GetRandomInt(1024, 50000);
-            }
-            else
-            {
-                port = appSettings.GetValue<int>("TicketFlow:Port");
-            }
-
-            string urlBase = appSettings.GetValue<string>("TicketFlow:ServiceBaseUrl");
-            return $"{urlBase}:{port}";
         }
     }
 }
