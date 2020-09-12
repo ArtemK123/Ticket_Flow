@@ -2,7 +2,8 @@
 
 namespace TicketFlow.Common.Providers
 {
-    internal class RandomValueProvider : IRandomValueProvider
+    // public because can be used in Program.cs before the startup, so should be created directly
+    public class RandomValueProvider : IRandomValueProvider
     {
         private readonly Random random;
 
