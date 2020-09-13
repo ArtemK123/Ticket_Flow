@@ -22,7 +22,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.IdentityService.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.ProfileService.Test", "TicketFlow.ProfileService.Test\TicketFlow.ProfileService.Test.csproj", "{1A433893-8120-46D0-AAB4-61295CE0D8FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Common.Test", "TicketFlow.Common.Test\TicketFlow.Common.Test.csproj", "{459B18D2-A811-482A-89A4-875E35071562}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketFlow.Common.Test", "TicketFlow.Common.Test\TicketFlow.Common.Test.csproj", "{59AA2D95-EE46-4FB0-8E42-AD5532A88447}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,9 +74,9 @@ Global
 		{1A433893-8120-46D0-AAB4-61295CE0D8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A433893-8120-46D0-AAB4-61295CE0D8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A433893-8120-46D0-AAB4-61295CE0D8FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{459B18D2-A811-482A-89A4-875E35071562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{459B18D2-A811-482A-89A4-875E35071562}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{459B18D2-A811-482A-89A4-875E35071562}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{459B18D2-A811-482A-89A4-875E35071562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59AA2D95-EE46-4FB0-8E42-AD5532A88447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59AA2D95-EE46-4FB0-8E42-AD5532A88447}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59AA2D95-EE46-4FB0-8E42-AD5532A88447}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59AA2D95-EE46-4FB0-8E42-AD5532A88447}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
