@@ -6,10 +6,11 @@ This is a .Net Core transfer of TicketFlow project. The frontend part is the sam
 The consul is used as Service Discovery. The Postgres is used as database, the data scheme is the same as for Java backend.
 
 How to run (Dotnet backend):
+
 	1. git clone https://github.com/ArtemK123/Ticket_Flow
 
 	2. Install and run consul https://www.consul.io/
-	
+
 	3. Install and run postgres https://www.postgresql.org/  . 
 	    
 		Create the following databases:
@@ -23,16 +24,15 @@ How to run (Dotnet backend):
 			- ticketflow_profile_user
 			- ticketflow_ticket_user
 			- ticketflow_movie_user
-	
-	4. cd ./Ticket_Flow/backend/dotnet/TicketFlow
-	
-	5. dotnet run --project=./TicketFlow.IdentityService/TicketFlow.IdentityService.csproj
-	
-	6. dotnet run --project=./TicketFlow.ProfileService/TicketFlow.ProfileService.csproj
-	
-	7. dotnet run --project=./TicketFlow.MovieService/TicketFlow.MovieService.csproj
-	
-	8. dotnet run --project=./TicketFlow.TicketService/TicketFlow.TicketService.csproj
-	
-	9. dotnet run --project=./TicketFlow.ApiGateway/TicketFlow.ApiGateway.csproj
 
+	4. cd ./Ticket_Flow/backend/dotnet/TicketFlow
+
+	5. dotnet run --project=./TicketFlow.IdentityService/TicketFlow.IdentityService.csproj
+
+	6. dotnet run --project=./TicketFlow.ProfileService/TicketFlow.ProfileService.csproj
+
+	7. dotnet run --project=./TicketFlow.MovieService/TicketFlow.MovieService.csproj
+
+	8. dotnet run --project=./TicketFlow.TicketService/TicketFlow.TicketService.csproj
+
+	9. dotnet run --project=./TicketFlow.ApiGateway/TicketFlow.ApiGateway.csproj
