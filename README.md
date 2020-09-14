@@ -1,5 +1,5 @@
 # Ticket_Flow
-Service for booking cinema tickets - Local branch
+Service for booking cinema tickets - java_local branch
 
 Dependencies:
 
@@ -18,6 +18,8 @@ Configs for project are fetched from github repo:
 
 How to run:
 	
+	- git clone -b java_local https://github.com/ArtemK123/Ticket_Flow
+	
 	- Run postgres server and initialize databases. You can use init-database.sql file from /docs
 	
 	- Run rabbitmq with default params: (newly installed rabbitmq will have them by default)
@@ -26,7 +28,7 @@ How to run:
 		- username: guest
 		- password: guest
 	
-	- cd ./backend
+	- cd <root folder path>/backend/java
 	
 	- mvn clean install
 	
@@ -44,7 +46,7 @@ How to run:
 	
 	- java -jar ./api_gateway/target/api-gateway-1.0.0.jar
 	
-	- cd ../frontend/ticketflow
+	- cd <root folder path>/frontend/ticketflow
 	
 	- npm install
 	
@@ -58,7 +60,8 @@ API:
 
 How to use:
 
-	You can find public rest api description in /docs/api-description.txt.
-	
-	You also can use UI part from react client
+    - You can use frontend app at the http://localhost:3000
 
+    - You can use public API at the http://localhost:8080 . Description of the API can be found in docs folder.
+	
+	- You can find all docs related to the project in docs folder
