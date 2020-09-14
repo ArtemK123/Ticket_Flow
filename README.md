@@ -19,7 +19,7 @@ Dependencies:
 
 How to clone:
 
-    - git clone https://github.com/ArtemK123/Ticket_Flow
+    - git clone -b dotnet https://github.com/ArtemK123/Ticket_Flow
 
 
 How to build:
@@ -72,7 +72,7 @@ How to build:
 	Without that step your changes in package will not be fetched by other projects. Use should delete the re-builded package`s folder in global cache. 
 	The location of the cache can be found in the article: 
 	https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders
-	
+
 
 How to run:
 
@@ -109,14 +109,14 @@ How to run:
 	    - cd <root folder path>/frontend/ticketflow
 		
 		- npm start
-	
+
 
 How to test:
 
     - Currently, only backend tests are supproted. You can run all tests in solution or test for single *.csproj file. Command for all tests in the solution:
 	
 	- dotnet test <root folder path>/backend/dotnet/ticketflow/TicketFlow.sln
-	
+
 
 How to use:
 
