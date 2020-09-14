@@ -95,6 +95,8 @@ How to run:
 			- ticketflow_profile_user (for database ticketflow_profile)
 			- ticketflow_ticket_user (for database ticketflow_ticket)
 			- ticketflow_movie_user (for database ticketflow_movie)
+			
+		Note: You can use init-database.sql file from /docs folder
 
 	3. dotnet run --project=<root folder path>/backend/dotnet/TicketFlow/TicketFlow.IdentityService/TicketFlow.IdentityService.csproj
 
@@ -122,7 +124,7 @@ How to test:
 
 How to use:
 
-    - You can use frontend app at the http://localhost:8000
+    - You can use frontend app at the http://localhost:3000
 
     - You can use public API at the http://localhost:8080 . Description of the API can be found in docs folder.
 	
