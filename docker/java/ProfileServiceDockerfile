@@ -1,0 +1,22 @@
+FROM maven:3.6.3-jdk-14 AS build
+
+# Root folder (with docker-compose.yml) should be specified as context
+RUN mkdir /tmp/profile_service
+COPY ./backend/java/profile_service/pom.xml /tmp/profile_service
+COPY ./backend/java/profile_service/src /tmp/profile_service/src
+
+WORKDIR /tmp/profile_service
+RUN mvn -B package
+
+FROM openjdk:14-jdk
+
+RUN mkdir /app
+
+COPY --from=build /tmp/profile_service/target/*.jar /app/spring-boot-application.jar
+
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /app/wait-for-it.sh
+RUN chmod +x /app/wait-for-it.sh
+
+ENTRYPOINT ["java", "-jar", "/app/spring-boot-application.jar"]
+
+EXPOSE 9002

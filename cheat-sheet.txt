@@ -6,7 +6,8 @@ java -jar target/ticket-service-1.0.0.jar
 java -jar target/movie-service-1.0.0.jar
 java -jar target/api-gateway-1.0.0.jar
 
-
+consul agent -dev - start consul
+dotnet restore -s D:\Temp\LocalNugetDirectory -s https://api.nuget.org/ -v n
 
 Postgres:
 	Connect to profileService database(password=TicketFlow):	psql -U ProfileServiceUser -d ProfileServiceDatabase
