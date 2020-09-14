@@ -1,38 +1,26 @@
 # Ticket_Flow
-Service for booking cinema tickets - dotnet branch
+Service for booking cinema tickets - Java_docker branch
 
-This is a .Net Core transfer of TicketFlow project. The frontend part is the same, but in backend folder there is a ./dotnet folder with .Net core solution
+This version uses Java backend and Docker for containerzation. Configs for project are fetched from github repo: - https://github.com/ArtemK123/Ticket_Flow_Configs
 
-The consul is used as Service Discovery. The Postgres is used as database, the data scheme is the same as for Java backend.
+Dependencies:
 
-How to run (Dotnet backend):
+    - Docker: https://docs.docker.com/docker-for-windows/install/
 
-	1. git clone https://github.com/ArtemK123/Ticket_Flow
+How to run:
+	
+	1. git clone -b java_docker https://github.com/ArtemK123/Ticket_Flow
 
-	2. Install and run consul https://www.consul.io/
+	2. cd ./Ticket_Flow
+	
+	3. docker-compose -f docker-compose-java.yml build -q --parallel
+	
+	4. docker-compose -f docker-compose-java.yml up
+	
+How to use:
 
-	3. Install and run postgres https://www.postgresql.org/  . 
-	    
-		Create the following databases:
-		    - ticketflow_identity
-			- ticketflow_profile
-			- ticketflow_ticket
-			- ticketflow_movie
-			
-		Create the following user in postgres. The password for each user is TicketFlow:
-	        - ticketflow_identity_user
-			- ticketflow_profile_user
-			- ticketflow_ticket_user
-			- ticketflow_movie_user
+    - You can use frontend app at the http://localhost:8000
 
-	4. cd ./Ticket_Flow/backend/dotnet/TicketFlow
-
-	5. dotnet run --project=./TicketFlow.IdentityService/TicketFlow.IdentityService.csproj
-
-	6. dotnet run --project=./TicketFlow.ProfileService/TicketFlow.ProfileService.csproj
-
-	7. dotnet run --project=./TicketFlow.MovieService/TicketFlow.MovieService.csproj
-
-	8. dotnet run --project=./TicketFlow.TicketService/TicketFlow.TicketService.csproj
-
-	9. dotnet run --project=./TicketFlow.ApiGateway/TicketFlow.ApiGateway.csproj
+    - You can use public API at the http://localhost:8080 . Description of the API can be found in docs folder.
+	
+	- You can find all docs related to the project in docs folder
