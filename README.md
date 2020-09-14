@@ -1,14 +1,7 @@
 # Ticket_Flow
-Service for booking cinema tickets - master branch
+Service for booking cinema tickets - test branch
 
-This is a service with frontend/backend API architecture. The backend part is created in the microservice-oriented way.
-
-Currently, there is 2 versions of the app: with Java backend and .Net core backend. The master branch uses .Net version. 
-Also, the app uses ReactJS as frontend framework, PostgreSQL as database and Consul/Eureka as Service Discovery (Consul for .Net core, Eureka for Java). 
-The docker is used for containerization and orchestration.
-
-In the following section you can find the dependencies, how-to-run and how-to-use sections, which are relevant mostly for .Net core version of the app. 
-The same information for Java version you can find in the approptiate branches (java_docker, java_local).
+This branch is created for covering .Net core backend of the TicketFlow app by unit/integration tests.
 
 
 Dependencies:
