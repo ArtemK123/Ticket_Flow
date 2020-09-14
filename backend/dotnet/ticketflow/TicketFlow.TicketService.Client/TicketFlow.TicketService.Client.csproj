@@ -13,4 +13,10 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
         <PackageReference Include="TicketFlow.Common" Version="1.6.0-dev" />
     </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>TicketFlow.TicketService.Client.Test</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 </Project>

@@ -11,4 +11,10 @@
         <PackageReference Include="TicketFlow.TicketService.Client" Version="1.1.0-dev" />
         <PackageReference Include="TicketFlow.MovieService.Client" Version="1.1.0-dev" />
     </ItemGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>TicketFlow.ApiGateway.Test</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 </Project>
