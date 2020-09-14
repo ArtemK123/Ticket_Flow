@@ -17,7 +17,7 @@ Dependencies:
 
 How to clone:
 
-    - git clone https://github.com/ArtemK123/Ticket_Flow
+    - git clone -b dotnet_test https://github.com/ArtemK123/Ticket_Flow
 
 
 How to build:
