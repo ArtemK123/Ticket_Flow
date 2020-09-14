@@ -19,7 +19,7 @@ How to run:
 	
 How to use:
 
-    - You can use frontend app at the http://localhost:8000
+    - You can use frontend app at the http://localhost:3000
 
     - You can use public API at the http://localhost:8080 . Description of the API can be found in docs folder.
 	
