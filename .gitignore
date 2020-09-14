@@ -56,4 +56,3 @@ out/
 .settings
 .git
 postgres_volume/
-.git
