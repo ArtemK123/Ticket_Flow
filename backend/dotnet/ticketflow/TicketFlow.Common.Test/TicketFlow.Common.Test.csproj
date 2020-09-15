@@ -18,6 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="Providers\PostgresConnectionStringProviderTest\testSettings.json" CopyToOutputDirectory="PreserveNewest"/>
+        <None Update="Providers\PostgresConnectionStringProviderTest\testSettings.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 </Project>
