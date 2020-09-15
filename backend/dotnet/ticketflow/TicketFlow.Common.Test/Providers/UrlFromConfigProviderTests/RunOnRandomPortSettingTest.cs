@@ -1,23 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
-using TicketFlow.Common.Providers;
 using Xunit;
 
-namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTest
+namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
 {
-    public class RunOnRandomPortSettingTest
+    public class RunOnRandomPortSettingTest : UrlFromConfigProviderTestBase
     {
-        private const string ServiceBaseUrl = "http://localhost";
-        private const int Port = 12345;
-
-        private readonly UrlFromConfigProvider urlFromConfigProvider;
-
-        public RunOnRandomPortSettingTest()
-        {
-            urlFromConfigProvider = new UrlFromConfigProvider();
-        }
-
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
@@ -70,24 +58,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTest
                 { "TicketFlow:Port", Port.ToString() }
             };
 
-            var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(settings)
-                .Build();
-
-            Assert.Throws<InvalidOperationException>(() => urlFromConfigProvider.GetUrl(configuration));
-        }
-
-        private static int GetPortFromUrl(string url) => new Uri(url).Port;
-
-        private void RunGetUrlTest(IReadOnlyDictionary<string, string> settings, Action<string> assertAction)
-        {
-            var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(settings)
-                .Build();
-
-            string actual = urlFromConfigProvider.GetUrl(configuration);
-
-            assertAction(actual);
+            RunGetUrlThrowsExceptionTest<InvalidOperationException>(settings, exception => { });
         }
     }
 }

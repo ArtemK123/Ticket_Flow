@@ -16,8 +16,4 @@
     <ItemGroup>
       <ProjectReference Include="..\TicketFlow.Common\TicketFlow.Common.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-        <None Update="Providers\PostgresConnectionStringProviderTest\testSettings.json" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
 </Project>

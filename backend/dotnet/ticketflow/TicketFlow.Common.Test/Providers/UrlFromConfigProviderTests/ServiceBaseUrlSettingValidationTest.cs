@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using Xunit;
+
+namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
+{
+    public class ServiceBaseUrlSettingValidationTest : UrlFromConfigProviderTestBase
+    {
+        private const string ServiceBaseUrlInvalidExceptionMessage = "Application port is wrongly configured. Please, specify TicketFlow:ServiceBaseUrl in configuration file";
+
+        [Fact]
+        public void GetUrl_GetServiceBaseUrlSetting_ShouldUseServiceBaseUrlFromConfiguration_WhenSettingValid()
+        {
+            var settings = new Dictionary<string, string>
+            {
+                { "TicketFlow:ServiceBaseUrl", ServiceBaseUrl },
+                { "TicketFlow:RunOnRandomPort", "true" }
+            };
+
+            RunGetUrlTest(settings, url =>
+            {
+                Uri uri = new Uri(url);
+                var actualServiceBaseUrl = $"{uri.Scheme}://{uri.Host}";
+                Assert.Equal(ServiceBaseUrl, actualServiceBaseUrl);
+            });
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void GetUrl_GetServiceBaseUrlSetting_ShouldThrowException_WhenSettingIsEmptyOrNull(string serviceBaseUrl)
+        {
+            var settings = new Dictionary<string, string>
+            {
+                { "TicketFlow:ServiceBaseUrl", serviceBaseUrl },
+                { "TicketFlow:RunOnRandomPort", "true" }
+            };
+
+            RunGetUrlThrowsExceptionTest<Exception>(settings, exception =>
+            {
+                Assert.Equal(ServiceBaseUrlInvalidExceptionMessage, exception.Message);
+            });
+        }
+    }
+}
