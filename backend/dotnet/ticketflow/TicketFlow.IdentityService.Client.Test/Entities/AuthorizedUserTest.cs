@@ -28,10 +28,17 @@ namespace TicketFlow.IdentityService.Client.Test.Entities
         }
 
         [Fact]
-        public void TryAuthorize_Authorized_ShouldReturnUserWithTheSameToken()
+        public void TryAuthorize_RightPassword_ShouldReturnUserWithTheSameToken()
         {
             authorizedUser.TryAuthorize(Password, out IAuthorizedUser reauthorizedUser);
             Assert.Equal(Token, reauthorizedUser.Token);
+        }
+
+        [Fact]
+        public void TryAuthorize_RightPassword_ShouldCreateNewAuthorizedUser()
+        {
+            authorizedUser.TryAuthorize(Password, out IAuthorizedUser reauthorizedUser);
+            Assert.NotSame(authorizedUser, reauthorizedUser);
         }
     }
 }
