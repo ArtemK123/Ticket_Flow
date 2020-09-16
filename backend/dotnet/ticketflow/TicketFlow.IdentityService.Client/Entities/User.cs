@@ -29,9 +29,11 @@ namespace TicketFlow.IdentityService.Client.Entities
                 return false;
             }
 
-            string token = jwtGenerator.Generate(this);
+            string token = GetToken();
             authorizedUser = new AuthorizedUser(Email, Role, Password, jwtGenerator, token);
             return true;
         }
+
+        protected virtual string GetToken() => jwtGenerator.Generate(this);
     }
 }

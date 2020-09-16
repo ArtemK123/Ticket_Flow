@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Version>1.1.0</Version>
+        <Version>1.1.1</Version>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageId>TicketFlow.IdentityService.Client</PackageId>
         <Authors>darkmode1012@gmail.com</Authors>
@@ -19,6 +19,9 @@
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>TicketFlow.IdentityService.Client.Test</_Parameter1>
+        </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
 </Project>
