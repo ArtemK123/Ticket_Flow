@@ -28,7 +28,7 @@ namespace TicketFlow.Common.Test.Providers
         }
 
         [Fact]
-        public void Get_WhenReturnNpgsqlConnection_ShouldTakeConnectionStringFromProvider()
+        public void Get_ShouldTakeConnectionStringFromProvider()
         {
             string actualConnectionString = postgresDbConnectionProvider.Get().ConnectionString;
 

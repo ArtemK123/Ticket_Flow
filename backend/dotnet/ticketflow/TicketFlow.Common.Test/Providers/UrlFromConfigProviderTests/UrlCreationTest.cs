@@ -6,7 +6,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
     public class UrlCreationTest : UrlFromConfigProviderTestBase
     {
         [Fact]
-        public void GetUrl_ShouldCreateValidUrl_WhenBaseUrlAndPortAreValid()
+        public void GetUrl_BaseUrlAndPortAreValid_ShouldCreateValidUrl()
         {
             var settings = new Dictionary<string, string>
             {
