@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Version>1.1.1</Version>
+        <Version>1.1.2</Version>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageId>TicketFlow.IdentityService.Client</PackageId>
         <Authors>darkmode1012@gmail.com</Authors>
