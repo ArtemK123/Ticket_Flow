@@ -26,7 +26,7 @@ namespace TicketFlow.IdentityService.Client.Generators
             return Generate(user, DefaultExpireDays);
         }
 
-        public string Generate(IUser user, int expireDays)
+        public string Generate(IUser user, ushort expireDays)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
             DateTime expiresDate = dateTimeProvider.GetCurrentUtcDateTime().AddDays(expireDays);
