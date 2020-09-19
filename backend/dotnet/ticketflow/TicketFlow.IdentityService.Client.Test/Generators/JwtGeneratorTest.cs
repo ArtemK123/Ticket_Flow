@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -15,7 +16,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         private const string UserEmailClaimType = "nameid";
         private const string UserEmail = "test@email.com";
 
-        private readonly DateTime dateTime = DateTime.Now;
+        private static readonly DateTime CurrentDateTime = DateTime.Now;
         private readonly IUser userMock;
         private readonly IDateTimeProvider dateTimeProviderMock;
 
@@ -24,9 +25,17 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         public JwtGeneratorTest()
         {
             userMock = CreateMockedUser(UserEmail);
-            dateTimeProviderMock = CreateMockedDateTimeProvider(dateTime);
+            dateTimeProviderMock = CreateMockedDateTimeProvider(CurrentDateTime);
             jwtGenerator = new JwtGenerator(dateTimeProviderMock);
         }
+
+        public static IEnumerable<object[]> TokensDifferBasedOnExpireDateTestData => new[]
+        {
+            new object[] { CurrentDateTime, CurrentDateTime, true },
+            new object[] { CurrentDateTime, CurrentDateTime.AddTicks(1), true },
+            new object[] { CurrentDateTime, CurrentDateTime.AddMilliseconds(1), true },
+            new object[] { CurrentDateTime, CurrentDateTime.AddSeconds(1), false }
+        };
 
         [Fact]
         public void Generate_Claims_ShouldContainClaimWithUserEmail()
@@ -52,7 +61,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
             string actualJwtToken = jwtGenerator.Generate(userMock, daysToAdd);
             JwtSecurityToken parsedToken = ParseJwtSecurityToken(actualJwtToken);
 
-            DateTime expectedExpiresDate = dateTime.AddDays(daysToAdd).Date;
+            DateTime expectedExpiresDate = CurrentDateTime.AddDays(daysToAdd).Date;
             DateTime actualExpiredDate = parsedToken.ValidTo.Date;
 
             Assert.Equal(expectedExpiresDate, actualExpiredDate);
@@ -64,7 +73,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
             string actualJwtToken = jwtGenerator.Generate(userMock);
             JwtSecurityToken parsedToken = ParseJwtSecurityToken(actualJwtToken);
 
-            DateTime expectedExpiresDate = dateTime.AddDays(7).Date;
+            DateTime expectedExpiresDate = CurrentDateTime.AddDays(7).Date;
             DateTime actualExpiredDate = parsedToken.ValidTo.Date;
 
             Assert.Equal(expectedExpiresDate, actualExpiredDate);
@@ -90,6 +99,19 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
             const string expectedAlgorithmName = "HS256";
 
             Assert.Equal(expectedAlgorithmName, parsedToken.SignatureAlgorithm);
+        }
+
+        [Theory]
+        [MemberData(nameof(TokensDifferBasedOnExpireDateTestData))]
+        public void Generate_AnotherCreation_IfExpireDatesDifferEnough_ShouldGenerateTwoDifferentTokens(DateTime firstDateTime, DateTime secondDateTime, bool areTokensEqual)
+        {
+            dateTimeProviderMock.GetCurrentUtcDateTime().Returns(firstDateTime);
+            string token1 = jwtGenerator.Generate(userMock);
+
+            dateTimeProviderMock.GetCurrentUtcDateTime().Returns(secondDateTime);
+            string token2 = jwtGenerator.Generate(userMock);
+
+            Assert.Equal(areTokensEqual, token1.Equals(token2));
         }
 
         private IUser CreateMockedUser(string email)
