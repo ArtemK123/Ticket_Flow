@@ -2,21 +2,20 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using NSubstitute;
-using TicketFlow.Common.Exceptions;
 using TicketFlow.IdentityService.Client.Extensibility.Entities;
 using TicketFlow.IdentityService.Client.Extensibility.Models;
 using Xunit;
 
 namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
 {
-    public class GetByTokenAsyncTest : UserApiProxyTestBase<IAuthorizedUser>
+    public class GetByEmailAsyncTest : UserApiProxyTestBase<IUser>
     {
         [Fact]
-        public async Task GetByTokenAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
+        public async Task GetByEmailAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
         {
             await RunTestAsync(async _ =>
             {
-                Uri expectedUri = new Uri($"{ServiceUrl}/users/getByToken");
+                Uri expectedUri = new Uri($"{ServiceUrl}/users/getByEmail");
 
                 await IdentityServiceMessageSenderMock.Received().SendAsync<UserSerializationModel>(
                     Arg.Is<HttpRequestMessage>(message => AreUriEqual(expectedUri, message.RequestUri)));
@@ -24,7 +23,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_RequestMethod_ShouldSendPostRequest_Async()
+        public async Task GetByEmailAsync_RequestMethod_ShouldSendPostRequest_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -34,17 +33,17 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_RequestBody_ShouldSendTokenAsRequestBody_Async()
+        public async Task GetByEmailAsync_RequestBody_ShouldSendUserEmailAsRequestBody_Async()
         {
             await RunTestAsync(async _ =>
             {
                 await IdentityServiceMessageSenderMock.Received().SendAsync<UserSerializationModel>(
-                    Arg.Is<HttpRequestMessage>(message => CheckHttpMessageBody(message, Token)));
+                    Arg.Is<HttpRequestMessage>(message => CheckHttpMessageBody(message, Email)));
             });
         }
 
         [Fact]
-        public async Task GetByTokenAsync_ContentType_ShouldSetContentTypeAsTextPlain()
+        public async Task GetByEmailAsync_ContentType_ShouldSetContentTypeAsTextPlain()
         {
             const string expectedContentType = "text/plain";
 
@@ -53,8 +52,8 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
                 await IdentityServiceMessageSenderMock.Received().SendAsync<UserSerializationModel>(
                     Arg.Is<HttpRequestMessage>(
                         message => message.Content.Headers.ContentType.MediaType.Equals(
-                                expectedContentType,
-                                StringComparison.Ordinal)));
+                            expectedContentType,
+                            StringComparison.Ordinal)));
             });
         }
 
@@ -69,7 +68,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_SerializationModel_ShouldPassSerializationModelToSerializer()
+        public async Task GetByEmailAsync_SerializationModel_ShouldPassSerializationModelToSerializer()
         {
             await RunTestAsync(_ =>
             {
@@ -78,29 +77,17 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_NonAuthorizedUser_ShouldThrowNotFoundException()
+        public async Task GetByTokenAsync_Result_ShouldReturnUserFromSerializer()
+        {
+            await RunTestAsync(user => Assert.Same(UserMock, user));
+        }
+
+        protected override async Task RunTestAsync(Func<IUser, Task> assertActionAsync)
         {
             IdentityServiceMessageSenderMock.SendAsync<UserSerializationModel>(default).ReturnsForAnyArgs(Task.FromResult(UserSerializationModel));
             UserSerializerMock.Deserialize(default).ReturnsForAnyArgs(UserMock);
 
-            NotFoundException exception = await Assert.ThrowsAsync<NotFoundException>(() => UserApiProxy.GetByTokenAsync(Token));
-
-            string expectedExceptionMessage = $"User with token={Token} is not found";
-            Assert.Equal(expectedExceptionMessage, exception.Message);
-        }
-
-        [Fact]
-        public async Task GetByTokenAsync_Result_ShouldReturnAuthorizedUserFromSerializer()
-        {
-            await RunTestAsync(authorizedUser => Assert.Same(AuthorizedUserMock, authorizedUser));
-        }
-
-        protected override async Task RunTestAsync(Func<IAuthorizedUser, Task> assertActionAsync)
-        {
-            IdentityServiceMessageSenderMock.SendAsync<UserSerializationModel>(default).ReturnsForAnyArgs(Task.FromResult(UserSerializationModel));
-            UserSerializerMock.Deserialize(default).ReturnsForAnyArgs(AuthorizedUserMock);
-
-            IAuthorizedUser actual = await UserApiProxy.GetByTokenAsync(Token);
+            IUser actual = await UserApiProxy.GetByEmailAsync(Email);
 
             await assertActionAsync(actual);
         }
