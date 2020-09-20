@@ -7,16 +7,17 @@ using Xunit;
 
 namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
 {
-    public class LoginAsyncTest : UserApiProxyTestBase<string>
+    public class RegisterAsyncTest : UserApiProxyTestBase<string>
     {
-        private const string LoginRequestJson = "{}";
+        private const string SerializedRequest = "{}";
+        private const string Result = "Registered successfully with id=1";
 
-        private readonly LoginRequest loginRequest = new LoginRequest(Email, Password);
+        private readonly RegisterRequest registerRequest = new RegisterRequest(Email, Password);
 
         [Fact]
-        public async Task LoginAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
+        public async Task RegisterAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
         {
-            var expectedUri = new Uri($"{ServiceUrl}/users/login");
+            var expectedUri = new Uri($"{ServiceUrl}/users/register");
 
             await RunTestAsync(async _ =>
             {
@@ -27,7 +28,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LoginAsync_RequestMethod_ShouldSendPostRequest_Async()
+        public async Task RegisterAsync_RequestMethod_ShouldSendPostRequest_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -38,7 +39,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LoginAsync_ContentType_ShouldSetContentTypeAsApplicationJson_Async()
+        public async Task RegisterAsync_ContentType_ShouldSetContentTypeAsApplicationJson_Async()
         {
             const string expectedContentType = "application/json";
 
@@ -54,27 +55,27 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LoginAsync_RequestBody_ShouldSerializeRequestModelInJsonViaSerializer_Async()
+        public async Task RegisterAsync_RequestBody_ShouldSerializeRequestModelInJsonViaSerializer_Async()
         {
             await RunTestAsync(_ =>
             {
-                JsonSerializerMock.Received().Serialize(loginRequest);
+                JsonSerializerMock.Received().Serialize(registerRequest);
             });
         }
 
         [Fact]
-        public async Task LoginAsync_RequestBody_ShouldSendRequestWithSerializedModelInBody_Async()
+        public async Task RegisterAsync_RequestBody_ShouldSendRequestWithSerializedModelInBody_Async()
         {
             await RunTestAsync(async _ =>
             {
                 await IdentityServiceMessageSenderMock.Received().SendAsync(
-                    Arg.Is<HttpRequestMessage>(message => CheckHttpMessageBody(message, LoginRequestJson)),
+                    Arg.Is<HttpRequestMessage>(message => CheckHttpMessageBody(message, SerializedRequest)),
                     Arg.Any<Func<string, string>>());
             });
         }
 
         [Fact]
-        public async Task LoginAsync_BodyEncoding_ShouldEncodeBodyInUTF8_Async()
+        public async Task RegisterAsync_BodyEncoding_ShouldEncodeBodyInUTF8_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -85,30 +86,30 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LoginAsync_Result_ShouldReturnStringResultWithoutConversion_Async()
+        public async Task RegisterAsync_Result_ShouldReturnStringResultWithoutConversion_Async()
         {
             await RunTestAsync(async _ =>
             {
                 await IdentityServiceMessageSenderMock.Received().SendAsync(
                     Arg.Any<HttpRequestMessage>(),
-                    Arg.Is<Func<string, string>>(convertFunc => convertFunc(Token) == Token));
+                    Arg.Is<Func<string, string>>(convertFunc => convertFunc(Result) == Result));
             });
         }
 
         [Fact]
-        public async Task LoginAsync_Result_ShouldReturnResultFromSender_Async()
+        public async Task RegisterAsync_Result_ShouldReturnResultFromSender_Async()
         {
-            await RunTestAsync(result => Assert.Equal(Token, result));
+            await RunTestAsync(result => Assert.Equal(Result, result));
         }
 
         protected override async Task RunTestAsync(Func<string, Task> assertActionAsync)
         {
-            JsonSerializerMock.Serialize<LoginRequest>(default).ReturnsForAnyArgs(LoginRequestJson);
-            IdentityServiceMessageSenderMock.SendAsync(default, default(Func<string, string>)).ReturnsForAnyArgs(Token);
+            JsonSerializerMock.Serialize<RegisterRequest>(default).ReturnsForAnyArgs(SerializedRequest);
+            IdentityServiceMessageSenderMock.SendAsync(default, default(Func<string, string>)).ReturnsForAnyArgs(Result);
 
-            string result = await UserApiProxy.LoginAsync(loginRequest);
+            string actual = await UserApiProxy.RegisterAsync(registerRequest);
 
-            await assertActionAsync(result);
+            await assertActionAsync(actual);
         }
     }
 }
