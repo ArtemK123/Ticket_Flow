@@ -44,7 +44,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_ContentType_ShouldSetContentTypeAsTextPlain()
+        public async Task GetByTokenAsync_ContentType_ShouldSetContentTypeAsTextPlain_Async()
         {
             const string expectedContentType = "text/plain";
 
@@ -59,7 +59,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByEmailAsync_BodyEncoding_ShouldEncodeRequestBodyInUtf8()
+        public async Task GetByEmailAsync_BodyEncoding_ShouldEncodeRequestBodyInUtf8_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -69,7 +69,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_SerializationModel_ShouldPassSerializationModelToSerializer()
+        public async Task GetByTokenAsync_SerializationModel_ShouldPassSerializationModelToSerializer_Async()
         {
             await RunTestAsync(_ =>
             {
@@ -78,7 +78,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_NonAuthorizedUser_ShouldThrowNotFoundException()
+        public async Task GetByTokenAsync_NonAuthorizedUser_ShouldThrowNotFoundException_Async()
         {
             IdentityServiceMessageSenderMock.SendAsync<UserSerializationModel>(default).ReturnsForAnyArgs(Task.FromResult(UserSerializationModel));
             UserSerializerMock.Deserialize(default).ReturnsForAnyArgs(UserMock);
@@ -90,7 +90,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_Result_ShouldReturnAuthorizedUserFromSerializer()
+        public async Task GetByTokenAsync_Result_ShouldReturnAuthorizedUserFromSerializer_Async()
         {
             await RunTestAsync(authorizedUser => Assert.Same(AuthorizedUserMock, authorizedUser));
         }

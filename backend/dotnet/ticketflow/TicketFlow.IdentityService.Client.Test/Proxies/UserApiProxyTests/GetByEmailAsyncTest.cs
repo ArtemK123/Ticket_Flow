@@ -43,7 +43,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByEmailAsync_ContentType_ShouldSetContentTypeAsTextPlain()
+        public async Task GetByEmailAsync_ContentType_ShouldSetContentTypeAsTextPlain_Async()
         {
             const string expectedContentType = "text/plain";
 
@@ -58,7 +58,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByEmailAsync_BodyEncoding_ShouldEncodeRequestBodyInUtf8()
+        public async Task GetByEmailAsync_BodyEncoding_ShouldEncodeRequestBodyInUtf8_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -68,7 +68,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByEmailAsync_SerializationModel_ShouldPassSerializationModelToSerializer()
+        public async Task GetByEmailAsync_SerializationModel_ShouldPassSerializationModelToSerializer_Async()
         {
             await RunTestAsync(_ =>
             {
@@ -77,7 +77,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_Result_ShouldReturnUserFromSerializer()
+        public async Task GetByTokenAsync_Result_ShouldReturnUserFromSerializer_Async()
         {
             await RunTestAsync(user => Assert.Same(UserMock, user));
         }
