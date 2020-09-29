@@ -6,6 +6,6 @@ namespace TicketFlow.IdentityService.Client.Generators
     {
         string Generate(IUser user);
 
-        string Generate(IUser user, int expireDays);
+        string Generate(IUser user, ushort expireDays);
     }
 }

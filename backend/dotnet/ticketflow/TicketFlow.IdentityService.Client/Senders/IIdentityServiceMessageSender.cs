@@ -2,7 +2,7 @@
 
 namespace TicketFlow.IdentityService.Client.Senders
 {
-    internal interface IIdentityServiceMessageSender : IServiceApiMessageSender
+    public interface IIdentityServiceMessageSender : IServiceApiMessageSender
     {
     }
 }
