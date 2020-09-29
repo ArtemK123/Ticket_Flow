@@ -22,4 +22,9 @@
             <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Entities" />
+      <Folder Include="Proxies\UserApiProxyTests" />
+    </ItemGroup>
 </Project>
