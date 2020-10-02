@@ -13,10 +13,6 @@ namespace TicketFlow.IdentityService.Client.Entities
 
         public string Token { get; }
 
-        public override bool TryAuthorize(string password, out IAuthorizedUser authorizedUser)
-        {
-            authorizedUser = this;
-            return true;
-        }
+        protected override string GetToken() => Token;
     }
 }

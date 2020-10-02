@@ -56,7 +56,7 @@ namespace TicketFlow.ProfileService.Client.Test.Validators
         }
 
         [Fact]
-        public async Task ValidateAsync_ByDefault_ShouldPass()
+        public async Task ValidateAsync_ByDefault_ShouldPass_Async()
         {
             await profileServiceResponseValidator.ValidateAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.Forbidden });
         }

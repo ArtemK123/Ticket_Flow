@@ -13,16 +13,20 @@ namespace TicketFlow.Common.Senders
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IJsonSerializer jsonSerializer;
 
+        private readonly string httpClientName;
+
         protected ServiceApiMessageSenderBase(IServiceResponseValidator responseValidator, IHttpClientFactory httpClientFactory, IJsonSerializer jsonSerializer)
         {
             this.responseValidator = responseValidator;
             this.httpClientFactory = httpClientFactory;
             this.jsonSerializer = jsonSerializer;
+
+            httpClientName = GetType().ToString();
         }
 
         public async Task<T> SendAsync<T>(HttpRequestMessage httpRequestMessage, Func<string, T> convertFunc = null)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient();
+            HttpClient httpClient = httpClientFactory.CreateClient(httpClientName);
             HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequestMessage);
 
             await responseValidator.ValidateAsync(httpResponse);
@@ -35,7 +39,7 @@ namespace TicketFlow.Common.Senders
 
         public async Task SendAsync(HttpRequestMessage httpRequestMessage)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient();
+            HttpClient httpClient = httpClientFactory.CreateClient(httpClientName);
             HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequestMessage);
 
             await responseValidator.ValidateAsync(httpResponse);

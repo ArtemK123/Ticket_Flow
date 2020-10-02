@@ -1,1 +1,2 @@
 - Add indexes for user table (email, token)
+- Add shell script for publish nuget packages to nuget.org
