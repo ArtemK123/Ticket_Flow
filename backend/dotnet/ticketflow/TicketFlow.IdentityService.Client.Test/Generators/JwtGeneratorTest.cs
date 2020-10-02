@@ -54,16 +54,14 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         }
 
         [Theory]
-        [InlineData(0)]
         [InlineData(1)]
+        [InlineData(2)]
         public void Generate_ExpiresDate_ShouldAddDaysToDateTimeFromProvider(ushort daysToAdd)
         {
             string actualJwtToken = jwtGenerator.Generate(userMock, daysToAdd);
             JwtSecurityToken parsedToken = ParseJwtSecurityToken(actualJwtToken);
 
-
-            DateTime testDate = CurrentDateTime.AddHours(1); // because the exception will be thrown is DateTime.Now is later than given datetime
-            DateTime expectedExpiresDate = testDate.AddDays(daysToAdd).Date;
+            DateTime expectedExpiresDate = CurrentDateTime.AddDays(daysToAdd).Date;
             DateTime actualExpiredDate = parsedToken.ValidTo.Date;
 
             Assert.Equal(expectedExpiresDate, actualExpiredDate);
