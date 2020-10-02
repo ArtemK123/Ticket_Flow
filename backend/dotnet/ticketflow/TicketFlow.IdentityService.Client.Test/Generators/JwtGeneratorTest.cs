@@ -54,8 +54,8 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         }
 
         [Theory]
-        [InlineData(0)]
         [InlineData(1)]
+        [InlineData(2)]
         public void Generate_ExpiresDate_ShouldAddDaysToDateTimeFromProvider(ushort daysToAdd)
         {
             string actualJwtToken = jwtGenerator.Generate(userMock, daysToAdd);
