@@ -3,6 +3,6 @@
     public enum ServiceUrlProvidingType
     {
         FromSettings,
-        FromConsul
+        FromConsul,
     }
 }
