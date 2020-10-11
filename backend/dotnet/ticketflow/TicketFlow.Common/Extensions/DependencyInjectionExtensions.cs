@@ -2,6 +2,8 @@
 using TicketFlow.Common.Providers;
 using TicketFlow.Common.Readers;
 using TicketFlow.Common.Serializers;
+using TicketFlow.Common.ServiceUrl.Providers;
+using TicketFlow.Common.ServiceUrl.Resolvers;
 
 namespace TicketFlow.Common.Extensions
 {
@@ -16,6 +18,13 @@ namespace TicketFlow.Common.Extensions
             services.AddTransient(typeof(IJsonSerializer), typeof(JsonSerializer));
             services.AddTransient(typeof(IDateTimeProvider), typeof(DateTimeProvider));
             services.AddHttpClient();
+            BindServiceUrl(services);
+        }
+
+        private static void BindServiceUrl(IServiceCollection services)
+        {
+            services.AddTransient(typeof(IServiceUrlProviderResolver), typeof(ServiceUrlProviderResolver));
+            services.AddTransient(typeof(IServiceUrlProvidingTypeProvider), typeof(ServiceUrlProvidingTypeProvider));
         }
     }
 }
