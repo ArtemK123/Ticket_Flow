@@ -1,8 +1,8 @@
 ﻿using TicketFlow.Common.ServiceUrl.Enums;
 
-namespace TicketFlow.Common.ServiceUrl.Providers
+namespace TicketFlow.Common.ServiceUrl.Scenarios
 {
-    public interface IServiceUrlProvider
+    public interface IServiceUrlProvidingScenario
     {
         ServiceUrlProvidingType ProvidingType { get; }
 

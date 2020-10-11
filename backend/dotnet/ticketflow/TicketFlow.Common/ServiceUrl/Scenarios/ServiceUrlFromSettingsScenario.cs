@@ -2,13 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.ServiceUrl.Enums;
 
-namespace TicketFlow.Common.ServiceUrl.Providers
+namespace TicketFlow.Common.ServiceUrl.Scenarios
 {
-    internal class ServiceUrlFromSettingsProvider : IServiceUrlProvider
+    internal class ServiceUrlFromSettingsScenario : IServiceUrlProvidingScenario
     {
         private readonly IConfiguration configuration;
 
-        public ServiceUrlFromSettingsProvider(IConfiguration configuration)
+        public ServiceUrlFromSettingsScenario(IConfiguration configuration)
         {
             this.configuration = configuration;
         }

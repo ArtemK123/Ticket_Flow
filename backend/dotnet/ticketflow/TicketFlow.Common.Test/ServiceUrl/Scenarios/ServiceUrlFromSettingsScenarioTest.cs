@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.ServiceUrl.Enums;
-using TicketFlow.Common.ServiceUrl.Providers;
+using TicketFlow.Common.ServiceUrl.Scenarios;
 using Xunit;
 
-namespace TicketFlow.Common.Test.ServiceUrl.Providers
+namespace TicketFlow.Common.Test.ServiceUrl.Scenarios
 {
-    public class ServiceUrlFromSettingsProviderTest
+    public class ServiceUrlFromSettingsScenarioTest
     {
         private const string ServiceName = "Movie";
         private static readonly string UrlSettingPath = $"TicketFlow:{ServiceName}:Url";
@@ -63,13 +63,13 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
             Assert.Equal(expectedUrl, actualUrl);
         }
 
-        private static ServiceUrlFromSettingsProvider CreateServiceUrlFromSettingsProvider(IReadOnlyDictionary<string, string> settings)
+        private static ServiceUrlFromSettingsScenario CreateServiceUrlFromSettingsProvider(IReadOnlyDictionary<string, string> settings)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(settings)
                 .Build();
 
-            return new ServiceUrlFromSettingsProvider(configuration);
+            return new ServiceUrlFromSettingsScenario(configuration);
         }
     }
 }
