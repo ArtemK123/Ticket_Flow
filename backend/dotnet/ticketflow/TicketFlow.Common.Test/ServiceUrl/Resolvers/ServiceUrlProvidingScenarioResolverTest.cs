@@ -36,7 +36,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Resolvers
 
         [Theory]
         [MemberData(nameof(ServiceUrlProvidingTypeNamesTestData))]
-        public void Resolve_SingleProvider_ShouldReturnCorrectProvider(ServiceUrlProvidingType providingType)
+        internal void Resolve_SingleProvider_ShouldReturnCorrectProvider(ServiceUrlProvidingType providingType)
         {
             IEnumerable<ServiceUrlProvidingType> enumValues = EnumExtensions.GetAllValues<ServiceUrlProvidingType>();
             IEnumerable<IServiceUrlProvidingScenario> scenarios = enumValues.Select(CreateServiceUrlProvidingScenarioMock);

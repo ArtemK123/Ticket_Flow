@@ -24,6 +24,8 @@ namespace TicketFlow.Common.Extensions
 
         private static void BindServiceUrl(IServiceCollection services)
         {
+            services.AddTransient(typeof(IServiceUrlProvider), typeof(ServiceUrlProvider));
+
             services.AddTransient(typeof(IServiceUrlProvidingScenarioResolver), typeof(ServiceUrlProvidingScenarioResolver));
             services.AddTransient(typeof(IServiceUrlProvidingTypeProvider), typeof(ServiceUrlProvidingTypeProvider));
             services.AddTransient(typeof(IServiceUrlProvidingScenario), typeof(ServiceUrlFromSettingsScenario));

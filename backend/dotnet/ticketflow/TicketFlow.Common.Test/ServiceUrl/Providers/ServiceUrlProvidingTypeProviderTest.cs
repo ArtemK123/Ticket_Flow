@@ -44,7 +44,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         [Theory]
         [InlineData("FromSetting", ServiceUrlProvidingType.FromSettings)]
         [InlineData("FromConsul", ServiceUrlProvidingType.FromConsul)]
-        public void GetServiceUrlResolvingType_ValidSetting_ShouldReturnCorrectProvidingType(string settingValue, ServiceUrlProvidingType expected)
+        internal void GetServiceUrlResolvingType_ValidSetting_ShouldReturnCorrectProvidingType(string settingValue, ServiceUrlProvidingType expected)
         {
             var settings = new Dictionary<string, string>
             {

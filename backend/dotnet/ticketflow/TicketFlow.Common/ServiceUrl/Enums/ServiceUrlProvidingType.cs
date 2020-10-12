@@ -1,6 +1,6 @@
 ﻿namespace TicketFlow.Common.ServiceUrl.Enums
 {
-    public enum ServiceUrlProvidingType
+    internal enum ServiceUrlProvidingType
     {
         FromSettings,
         FromConsul,

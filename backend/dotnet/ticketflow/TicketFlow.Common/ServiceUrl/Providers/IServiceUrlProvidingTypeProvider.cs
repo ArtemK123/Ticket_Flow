@@ -2,7 +2,7 @@
 
 namespace TicketFlow.Common.ServiceUrl.Providers
 {
-    public interface IServiceUrlProvidingTypeProvider
+    internal interface IServiceUrlProvidingTypeProvider
     {
         ServiceUrlProvidingType GetServiceUrlResolvingType();
     }

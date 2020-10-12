@@ -2,7 +2,7 @@
 
 namespace TicketFlow.Common.ServiceUrl.Scenarios
 {
-    public interface IServiceUrlProvidingScenario
+    internal interface IServiceUrlProvidingScenario
     {
         ServiceUrlProvidingType ProvidingType { get; }
 
