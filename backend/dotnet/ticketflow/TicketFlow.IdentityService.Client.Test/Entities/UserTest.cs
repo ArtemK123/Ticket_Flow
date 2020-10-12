@@ -26,14 +26,14 @@ namespace TicketFlow.IdentityService.Client.Test.Entities
         [Theory]
         [InlineData(Password, true)]
         [InlineData(InvalidPassword, false)]
-        public void TryAuthorize_WhenRightPassword_ShouldReturnTrue(string password, bool expected)
+        internal void TryAuthorize_WhenRightPassword_ShouldReturnTrue(string password, bool expected)
         {
             var actual = user.TryAuthorize(password, out _);
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void TryAuthorize_RightPassword_ShouldCreateAuthorizedUserBasedOnGivenUser()
+        internal void TryAuthorize_RightPassword_ShouldCreateAuthorizedUserBasedOnGivenUser()
         {
             user.TryAuthorize(Password, out IAuthorizedUser authorizedUser);
 
@@ -43,7 +43,7 @@ namespace TicketFlow.IdentityService.Client.Test.Entities
         }
 
         [Fact]
-        public void TryAuthorize_RightPassword_ShouldCreateAuthorizedUserWithTokenFromJwtGenerator()
+        internal void TryAuthorize_RightPassword_ShouldCreateAuthorizedUserWithTokenFromJwtGenerator()
         {
             user.TryAuthorize(Password, out IAuthorizedUser authorizedUser);
 
@@ -52,7 +52,7 @@ namespace TicketFlow.IdentityService.Client.Test.Entities
         }
 
         [Fact]
-        public void TryAuthorize_WrongPassword_ShouldReturnDefaultUser()
+        internal void TryAuthorize_WrongPassword_ShouldReturnDefaultUser()
         {
             user.TryAuthorize(InvalidPassword, out IAuthorizedUser authorizedUser);
 

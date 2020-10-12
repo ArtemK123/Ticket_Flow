@@ -16,7 +16,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
         [Theory]
         [InlineData(MinimumPortValue)]
         [InlineData(MaximumPortValue)]
-        public void GetUrl_GetPortSetting_ValidPort_ShouldUseGivenPort(int port)
+        internal void GetUrl_GetPortSetting_ValidPort_ShouldUseGivenPort(int port)
         {
             var settings = new Dictionary<string, string>
             {
@@ -35,7 +35,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
         [InlineData(DefaultIntValue, "Application port is wrongly configured. Please, setup configuration file with TicketFlow:Port or set TicketFlow:RunOnRandomPort=true")]
         [InlineData(MinimumPortValue - 1, PortLowerThanAllowedExceptionMessage)]
         [InlineData(MaximumPortValue + 1, PortHigherThanAllowedExceptionMessage)]
-        public void GetUrl_GetPortSetting_InvalidPort_ShouldThrowException(int port, string exceptionMessage)
+        internal void GetUrl_GetPortSetting_InvalidPort_ShouldThrowException(int port, string exceptionMessage)
         {
             var settings = new Dictionary<string, string>
             {

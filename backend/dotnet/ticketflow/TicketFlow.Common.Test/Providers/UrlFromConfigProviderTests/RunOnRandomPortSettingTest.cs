@@ -9,7 +9,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void GetUrl_GetRunOnRandomPortFromSetting_WhenTrue_ShouldGenerateRandomPort(bool runOnRandomPort)
+        internal void GetUrl_GetRunOnRandomPortFromSetting_WhenTrue_ShouldGenerateRandomPort(bool runOnRandomPort)
         {
             var settings = new Dictionary<string, string>
             {
@@ -33,7 +33,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
         }
 
         [Fact]
-        public void GetUrl_GetRunOnRandomPortFromSetting_NotFound_ShouldUsePortSetting()
+        internal void GetUrl_GetRunOnRandomPortFromSetting_NotFound_ShouldUsePortSetting()
         {
             var settings = new Dictionary<string, string>
             {
@@ -49,7 +49,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
         }
 
         [Fact]
-        public void GetUrl_GetRunOnRandomPortFromSetting_Invalid_ShouldThrowException()
+        internal void GetUrl_GetRunOnRandomPortFromSetting_Invalid_ShouldThrowException()
         {
             var settings = new Dictionary<string, string>
             {

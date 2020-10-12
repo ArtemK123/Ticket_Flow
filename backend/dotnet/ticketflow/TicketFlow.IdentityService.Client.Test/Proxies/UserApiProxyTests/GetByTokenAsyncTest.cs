@@ -12,7 +12,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
     public class GetByTokenAsyncTest : UserApiProxyTestBase<IAuthorizedUser>
     {
         [Fact]
-        public async Task GetByTokenAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
+        internal async Task GetByTokenAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -24,7 +24,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_RequestMethod_ShouldSendPostRequest_Async()
+        internal async Task GetByTokenAsync_RequestMethod_ShouldSendPostRequest_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -34,7 +34,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_RequestBody_ShouldSendTokenAsRequestBody_Async()
+        internal async Task GetByTokenAsync_RequestBody_ShouldSendTokenAsRequestBody_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -44,7 +44,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_ContentType_ShouldSetContentTypeAsTextPlain_Async()
+        internal async Task GetByTokenAsync_ContentType_ShouldSetContentTypeAsTextPlain_Async()
         {
             const string expectedContentType = "text/plain";
 
@@ -59,7 +59,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByEmailAsync_BodyEncoding_ShouldEncodeRequestBodyInUtf8_Async()
+        internal async Task GetByEmailAsync_BodyEncoding_ShouldEncodeRequestBodyInUtf8_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -69,7 +69,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_SerializationModel_ShouldPassSerializationModelToSerializer_Async()
+        internal async Task GetByTokenAsync_SerializationModel_ShouldPassSerializationModelToSerializer_Async()
         {
             await RunTestAsync(_ =>
             {
@@ -78,7 +78,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_NonAuthorizedUser_ShouldThrowNotFoundException_Async()
+        internal async Task GetByTokenAsync_NonAuthorizedUser_ShouldThrowNotFoundException_Async()
         {
             IdentityServiceMessageSenderMock.SendAsync<UserSerializationModel>(default).ReturnsForAnyArgs(Task.FromResult(UserSerializationModel));
             UserSerializerMock.Deserialize(default).ReturnsForAnyArgs(UserMock);
@@ -90,7 +90,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task GetByTokenAsync_Result_ShouldReturnAuthorizedUserFromSerializer_Async()
+        internal async Task GetByTokenAsync_Result_ShouldReturnAuthorizedUserFromSerializer_Async()
         {
             await RunTestAsync(authorizedUser => Assert.Same(AuthorizedUserMock, authorizedUser));
         }

@@ -11,7 +11,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         private const string Result = "Logout sucessfully!";
 
         [Fact]
-        public async Task LogoutAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
+        internal async Task LogoutAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
         {
             var expectedUri = new Uri($"{ServiceUrl}/users/logout");
 
@@ -24,7 +24,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LogoutAsync_RequestMethod_ShouldSendPostRequest_Async()
+        internal async Task LogoutAsync_RequestMethod_ShouldSendPostRequest_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -35,7 +35,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LogoutAsync_ContentType_ShouldSetContentTypeAsTextPlain_Async()
+        internal async Task LogoutAsync_ContentType_ShouldSetContentTypeAsTextPlain_Async()
         {
             const string expectedContentType = "text/plain";
 
@@ -51,7 +51,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LogoutAsync_RequestBody_ShouldSendRequestWithTokenInBody_Async()
+        internal async Task LogoutAsync_RequestBody_ShouldSendRequestWithTokenInBody_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -62,7 +62,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LogoutAsync_BodyEncoding_ShouldEncodeBodyInUTF8_Async()
+        internal async Task LogoutAsync_BodyEncoding_ShouldEncodeBodyInUTF8_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -73,7 +73,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LogoutAsync_Result_ShouldReturnStringResultWithoutConversion_Async()
+        internal async Task LogoutAsync_Result_ShouldReturnStringResultWithoutConversion_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -84,7 +84,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task LogoutAsync_Result_ShouldReturnResultFromSender_Async()
+        internal async Task LogoutAsync_Result_ShouldReturnResultFromSender_Async()
         {
             await RunTestAsync(result => Assert.Equal(Result, result));
         }

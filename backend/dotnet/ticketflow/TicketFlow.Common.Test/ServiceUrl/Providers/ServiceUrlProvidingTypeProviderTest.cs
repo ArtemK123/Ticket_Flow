@@ -12,7 +12,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         private const string ServiceUrlProvidingTypeSettingPath = "TicketFlow:ServiceUrlProvidingType";
 
         [Fact]
-        public void GetServiceUrlResolvingType_SettingIsNotDefined_ShouldReturnFromDefaultEnumValue()
+        internal void GetServiceUrlResolvingType_SettingIsNotDefined_ShouldReturnFromDefaultEnumValue()
         {
             RunGetServiceUrlResolvingTypeTest(
                 new Dictionary<string, string>(),
@@ -20,7 +20,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         }
 
         [Fact]
-        public void GetServiceUrlResolvingType_SettingIsInvalid_ShouldReturnDefaultEnumValue()
+        internal void GetServiceUrlResolvingType_SettingIsInvalid_ShouldReturnDefaultEnumValue()
         {
             var settings = new Dictionary<string, string>
             {
@@ -31,7 +31,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         }
 
         [Fact]
-        public void GetServiceUrlResolvingType_SettingInWrongCase_ShouldReturnDefaultEnumValue()
+        internal void GetServiceUrlResolvingType_SettingInWrongCase_ShouldReturnDefaultEnumValue()
         {
             var settings = new Dictionary<string, string>
             {

@@ -28,7 +28,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         }
 
         [Fact]
-        public void GetUrl_ProvidingType_ShouldGetProvidingTypeFromProvider()
+        internal void GetUrl_ProvidingType_ShouldGetProvidingTypeFromProvider()
         {
             serviceUrlProvider.GetUrl(ServiceName);
 
@@ -36,7 +36,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         }
 
         [Fact]
-        public void GetUrl_Scenario_ShouldCallScenarioWithGivenServiceName()
+        internal void GetUrl_Scenario_ShouldCallScenarioWithGivenServiceName()
         {
             serviceUrlProvider.GetUrl(ServiceName);
 
@@ -44,7 +44,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         }
 
         [Fact]
-        public void GetUrl_ReturnedUrl_ShouldReturnUrlFromScenario()
+        internal void GetUrl_ReturnedUrl_ShouldReturnUrlFromScenario()
         {
             string actualUrl = serviceUrlProvider.GetUrl(ServiceName);
 

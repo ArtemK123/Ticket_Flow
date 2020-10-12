@@ -38,7 +38,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         };
 
         [Fact]
-        public void Generate_Claims_ShouldContainClaimWithUserEmail()
+        internal void Generate_Claims_ShouldContainClaimWithUserEmail()
         {
             string actualJwtToken = jwtGenerator.Generate(userMock);
             JwtSecurityToken parsedToken = ParseJwtSecurityToken(actualJwtToken);
@@ -47,7 +47,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         }
 
         [Fact]
-        public void Generate_ExpiresDate_ShouldUseDateTimeFromDateTimeProvider()
+        internal void Generate_ExpiresDate_ShouldUseDateTimeFromDateTimeProvider()
         {
             jwtGenerator.Generate(userMock);
             dateTimeProviderMock.Received().GetCurrentUtcDateTime();
@@ -56,7 +56,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void Generate_ExpiresDate_ShouldAddDaysToDateTimeFromProvider(ushort daysToAdd)
+        internal void Generate_ExpiresDate_ShouldAddDaysToDateTimeFromProvider(ushort daysToAdd)
         {
             string actualJwtToken = jwtGenerator.Generate(userMock, daysToAdd);
             JwtSecurityToken parsedToken = ParseJwtSecurityToken(actualJwtToken);
@@ -68,7 +68,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         }
 
         [Fact]
-        public void Generate_ExpiresDate_ByDefault_ShouldExpireAfterSevenDays()
+        internal void Generate_ExpiresDate_ByDefault_ShouldExpireAfterSevenDays()
         {
             string actualJwtToken = jwtGenerator.Generate(userMock);
             JwtSecurityToken parsedToken = ParseJwtSecurityToken(actualJwtToken);
@@ -80,7 +80,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         }
 
         [Fact]
-        public void Generate_Issuer_ShouldAddIssuer()
+        internal void Generate_Issuer_ShouldAddIssuer()
         {
             string actualJwtToken = jwtGenerator.Generate(userMock);
             JwtSecurityToken parsedToken = ParseJwtSecurityToken(actualJwtToken);
@@ -91,7 +91,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
         }
 
         [Fact]
-        public void Generate_SecurityAlgorithms_ShouldUseHS256Algorithm()
+        internal void Generate_SecurityAlgorithms_ShouldUseHS256Algorithm()
         {
             string actualJwtToken = jwtGenerator.Generate(userMock);
             JwtSecurityToken parsedToken = ParseJwtSecurityToken(actualJwtToken);
@@ -103,7 +103,7 @@ namespace TicketFlow.IdentityService.Client.Test.Generators
 
         [Theory]
         [MemberData(nameof(TokensDifferBasedOnExpireDateTestData))]
-        public void Generate_AnotherCreation_IfExpireDatesDifferEnough_ShouldGenerateTwoDifferentTokens(DateTime firstDateTime, DateTime secondDateTime, bool areTokensEqual)
+        internal void Generate_AnotherCreation_IfExpireDatesDifferEnough_ShouldGenerateTwoDifferentTokens(DateTime firstDateTime, DateTime secondDateTime, bool areTokensEqual)
         {
             dateTimeProviderMock.GetCurrentUtcDateTime().Returns(firstDateTime);
             string token1 = jwtGenerator.Generate(userMock);

@@ -13,7 +13,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Scenarios
         private static readonly string UrlSettingPath = $"TicketFlow:{ServiceName}:Url";
 
         [Fact]
-        public void ProvidingType_FromSettings()
+        internal void ProvidingType_FromSettings()
         {
             ServiceUrlProvidingType expected = ServiceUrlProvidingType.FromSettings;
             var actual = CreateServiceUrlFromSettingsProvider(new Dictionary<string, string>()).ProvidingType;
@@ -21,7 +21,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Scenarios
         }
 
         [Fact]
-        public void GetUrl_SettingIsNotDefined_ShouldThrowException()
+        internal void GetUrl_SettingIsNotDefined_ShouldThrowException()
         {
             Assert.Throws<Exception>(() => CreateServiceUrlFromSettingsProvider(new Dictionary<string, string>()).GetUrl(ServiceName));
         }
@@ -29,7 +29,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Scenarios
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void GetUrl_UrlIsNullOrEmpty_ShouldThrowException(string url)
+        internal void GetUrl_UrlIsNullOrEmpty_ShouldThrowException(string url)
         {
             var settings = new Dictionary<string, string>
             {
@@ -40,7 +40,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Scenarios
         }
 
         [Fact]
-        public void GetUrl_ExceptionMessage_ShouldThrowExceptionWithCorrectMessage()
+        internal void GetUrl_ExceptionMessage_ShouldThrowExceptionWithCorrectMessage()
         {
             var expected = $"Please, specify the url for service {ServiceName} in the configuration file by the path {UrlSettingPath}";
 
@@ -50,7 +50,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Scenarios
         }
 
         [Fact]
-        public void GetUrl_ValidUrl_ShouldReturnUrlFromSettings()
+        internal void GetUrl_ValidUrl_ShouldReturnUrlFromSettings()
         {
             const string expectedUrl = "http://localhost:9000";
             var settings = new Dictionary<string, string>

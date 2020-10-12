@@ -18,7 +18,7 @@ namespace TicketFlow.Common.Test.Readers
         }
 
         [Fact]
-        public async Task ReadAsync_ShouldReadTextFromStream_Async()
+        internal async Task ReadAsync_ShouldReadTextFromStream_Async()
         {
             Encoding encoding = Encoding.UTF8;
             byte[] bytes = encoding.GetBytes(ExpectedString);
@@ -30,7 +30,7 @@ namespace TicketFlow.Common.Test.Readers
         }
 
         [Fact]
-        public async Task ReadAsync_WrongEncoding_ShouldReturnInvalidString_Async()
+        internal async Task ReadAsync_WrongEncoding_ShouldReturnInvalidString_Async()
         {
             byte[] bytes = Encoding.UTF8.GetBytes(ExpectedString);
             Stream stream = new MemoryStream(bytes);
@@ -41,7 +41,7 @@ namespace TicketFlow.Common.Test.Readers
         }
 
         [Fact]
-        public async Task ReadAsync_EmptyStream_ShouldReturnEmptyString_Async()
+        internal async Task ReadAsync_EmptyStream_ShouldReturnEmptyString_Async()
         {
             Stream stream = new MemoryStream(Array.Empty<byte>());
 
@@ -51,13 +51,13 @@ namespace TicketFlow.Common.Test.Readers
         }
 
         [Fact]
-        public async Task ReadAsync_NullStream_ShouldThrowException_Async()
+        internal async Task ReadAsync_NullStream_ShouldThrowException_Async()
         {
             await Assert.ThrowsAsync<ArgumentNullException>(() => stringFromStreamReader.ReadAsync(null, Encoding.UTF8));
         }
 
         [Fact]
-        public async Task ReadAsync_NullEncoding_ShouldNotThrowException_Async()
+        internal async Task ReadAsync_NullEncoding_ShouldNotThrowException_Async()
         {
             await stringFromStreamReader.ReadAsync(new MemoryStream(new byte[] { 1, 2 }), null);
         }

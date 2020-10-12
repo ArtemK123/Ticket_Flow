@@ -26,7 +26,7 @@ namespace TicketFlow.IdentityService.Client.Test.Providers
         }
 
         [Fact]
-        public void GetUrl_ShouldGetUrlFromConfiguration()
+        internal void GetUrl_ShouldGetUrlFromConfiguration()
         {
             var actualUrl = identityServiceUrlProvider.GetUrl();
 

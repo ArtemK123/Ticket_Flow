@@ -9,7 +9,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
         private const string ServiceBaseUrlInvalidExceptionMessage = "Application port is wrongly configured. Please, specify TicketFlow:ServiceBaseUrl in configuration file";
 
         [Fact]
-        public void GetUrl_GetServiceBaseUrlSetting_ValidSetting_ShouldUseGivenServiceBaseUrl()
+        internal void GetUrl_GetServiceBaseUrlSetting_ValidSetting_ShouldUseGivenServiceBaseUrl()
         {
             var settings = new Dictionary<string, string>
             {
@@ -28,7 +28,7 @@ namespace TicketFlow.Common.Test.Providers.UrlFromConfigProviderTests
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void GetUrl_GetServiceBaseUrlSetting_SettingIsEmptyOrNull_ShouldThrowException(string serviceBaseUrl)
+        internal void GetUrl_GetServiceBaseUrlSetting_SettingIsEmptyOrNull_ShouldThrowException(string serviceBaseUrl)
         {
             var settings = new Dictionary<string, string>
             {

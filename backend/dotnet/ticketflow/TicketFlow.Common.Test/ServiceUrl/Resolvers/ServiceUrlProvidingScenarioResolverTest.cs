@@ -16,14 +16,14 @@ namespace TicketFlow.Common.Test.ServiceUrl.Resolvers
             => EnumExtensions.GetAllValues<ServiceUrlProvidingType>().Select(providingType => new object[] { providingType }).ToArray();
 
         [Fact]
-        public void Resolve_ProviderIsNotFound_ShouldThrowException()
+        internal void Resolve_ProviderIsNotFound_ShouldThrowException()
         {
             IEnumerable<IServiceUrlProvidingScenario> scenarios = Array.Empty<IServiceUrlProvidingScenario>();
             Assert.Throws<InvalidOperationException>(() => CreateServiceUrlProviderResolver(scenarios).Resolve(ServiceUrlProvidingType.FromSettings));
         }
 
         [Fact]
-        public void Resolve_MultipleProviders_ShouldThrowException()
+        internal void Resolve_MultipleProviders_ShouldThrowException()
         {
             IEnumerable<IServiceUrlProvidingScenario> scenarios = new[]
             {

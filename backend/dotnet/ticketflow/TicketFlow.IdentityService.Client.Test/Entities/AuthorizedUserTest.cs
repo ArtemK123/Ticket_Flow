@@ -22,20 +22,20 @@ namespace TicketFlow.IdentityService.Client.Test.Entities
         }
 
         [Fact]
-        public void Token_ShouldReturnTokenFromConstructor()
+        internal void Token_ShouldReturnTokenFromConstructor()
         {
             Assert.Equal(Token, authorizedUser.Token);
         }
 
         [Fact]
-        public void TryAuthorize_RightPassword_ShouldReturnUserWithTheSameToken()
+        internal void TryAuthorize_RightPassword_ShouldReturnUserWithTheSameToken()
         {
             authorizedUser.TryAuthorize(Password, out IAuthorizedUser reauthorizedUser);
             Assert.Equal(Token, reauthorizedUser.Token);
         }
 
         [Fact]
-        public void TryAuthorize_RightPassword_ShouldCreateNewAuthorizedUser()
+        internal void TryAuthorize_RightPassword_ShouldCreateNewAuthorizedUser()
         {
             authorizedUser.TryAuthorize(Password, out IAuthorizedUser reauthorizedUser);
             Assert.NotSame(authorizedUser, reauthorizedUser);

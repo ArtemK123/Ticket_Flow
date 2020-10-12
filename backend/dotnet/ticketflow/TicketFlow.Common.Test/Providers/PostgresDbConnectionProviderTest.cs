@@ -20,7 +20,7 @@ namespace TicketFlow.Common.Test.Providers
         }
 
         [Fact]
-        public void Get_ShouldReturnNpgsqlConnection()
+        internal void Get_ShouldReturnNpgsqlConnection()
         {
             DbConnection actual = postgresDbConnectionProvider.Get();
 
@@ -28,7 +28,7 @@ namespace TicketFlow.Common.Test.Providers
         }
 
         [Fact]
-        public void Get_ShouldTakeConnectionStringFromProvider()
+        internal void Get_ShouldTakeConnectionStringFromProvider()
         {
             string actualConnectionString = postgresDbConnectionProvider.Get().ConnectionString;
 
@@ -36,7 +36,7 @@ namespace TicketFlow.Common.Test.Providers
         }
 
         [Fact]
-        public void Get_ShouldCallPostgresConnectionStringProvider()
+        internal void Get_ShouldCallPostgresConnectionStringProvider()
         {
             postgresDbConnectionProvider.Get();
 
