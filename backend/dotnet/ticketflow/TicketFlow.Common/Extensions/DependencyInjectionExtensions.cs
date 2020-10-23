@@ -29,6 +29,7 @@ namespace TicketFlow.Common.Extensions
             services.AddTransient(typeof(IServiceUrlProvidingScenarioResolver), typeof(ServiceUrlProvidingScenarioResolver));
             services.AddTransient(typeof(IServiceUrlProvidingTypeProvider), typeof(ServiceUrlProvidingTypeProvider));
             services.AddTransient(typeof(IServiceUrlProvidingScenario), typeof(ServiceUrlFromSettingsScenario));
+            services.AddTransient(typeof(IServiceUrlProvidingScenario), typeof(ServiceUrlFromConsulScenario));
         }
     }
 }
