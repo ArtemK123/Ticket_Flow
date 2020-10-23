@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using NSubstitute;
+using TicketFlow.Common.ServiceUrl.Providers;
 using TicketFlow.IdentityService.Client.Providers;
 using Xunit;
 
@@ -7,30 +8,27 @@ namespace TicketFlow.IdentityService.Client.Test.Providers
 {
     public class IdentityServiceUrlProviderTest
     {
-        private const string UrlSettingValue = "http://localhost:9001";
+        private const string ServiceName = "IdentityService";
+        private const string Url = "http://localhost";
 
-        private readonly IReadOnlyDictionary<string, string> settings = new Dictionary<string, string>
-        {
-            { "TicketFlow:IdentityService:Url", UrlSettingValue }
-        };
+        private readonly IServiceUrlProvider serviceUrlProviderMock;
 
         private readonly IdentityServiceUrlProvider identityServiceUrlProvider;
 
         public IdentityServiceUrlProviderTest()
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(settings)
-                .Build();
-
-            identityServiceUrlProvider = new IdentityServiceUrlProvider(configuration);
+            serviceUrlProviderMock = Substitute.For<IServiceUrlProvider>();
+            identityServiceUrlProvider = new IdentityServiceUrlProvider(serviceUrlProviderMock);
         }
 
         [Fact]
-        internal void GetUrl_ShouldGetUrlFromConfiguration()
+        internal async Task GetUrlAsync_ShouldGetUrlFromProvider()
         {
-            var actualUrl = identityServiceUrlProvider.GetUrl();
+            serviceUrlProviderMock.GetUrlAsync(ServiceName).Returns(Task.FromResult(Url));
 
-            Assert.Equal(UrlSettingValue, actualUrl);
+            var actualUrl = await identityServiceUrlProvider.GetUrlAsync();
+
+            Assert.Equal(Url, actualUrl);
         }
     }
 }

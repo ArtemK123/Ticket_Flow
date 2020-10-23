@@ -52,7 +52,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         {
             await RunTestAsync(_ =>
             {
-                IdentityServiceUrlProviderMock.Received().GetUrl();
+                IdentityServiceUrlProviderMock.Received().GetUrlAsync();
             });
         }
 
@@ -79,7 +79,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         private static IIdentityServiceUrlProvider CreateIdentityServiceUrlProviderMock(string url)
         {
             var mock = Substitute.For<IIdentityServiceUrlProvider>();
-            mock.GetUrl().Returns(url);
+            mock.GetUrlAsync().Returns(Task.FromResult(url));
             return mock;
         }
     }

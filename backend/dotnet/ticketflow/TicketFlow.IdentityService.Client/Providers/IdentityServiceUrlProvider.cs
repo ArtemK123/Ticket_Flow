@@ -1,16 +1,17 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using TicketFlow.Common.ServiceUrl.Providers;
 
 namespace TicketFlow.IdentityService.Client.Providers
 {
     internal class IdentityServiceUrlProvider : IIdentityServiceUrlProvider
     {
-        private readonly IConfiguration configuration;
+        private readonly IServiceUrlProvider serviceUrlProvider;
 
-        public IdentityServiceUrlProvider(IConfiguration configuration)
+        public IdentityServiceUrlProvider(IServiceUrlProvider serviceUrlProvider)
         {
-            this.configuration = configuration;
+            this.serviceUrlProvider = serviceUrlProvider;
         }
 
-        public string GetUrl() => configuration.GetValue<string>("TicketFlow:IdentityService:Url");
+        public Task<string> GetUrlAsync() => serviceUrlProvider.GetUrlAsync("IdentityService");
     }
 }

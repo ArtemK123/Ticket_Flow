@@ -1,7 +1,9 @@
-﻿namespace TicketFlow.IdentityService.Client.Providers
+﻿using System.Threading.Tasks;
+
+namespace TicketFlow.IdentityService.Client.Providers
 {
     internal interface IIdentityServiceUrlProvider
     {
-        string GetUrl();
+        Task<string> GetUrlAsync();
     }
 }
