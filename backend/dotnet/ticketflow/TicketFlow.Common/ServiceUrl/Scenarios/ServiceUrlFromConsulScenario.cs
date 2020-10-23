@@ -31,6 +31,11 @@ namespace TicketFlow.Common.ServiceUrl.Scenarios
 
             string consulServiceName = configuration.GetValue<string>(consulServiceNameSettingPath);
 
+            if (string.IsNullOrEmpty(consulServiceName))
+            {
+                consulServiceName = serviceName;
+            }
+
             QueryResult<Dictionary<string, AgentService>> allServices = await consulClient.Agent.Services();
 
             IReadOnlyCollection<AgentService> suitableServices =
@@ -43,7 +48,7 @@ namespace TicketFlow.Common.ServiceUrl.Scenarios
 
             int takenServiceId = randomValueProvider.GetRandomInt(0, suitableServices.Count);
             AgentService service = suitableServices.ElementAt(takenServiceId);
-            return service.Address;
+            return $"{service.Address}:{service.Port}";
         }
     }
 }
