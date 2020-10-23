@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.ServiceUrl.Enums;
 
@@ -15,7 +16,7 @@ namespace TicketFlow.Common.ServiceUrl.Scenarios
 
         public ServiceUrlProvidingType ProvidingType => ServiceUrlProvidingType.FromSettings;
 
-        public string GetUrl(string serviceName)
+        public Task<string> GetUrlAsync(string serviceName)
         {
             var urlSettingPath = $"TicketFlow:{serviceName}:Url";
 
@@ -26,7 +27,7 @@ namespace TicketFlow.Common.ServiceUrl.Scenarios
                 throw new Exception($"Please, specify the url for service {serviceName} in the configuration file by the path {urlSettingPath}");
             }
 
-            return url;
+            return Task.FromResult(url);
         }
     }
 }

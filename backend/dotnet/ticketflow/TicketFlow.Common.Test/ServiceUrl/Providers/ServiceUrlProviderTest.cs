@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using System.Threading.Tasks;
+using NSubstitute;
 using TicketFlow.Common.ServiceUrl.Enums;
 using TicketFlow.Common.ServiceUrl.Providers;
 using TicketFlow.Common.ServiceUrl.Resolvers;
@@ -28,25 +29,25 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         }
 
         [Fact]
-        internal void GetUrl_ProvidingType_ShouldGetProvidingTypeFromProvider()
+        internal async Task GetUrlAsync_ProvidingType_ShouldGetProvidingTypeFromProvider()
         {
-            serviceUrlProvider.GetUrl(ServiceName);
+            await serviceUrlProvider.GetUrlAsync(ServiceName);
 
             serviceUrlProvidingScenarioResolverMock.Received().Resolve(ProvidingType);
         }
 
         [Fact]
-        internal void GetUrl_Scenario_ShouldCallScenarioWithGivenServiceName()
+        internal async Task GetUrlAsync_Scenario_ShouldCallScenarioWithGivenServiceName()
         {
-            serviceUrlProvider.GetUrl(ServiceName);
+            await serviceUrlProvider.GetUrlAsync(ServiceName);
 
-            serviceUrlProvidingScenarioMock.Received().GetUrl(ServiceName);
+            await serviceUrlProvidingScenarioMock.Received().GetUrlAsync(ServiceName);
         }
 
         [Fact]
-        internal void GetUrl_ReturnedUrl_ShouldReturnUrlFromScenario()
+        internal async Task GetUrlAsync_ReturnedUrl_ShouldReturnUrlFromScenario()
         {
-            string actualUrl = serviceUrlProvider.GetUrl(ServiceName);
+            string actualUrl = await serviceUrlProvider.GetUrlAsync(ServiceName);
 
             Assert.Equal(ServiceUrl, actualUrl);
         }
@@ -61,7 +62,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Providers
         private static IServiceUrlProvidingScenario CreateServiceUrlProvidingScenarioMock(string url)
         {
             var substitute = Substitute.For<IServiceUrlProvidingScenario>();
-            substitute.GetUrl(default).ReturnsForAnyArgs(url);
+            substitute.GetUrlAsync(default).ReturnsForAnyArgs(url);
             return substitute;
         }
 

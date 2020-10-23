@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.ServiceUrl.Enums;
 using TicketFlow.Common.ServiceUrl.Scenarios;
@@ -21,36 +22,36 @@ namespace TicketFlow.Common.Test.ServiceUrl.Scenarios
         }
 
         [Fact]
-        internal void GetUrl_SettingIsNotDefined_ShouldThrowException()
+        internal async Task GetUrlAsync_SettingIsNotDefined_ShouldThrowException()
         {
-            Assert.Throws<Exception>(() => CreateServiceUrlFromSettingsProvider(new Dictionary<string, string>()).GetUrl(ServiceName));
+            await Assert.ThrowsAsync<Exception>(() => CreateServiceUrlFromSettingsProvider(new Dictionary<string, string>()).GetUrlAsync(ServiceName));
         }
 
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        internal void GetUrl_UrlIsNullOrEmpty_ShouldThrowException(string url)
+        internal async Task GetUrlAsync_UrlIsNullOrEmpty_ShouldThrowException(string url)
         {
             var settings = new Dictionary<string, string>
             {
                 { UrlSettingPath, url }
             };
 
-            Assert.Throws<Exception>(() => CreateServiceUrlFromSettingsProvider(settings).GetUrl(ServiceName));
+            await Assert.ThrowsAsync<Exception>(() => CreateServiceUrlFromSettingsProvider(settings).GetUrlAsync(ServiceName));
         }
 
         [Fact]
-        internal void GetUrl_ExceptionMessage_ShouldThrowExceptionWithCorrectMessage()
+        internal async Task GetUrlAsync_ExceptionMessage_ShouldThrowExceptionWithCorrectMessage()
         {
             var expected = $"Please, specify the url for service {ServiceName} in the configuration file by the path {UrlSettingPath}";
 
-            Exception exception = Assert.Throws<Exception>(() => CreateServiceUrlFromSettingsProvider(new Dictionary<string, string>()).GetUrl(ServiceName));
+            Exception exception = await Assert.ThrowsAsync<Exception>(() => CreateServiceUrlFromSettingsProvider(new Dictionary<string, string>()).GetUrlAsync(ServiceName));
 
             Assert.Equal(expected, exception.Message);
         }
 
         [Fact]
-        internal void GetUrl_ValidUrl_ShouldReturnUrlFromSettings()
+        internal async Task GetUrlAsync_ValidUrl_ShouldReturnUrlFromSettings()
         {
             const string expectedUrl = "http://localhost:9000";
             var settings = new Dictionary<string, string>
@@ -58,7 +59,7 @@ namespace TicketFlow.Common.Test.ServiceUrl.Scenarios
                 { UrlSettingPath, expectedUrl }
             };
 
-            string actualUrl = CreateServiceUrlFromSettingsProvider(settings).GetUrl(ServiceName);
+            string actualUrl = await CreateServiceUrlFromSettingsProvider(settings).GetUrlAsync(ServiceName);
 
             Assert.Equal(expectedUrl, actualUrl);
         }

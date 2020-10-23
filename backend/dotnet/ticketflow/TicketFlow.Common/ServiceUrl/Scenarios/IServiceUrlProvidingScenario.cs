@@ -1,4 +1,5 @@
-﻿using TicketFlow.Common.ServiceUrl.Enums;
+﻿using System.Threading.Tasks;
+using TicketFlow.Common.ServiceUrl.Enums;
 
 namespace TicketFlow.Common.ServiceUrl.Scenarios
 {
@@ -6,6 +7,6 @@ namespace TicketFlow.Common.ServiceUrl.Scenarios
     {
         ServiceUrlProvidingType ProvidingType { get; }
 
-        string GetUrl(string serviceName);
+        Task<string> GetUrlAsync(string serviceName);
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace TicketFlow.Common.ServiceUrl.Providers
+﻿using System.Threading.Tasks;
+
+namespace TicketFlow.Common.ServiceUrl.Providers
 {
     public interface IServiceUrlProvider
     {
-        string GetUrl(string serviceName);
+        Task<string> GetUrlAsync(string serviceName);
     }
 }
