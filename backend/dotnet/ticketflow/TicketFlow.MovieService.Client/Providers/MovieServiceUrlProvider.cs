@@ -1,16 +1,17 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using TicketFlow.Common.ServiceUrl.Providers;
 
 namespace TicketFlow.MovieService.Client.Providers
 {
     internal class MovieServiceUrlProvider : IMovieServiceUrlProvider
     {
-        private readonly IConfiguration configuration;
+        private readonly IServiceUrlProvider serviceUrlProvider;
 
-        public MovieServiceUrlProvider(IConfiguration configuration)
+        public MovieServiceUrlProvider(IServiceUrlProvider serviceUrlProvider)
         {
-            this.configuration = configuration;
+            this.serviceUrlProvider = serviceUrlProvider;
         }
 
-        public string GetUrl() => configuration.GetValue<string>("TicketFlow:MovieService:Url");
+        public Task<string> GetUrlAsync() => serviceUrlProvider.GetUrlAsync("MovieService");
     }
 }

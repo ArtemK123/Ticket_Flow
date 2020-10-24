@@ -1,7 +1,9 @@
-﻿namespace TicketFlow.MovieService.Client.Providers
+﻿using System.Threading.Tasks;
+
+namespace TicketFlow.MovieService.Client.Providers
 {
     internal interface IMovieServiceUrlProvider
     {
-        string GetUrl();
+        Task<string> GetUrlAsync();
     }
 }

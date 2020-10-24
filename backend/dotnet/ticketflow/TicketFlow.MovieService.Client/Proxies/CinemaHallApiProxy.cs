@@ -34,7 +34,7 @@ namespace TicketFlow.MovieService.Client.Proxies
 
         public async Task<IReadOnlyCollection<ICinemaHall>> GetAllAsync()
         {
-            string requestUrl = $"{GetApiUrl()}";
+            string requestUrl = await FormServiceUrl();
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
 
             IReadOnlyCollection<CinemaHallSerializationModel> cinemaHallSerializationModels = await serviceMessageSender.SendAsync<CinemaHallSerializationModel[]>(httpRequest);
@@ -44,13 +44,17 @@ namespace TicketFlow.MovieService.Client.Proxies
 
         public async Task<int> AddAsync(CinemaHallCreationModel cinemaHallCreationModel)
         {
-            string requestUrl = $"{GetApiUrl()}";
+            string requestUrl = await FormServiceUrl();
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(cinemaHallCreationModel), Encoding.UTF8, "application/json");
 
             return await serviceMessageSender.SendAsync(httpRequest, int.Parse);
         }
 
-        private string GetApiUrl() => $"{movieServiceUrlProvider.GetUrl()}/cinema-halls";
+        private async Task<string> FormServiceUrl(string requestUrl = "")
+        {
+            string serviceUrl = await movieServiceUrlProvider.GetUrlAsync();
+            return $"{serviceUrl}/cinema-halls{requestUrl}";
+        }
     }
 }
