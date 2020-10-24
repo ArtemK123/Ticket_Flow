@@ -30,7 +30,7 @@ namespace TicketFlow.ProfileService.Client.Proxies
 
         public async Task<IProfile> GetByIdAsync(int id)
         {
-            string requestUrl = $"{GetProfileApiUrlAsync()}/by-id/{id}";
+            string requestUrl = $"{await GetProfileApiUrlAsync()}/by-id/{id}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
 
             ProfileSerializationModel serializationModel = await serviceMessageSender.SendAsync<ProfileSerializationModel>(httpRequest);
@@ -40,7 +40,7 @@ namespace TicketFlow.ProfileService.Client.Proxies
 
         public async Task<IProfile> GetByUserEmailAsync(string email)
         {
-            string requestUrl = $"{GetProfileApiUrlAsync()}/by-user";
+            string requestUrl = $"{await GetProfileApiUrlAsync()}/by-user";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(email);
 
@@ -51,7 +51,7 @@ namespace TicketFlow.ProfileService.Client.Proxies
 
         public async Task<IProfile> AddAsync(ProfileCreationModel profileCreationModel)
         {
-            string requestUrl = $"{GetProfileApiUrlAsync()}";
+            string requestUrl = $"{await GetProfileApiUrlAsync()}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(profileCreationModel), Encoding.UTF8, "application/json");
 
