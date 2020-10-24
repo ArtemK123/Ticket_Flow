@@ -21,7 +21,7 @@ namespace TicketFlow.ProfileService.Client.Test.Validators
         }
 
         [Fact]
-        public async Task ValidateAsync_NotFound_ShouldThrowNotFoundException_Async()
+        internal async Task ValidateAsync_NotFound_ShouldThrowNotFoundException_Async()
         {
             await RunValidateAsyncExceptionTestAsync<NotFoundException>(
                 new HttpResponseMessage
@@ -33,7 +33,7 @@ namespace TicketFlow.ProfileService.Client.Test.Validators
         }
 
         [Fact]
-        public async Task ValidateAsync_BadRequest_ShouldThrowNotUniqueEntityException_Async()
+        internal async Task ValidateAsync_BadRequest_ShouldThrowNotUniqueEntityException_Async()
         {
             await RunValidateAsyncExceptionTestAsync<NotUniqueEntityException>(
                 new HttpResponseMessage
@@ -45,7 +45,7 @@ namespace TicketFlow.ProfileService.Client.Test.Validators
         }
 
         [Fact]
-        public async Task ValidateAsync_InternalServerError_ShouldThrowInternalServiceException_Async()
+        internal async Task ValidateAsync_InternalServerError_ShouldThrowInternalServiceException_Async()
         {
             await RunValidateAsyncExceptionTestAsync<InternalServiceException>(
                 new HttpResponseMessage
@@ -56,7 +56,7 @@ namespace TicketFlow.ProfileService.Client.Test.Validators
         }
 
         [Fact]
-        public async Task ValidateAsync_ByDefault_ShouldPass_Async()
+        internal async Task ValidateAsync_ByDefault_ShouldPass_Async()
         {
             await profileServiceResponseValidator.ValidateAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.Forbidden });
         }

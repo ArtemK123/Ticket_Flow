@@ -8,7 +8,7 @@ namespace TicketFlow.Common.Test.Providers
     public class PostgresConnectionStringProviderTest
     {
         [Fact]
-        public void GetConnectionString_ShouldReadValuesFromConfiguration()
+        internal void GetConnectionString_ShouldReadValuesFromConfiguration()
         {
             string expectedHost = "host";
             string expectedDatabaseName = "databaseName";

@@ -34,7 +34,7 @@ namespace TicketFlow.MovieService.Client.Proxies
 
         public async Task<IReadOnlyCollection<IMovie>> GetAllAsync()
         {
-            string requestUrl = $"{GetApiUrl()}";
+            string requestUrl = await FormServiceUrl();
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
 
             IReadOnlyCollection<MovieSerializationModel> movieSerializationModels = await serviceMessageSender.SendAsync<MovieSerializationModel[]>(httpRequest);
@@ -44,7 +44,7 @@ namespace TicketFlow.MovieService.Client.Proxies
 
         public async Task<IMovie> GetByIdAsync(int id)
         {
-            string requestUrl = $"{GetApiUrl()}/{id}";
+            string requestUrl = await FormServiceUrl($"/{id}");
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
 
             MovieSerializationModel serializationModel = await serviceMessageSender.SendAsync<MovieSerializationModel>(httpRequest);
@@ -54,13 +54,17 @@ namespace TicketFlow.MovieService.Client.Proxies
 
         public async Task<int> AddAsync(MovieCreationIdReferencedModel movieCreationIdReferencedModel)
         {
-            string requestUrl = $"{GetApiUrl()}";
+            string requestUrl = await FormServiceUrl();
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(movieCreationIdReferencedModel), Encoding.UTF8, "application/json");
 
             return await serviceMessageSender.SendAsync(httpRequest, int.Parse);
         }
 
-        private string GetApiUrl() => $"{movieServiceUrlProvider.GetUrl()}/movies";
+        private async Task<string> FormServiceUrl(string requestUrl = "")
+        {
+            string serviceUrl = await movieServiceUrlProvider.GetUrlAsync();
+            return $"{serviceUrl}/movies{requestUrl}";
+        }
     }
 }

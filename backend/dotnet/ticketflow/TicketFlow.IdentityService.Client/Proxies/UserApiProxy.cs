@@ -29,7 +29,7 @@ namespace TicketFlow.IdentityService.Client.Proxies
 
         public async Task<IAuthorizedUser> GetByTokenAsync(string token)
         {
-            string requestUrl = $"{GetApiUrl()}/getByToken";
+            string requestUrl = await FormServiceUrl("/getByToken");
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(token);
 
@@ -41,7 +41,7 @@ namespace TicketFlow.IdentityService.Client.Proxies
 
         public async Task<IUser> GetByEmailAsync(string email)
         {
-            string requestUrl = $"{GetApiUrl()}/getByEmail";
+            string requestUrl = await FormServiceUrl("/getByEmail");
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(email);
 
@@ -52,7 +52,7 @@ namespace TicketFlow.IdentityService.Client.Proxies
 
         public async Task<string> LoginAsync(LoginRequest loginRequest)
         {
-            string requestUrl = $"{GetApiUrl()}/login";
+            string requestUrl = await FormServiceUrl("/login");
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(loginRequest), Encoding.UTF8, "application/json");
 
@@ -61,7 +61,7 @@ namespace TicketFlow.IdentityService.Client.Proxies
 
         public async Task<string> RegisterAsync(RegisterRequest registerRequest)
         {
-            string requestUrl = $"{GetApiUrl()}/register";
+            string requestUrl = await FormServiceUrl("/register");
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(registerRequest), Encoding.UTF8, "application/json");
 
@@ -70,13 +70,17 @@ namespace TicketFlow.IdentityService.Client.Proxies
 
         public async Task<string> LogoutAsync(string token)
         {
-            string requestUrl = $"{GetApiUrl()}/logout";
+            string requestUrl = await FormServiceUrl("/logout");
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(token);
 
             return await serviceMessageSender.SendAsync(httpRequest, text => text);
         }
 
-        private string GetApiUrl() => $"{serviceUrlProvider.GetUrl()}/users";
+        private async Task<string> FormServiceUrl(string requestUrl)
+        {
+            string serviceUrl = await serviceUrlProvider.GetUrlAsync();
+            return $"{serviceUrl}/users{requestUrl}";
+        }
     }
 }

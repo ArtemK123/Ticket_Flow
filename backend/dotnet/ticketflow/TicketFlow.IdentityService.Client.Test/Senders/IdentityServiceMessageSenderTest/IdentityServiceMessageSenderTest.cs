@@ -40,7 +40,7 @@ namespace TicketFlow.IdentityService.Client.Test.Senders.IdentityServiceMessageS
         }
 
         [Fact]
-        public async Task SendAsync_WithReturn_ShouldCreateHttpClientViaFactory_Async()
+        internal async Task SendAsync_WithReturn_ShouldCreateHttpClientViaFactory_Async()
         {
             await identityServiceMessageSender.SendAsync(httpRequestMessage, text => text);
 
@@ -48,7 +48,7 @@ namespace TicketFlow.IdentityService.Client.Test.Senders.IdentityServiceMessageS
         }
 
         [Fact]
-        public async Task SendAsync_WithReturn_ShouldPassHttpResponseToValidator_Async()
+        internal async Task SendAsync_WithReturn_ShouldPassHttpResponseToValidator_Async()
         {
             await identityServiceMessageSender.SendAsync(httpRequestMessage, text => text);
 
@@ -56,7 +56,7 @@ namespace TicketFlow.IdentityService.Client.Test.Senders.IdentityServiceMessageS
         }
 
         [Fact]
-        public async Task SendAsync_WithReturn_ConvertFunc_ShouldConvertResponseBodyViaConvertFunc_Async()
+        internal async Task SendAsync_WithReturn_ConvertFunc_ShouldConvertResponseBodyViaConvertFunc_Async()
         {
             var actual = await identityServiceMessageSender.SendAsync(httpRequestMessage, text => ExpectedValue);
 
@@ -64,7 +64,7 @@ namespace TicketFlow.IdentityService.Client.Test.Senders.IdentityServiceMessageS
         }
 
         [Fact]
-        public async Task SendAsync_WithReturn_DefaultConvertFunc_ShouldUseJsonSerializerAsDefaultConverter_Async()
+        internal async Task SendAsync_WithReturn_DefaultConvertFunc_ShouldUseJsonSerializerAsDefaultConverter_Async()
         {
             jsonSerializerMock.Deserialize<string>(default).ReturnsForAnyArgs(ExpectedValue);
 
@@ -74,7 +74,7 @@ namespace TicketFlow.IdentityService.Client.Test.Senders.IdentityServiceMessageS
         }
 
         [Fact]
-        public async Task SendAsync_WithReturn_DefaultConvertFunc_ShouldRunCaseInsensitiveJsonDeserialization_Async()
+        internal async Task SendAsync_WithReturn_DefaultConvertFunc_ShouldRunCaseInsensitiveJsonDeserialization_Async()
         {
             jsonSerializerMock.Deserialize<string>(default).ReturnsForAnyArgs(ExpectedValue);
 
@@ -84,7 +84,7 @@ namespace TicketFlow.IdentityService.Client.Test.Senders.IdentityServiceMessageS
         }
 
         [Fact]
-        public async Task SendAsync_WithoutReturn_ShouldCreateHttpClientViaFactory_Async()
+        internal async Task SendAsync_WithoutReturn_ShouldCreateHttpClientViaFactory_Async()
         {
             await identityServiceMessageSender.SendAsync(httpRequestMessage);
 
@@ -92,7 +92,7 @@ namespace TicketFlow.IdentityService.Client.Test.Senders.IdentityServiceMessageS
         }
 
         [Fact]
-        public async Task SendAsync_WithoutReturn_ShouldPassHttpResponseToValidator_Async()
+        internal async Task SendAsync_WithoutReturn_ShouldPassHttpResponseToValidator_Async()
         {
             await identityServiceMessageSender.SendAsync(httpRequestMessage);
 

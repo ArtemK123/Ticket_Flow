@@ -3,8 +3,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.Serializers;
+using TicketFlow.Common.ServiceUrl.Providers;
 using TicketFlow.TicketService.Client.Extensibility.Entities;
 using TicketFlow.TicketService.Client.Extensibility.Models;
 using TicketFlow.TicketService.Client.Extensibility.Proxies;
@@ -15,26 +15,28 @@ namespace TicketFlow.TicketService.Client.Proxies
 {
     internal class TicketApiProxy : ITicketApiProxy
     {
+        private const string ServiceName = "TicketService";
+
         private readonly ITicketSerializer ticketSerializer;
         private readonly IJsonSerializer jsonSerializer;
-        private readonly IConfiguration configuration;
         private readonly ITicketServiceMessageSender serviceMessageSender;
+        private readonly IServiceUrlProvider serviceUrlProvider;
 
         public TicketApiProxy(
-            IConfiguration configuration,
             ITicketSerializer ticketSerializer,
             IJsonSerializer jsonSerializer,
-            ITicketServiceMessageSender serviceMessageSender)
+            ITicketServiceMessageSender serviceMessageSender,
+            IServiceUrlProvider serviceUrlProvider)
         {
-            this.configuration = configuration;
             this.ticketSerializer = ticketSerializer;
             this.jsonSerializer = jsonSerializer;
             this.serviceMessageSender = serviceMessageSender;
+            this.serviceUrlProvider = serviceUrlProvider;
         }
 
         public async Task<IReadOnlyCollection<ITicket>> GetByMovieIdAsync(int movieId)
         {
-            string requestUrl = $"{GetTicketApiUrl()}/by-movie/{movieId}";
+            string requestUrl = $"{await GetTicketApiUrlAsync()}/by-movie/{movieId}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
 
             TicketSerializationModel[] serializationModels = await serviceMessageSender.SendAsync<TicketSerializationModel[]>(httpRequest);
@@ -43,7 +45,7 @@ namespace TicketFlow.TicketService.Client.Proxies
 
         public async Task<IReadOnlyCollection<ITicket>> GetByUserEmailAsync(string userEmail)
         {
-            string requestUrl = $"{GetTicketApiUrl()}/by-user";
+            string requestUrl = $"{await GetTicketApiUrlAsync()}/by-user";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(userEmail);
 
@@ -53,7 +55,7 @@ namespace TicketFlow.TicketService.Client.Proxies
 
         public async Task<int> AddAsync(TicketCreationModel ticketCreationModel)
         {
-            string requestUrl = $"{GetTicketApiUrl()}";
+            string requestUrl = $"{await GetTicketApiUrlAsync()}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(ticketCreationModel), Encoding.UTF8, "application/json");
 
@@ -62,16 +64,16 @@ namespace TicketFlow.TicketService.Client.Proxies
 
         public async Task OrderAsync(OrderModel orderModel)
         {
-            string requestUrl = $"{GetTicketApiUrl()}/order";
+            string requestUrl = $"{await GetTicketApiUrlAsync()}/order";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(orderModel), Encoding.UTF8, "application/json");
 
             await serviceMessageSender.SendAsync(httpRequest);
         }
 
-        private string GetTicketApiUrl()
+        private async Task<string> GetTicketApiUrlAsync()
         {
-            string ticketServiceUrl = configuration.GetValue<string>("TicketFlow:TicketService:Url");
+            string ticketServiceUrl = await serviceUrlProvider.GetUrlAsync(ServiceName);
             return $"{ticketServiceUrl}/tickets";
         }
     }

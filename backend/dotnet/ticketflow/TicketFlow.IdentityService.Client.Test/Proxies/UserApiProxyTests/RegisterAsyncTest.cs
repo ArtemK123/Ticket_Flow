@@ -15,7 +15,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         private readonly RegisterRequest registerRequest = new RegisterRequest(Email, Password);
 
         [Fact]
-        public async Task RegisterAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
+        internal async Task RegisterAsync_RequestUrl_ShouldSendRequestToRightEndpoint_Async()
         {
             var expectedUri = new Uri($"{ServiceUrl}/users/register");
 
@@ -28,7 +28,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task RegisterAsync_RequestMethod_ShouldSendPostRequest_Async()
+        internal async Task RegisterAsync_RequestMethod_ShouldSendPostRequest_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -39,7 +39,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task RegisterAsync_ContentType_ShouldSetContentTypeAsApplicationJson_Async()
+        internal async Task RegisterAsync_ContentType_ShouldSetContentTypeAsApplicationJson_Async()
         {
             const string expectedContentType = "application/json";
 
@@ -55,7 +55,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task RegisterAsync_RequestBody_ShouldSerializeRequestModelInJsonViaSerializer_Async()
+        internal async Task RegisterAsync_RequestBody_ShouldSerializeRequestModelInJsonViaSerializer_Async()
         {
             await RunTestAsync(_ =>
             {
@@ -64,7 +64,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task RegisterAsync_RequestBody_ShouldSendRequestWithSerializedModelInBody_Async()
+        internal async Task RegisterAsync_RequestBody_ShouldSendRequestWithSerializedModelInBody_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -75,7 +75,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task RegisterAsync_BodyEncoding_ShouldEncodeBodyInUTF8_Async()
+        internal async Task RegisterAsync_BodyEncoding_ShouldEncodeBodyInUTF8_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -86,7 +86,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task RegisterAsync_Result_ShouldReturnStringResultWithoutConversion_Async()
+        internal async Task RegisterAsync_Result_ShouldReturnStringResultWithoutConversion_Async()
         {
             await RunTestAsync(async _ =>
             {
@@ -97,7 +97,7 @@ namespace TicketFlow.IdentityService.Client.Test.Proxies.UserApiProxyTests
         }
 
         [Fact]
-        public async Task RegisterAsync_Result_ShouldReturnResultFromSender_Async()
+        internal async Task RegisterAsync_Result_ShouldReturnResultFromSender_Async()
         {
             await RunTestAsync(result => Assert.Equal(Result, result));
         }

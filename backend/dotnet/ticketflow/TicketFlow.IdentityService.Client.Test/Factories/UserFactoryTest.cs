@@ -23,7 +23,7 @@ namespace TicketFlow.IdentityService.Client.Test.Factories
         }
 
         [Fact]
-        public void Create_ShouldCreateUserFromUserCreationModel()
+        internal void Create_ShouldCreateUserFromUserCreationModel()
         {
             UserCreationModel creationModel = new UserCreationModel(Email, Password, UserRole);
             IUser actual = userFactory.Create(creationModel);
@@ -34,7 +34,7 @@ namespace TicketFlow.IdentityService.Client.Test.Factories
         }
 
         [Fact]
-        public void Create_ShouldCreateAuthorizedUserFromAuthorizedUserCreationModel()
+        internal void Create_ShouldCreateAuthorizedUserFromAuthorizedUserCreationModel()
         {
             AuthorizedUserCreationModel creationModel = new AuthorizedUserCreationModel(Email, Password, UserRole, Token);
             IAuthorizedUser actual = userFactory.Create(creationModel);
