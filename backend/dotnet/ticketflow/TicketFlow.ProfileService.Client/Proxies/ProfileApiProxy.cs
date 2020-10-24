@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using TicketFlow.Common.Serializers;
+using TicketFlow.Common.ServiceUrl.Providers;
 using TicketFlow.ProfileService.Client.Extensibility.Entities;
 using TicketFlow.ProfileService.Client.Extensibility.Models;
 using TicketFlow.ProfileService.Client.Extensibility.Proxies;
@@ -13,22 +13,24 @@ namespace TicketFlow.ProfileService.Client.Proxies
 {
     internal class ProfileApiProxy : IProfileApiProxy
     {
-        private readonly IConfiguration configuration;
+        private const string ServiceName = "ProfileService";
+
         private readonly IProfileSerializer profileSerializer;
         private readonly IProfileServiceMessageSender serviceMessageSender;
         private readonly IJsonSerializer jsonSerializer;
+        private readonly IServiceUrlProvider serviceUrlProvider;
 
-        public ProfileApiProxy(IConfiguration configuration, IProfileSerializer profileSerializer, IProfileServiceMessageSender serviceMessageSender, IJsonSerializer jsonSerializer)
+        public ProfileApiProxy(IProfileSerializer profileSerializer, IProfileServiceMessageSender serviceMessageSender, IJsonSerializer jsonSerializer, IServiceUrlProvider serviceUrlProvider)
         {
-            this.configuration = configuration;
             this.profileSerializer = profileSerializer;
             this.serviceMessageSender = serviceMessageSender;
             this.jsonSerializer = jsonSerializer;
+            this.serviceUrlProvider = serviceUrlProvider;
         }
 
         public async Task<IProfile> GetByIdAsync(int id)
         {
-            string requestUrl = $"{GetProfileApiUrl()}/by-id/{id}";
+            string requestUrl = $"{GetProfileApiUrlAsync()}/by-id/{id}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUrl);
 
             ProfileSerializationModel serializationModel = await serviceMessageSender.SendAsync<ProfileSerializationModel>(httpRequest);
@@ -38,7 +40,7 @@ namespace TicketFlow.ProfileService.Client.Proxies
 
         public async Task<IProfile> GetByUserEmailAsync(string email)
         {
-            string requestUrl = $"{GetProfileApiUrl()}/by-user";
+            string requestUrl = $"{GetProfileApiUrlAsync()}/by-user";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(email);
 
@@ -49,7 +51,7 @@ namespace TicketFlow.ProfileService.Client.Proxies
 
         public async Task<IProfile> AddAsync(ProfileCreationModel profileCreationModel)
         {
-            string requestUrl = $"{GetProfileApiUrl()}";
+            string requestUrl = $"{GetProfileApiUrlAsync()}";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(jsonSerializer.Serialize(profileCreationModel), Encoding.UTF8, "application/json");
 
@@ -58,9 +60,9 @@ namespace TicketFlow.ProfileService.Client.Proxies
             return profileSerializer.Deserialize(serializationModel);
         }
 
-        private string GetProfileApiUrl()
+        private async Task<string> GetProfileApiUrlAsync()
         {
-            string ticketServiceUrl = configuration.GetValue<string>("TicketFlow:ProfileService:Url");
+            string ticketServiceUrl = await serviceUrlProvider.GetUrlAsync(ServiceName);
             return $"{ticketServiceUrl}/profiles";
         }
     }
