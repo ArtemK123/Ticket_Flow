@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -29,8 +30,13 @@ namespace TicketFlow.ApiGateway
 
                     IUrlFromConfigProvider urlFromConfigProvider = new UrlFromConfigProvider();
 
-                    webBuilder.UseUrls(urlFromConfigProvider.GetUrl(appsettings));
+                    // webBuilder.UseUrls(urlFromConfigProvider.GetUrl(appsettings));
+                    // webBuilder.UseUrls("http://*:8080", urlFromConfigProvider.GetUrl(appsettings));
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel(opts =>
+                    {
+                        opts.Listen(IPAddress.Any, port: 8080);
+                    });
                 });
     }
 }

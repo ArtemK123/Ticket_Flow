@@ -93,9 +93,9 @@ services:
             - movie-service
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker   
+        restart: unless-stopped        
         ports:
-            - 8080:8080
-        restart: unless-stopped                   
+            - "8080:8080"
                     
     web-client:
         image: darkmode1012/ticketflow:web-clinet
