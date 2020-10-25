@@ -32,6 +32,8 @@ services:
         depends_on:
             - db
             - consul
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker
         restart: unless-stopped
 
     profile-service:
@@ -44,6 +46,8 @@ services:
         depends_on:
             - db
             - consul
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker
         restart: unless-stopped
 
     ticket-service:
@@ -56,6 +60,8 @@ services:
         depends_on:
             - db
             - consul
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker    
         restart: unless-stopped
 
     movie-service:
@@ -68,6 +74,8 @@ services:
         depends_on:
             - db
             - consul
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker       
         restart: unless-stopped            
 
     api-gateway:
@@ -83,6 +91,8 @@ services:
             - profile-service
             - ticket-service
             - movie-service
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker   
         ports:
             - 8080:8080
         restart: unless-stopped                   

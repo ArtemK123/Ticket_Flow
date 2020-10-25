@@ -14,3 +14,5 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY --from=build-env /build/publishFolder .
 ENTRYPOINT ["dotnet", "TicketFlow.ApiGateway.dll"]
+
+EXPOSE 8080
