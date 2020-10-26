@@ -22,14 +22,6 @@ namespace TicketFlow.TicketService
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    IConfigurationRoot appsettings =
-                        new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.json")
-                            .Build();
-
-                    IUrlFromConfigProvider urlFromConfigProvider = new UrlFromConfigProvider();
-
-                    webBuilder.UseUrls(urlFromConfigProvider.GetUrl(appsettings));
                     webBuilder.UseStartup<Startup>();
                 });
     }

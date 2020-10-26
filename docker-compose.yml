@@ -34,6 +34,7 @@ services:
             - consul
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
+            - ASPNETCORE_URLS=http://localhost:9001
         restart: unless-stopped
 
     profile-service:
@@ -48,6 +49,7 @@ services:
             - consul
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker
+            - ASPNETCORE_URLS=http://localhost:9002
         restart: unless-stopped
 
     ticket-service:
@@ -61,7 +63,8 @@ services:
             - db
             - consul
         environment:
-            - ASPNETCORE_ENVIRONMENT=Docker    
+            - ASPNETCORE_ENVIRONMENT=Docker
+            - ASPNETCORE_URLS=http://localhost:9003
         restart: unless-stopped
 
     movie-service:
@@ -75,7 +78,8 @@ services:
             - db
             - consul
         environment:
-            - ASPNETCORE_ENVIRONMENT=Docker       
+            - ASPNETCORE_ENVIRONMENT=Docker     
+            - ASPNETCORE_URLS=http://localhost:9004
         restart: unless-stopped            
 
     api-gateway:
@@ -93,6 +97,7 @@ services:
             - movie-service
         environment:
             - ASPNETCORE_ENVIRONMENT=Docker   
+            - ASPNETCORE_URLS=http://host.docker.internal:8080
         restart: unless-stopped        
         ports:
             - "8080:8080"
