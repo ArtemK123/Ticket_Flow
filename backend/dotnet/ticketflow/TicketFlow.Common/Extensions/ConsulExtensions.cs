@@ -2,8 +2,6 @@
 using System.Linq;
 using Consul;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,9 +13,8 @@ namespace TicketFlow.Common.Extensions
     {
         public static void RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
         {
-            AgentServiceRegistration registration = GetServiceRegistration(app, configuration);
-            var logger = app.ApplicationServices.GetRequiredService<ILogger<IConsulClient>>();
-
+            AgentServiceRegistration registration = GetServiceRegistration(configuration);
+            ILogger<IConsulClient> logger = app.ApplicationServices.GetRequiredService<ILogger<IConsulClient>>();
             IConsulClient consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>();
 
             logger.LogInformation("Registering with Consul");
@@ -26,8 +23,8 @@ namespace TicketFlow.Common.Extensions
 
             lifetime.ApplicationStopping.Register(() =>
             {
-                logger.LogInformation("Deregistering from Consul");
                 consulClient.Agent.ServiceDeregister(registration.ID).Wait();
+                logger.LogInformation("Deregistered from Consul");
             });
         }
 
@@ -35,22 +32,19 @@ namespace TicketFlow.Common.Extensions
         {
             services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
             {
-                var address = configuration["Consul:Address"];
+                string address = configuration.GetValue<string>("Consul:Address");
                 consulConfig.Address = new Uri(address);
             }));
         }
 
-        private static AgentServiceRegistration GetServiceRegistration(IApplicationBuilder app, IConfiguration configuration)
+        private static AgentServiceRegistration GetServiceRegistration(IConfiguration configuration)
         {
-            FeatureCollection features = app.Properties["server.Features"] as FeatureCollection;
-            IServerAddressesFeature addresses = features.Get<IServerAddressesFeature>();
-            string address = addresses.Addresses.First();
-
-            string serviceName = configuration["Consul:ServiceName"];
+            string serviceName = configuration.GetValue<string>("Consul:ServiceName");
+            string serviceUrl = configuration.GetValue<string>("Consul:ServiceUrl");
             string[] serviceTags = configuration.GetSection("Consul:ServiceTags").GetChildren().Select(c => c.Value).ToArray();
             var serviceId = $"{serviceName}:{Guid.NewGuid()}";
 
-            var uri = new Uri(address);
+            var uri = new Uri(serviceUrl);
             var registration = new AgentServiceRegistration
             {
                 ID = $"{serviceId}-{uri.Port}",
