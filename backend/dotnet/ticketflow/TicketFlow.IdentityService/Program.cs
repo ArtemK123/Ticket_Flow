@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using TicketFlow.Common.Providers;
 
 namespace TicketFlow.IdentityService
 {
@@ -23,14 +21,6 @@ namespace TicketFlow.IdentityService
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    IConfigurationRoot appsettings =
-                        new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.json")
-                            .Build();
-
-                    IUrlFromConfigProvider urlFromConfigProvider = new UrlFromConfigProvider();
-
-                    webBuilder.UseUrls(urlFromConfigProvider.GetUrl(appsettings));
                     webBuilder.UseStartup<Startup>();
                 });
         }
