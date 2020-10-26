@@ -1,0 +1,120 @@
+version: '3.7'
+services:
+    db:
+        image: darkmode1012/ticketflow:db
+        build:
+            context: .
+            dockerfile: ./docker/PostgresDockerfile
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=postgres
+            - POSTGRES_HOST_AUTH_METHOD=trust
+        networks:
+            - ticketflow-network
+        restart: unless-stopped
+        ports:
+            - 5432:5432
+
+    consul:
+        image: "consul:1.8.5"
+        networks:
+            - ticketflow-network
+        ports:
+            - "8500:8500"
+
+    identity-service:
+        image: darkmode1012/ticketflow:identity-service
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.IdentityService
+            dockerfile: ./Dockerfile
+        networks:
+            - ticketflow-network
+        depends_on:
+            - db
+            - consul
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker
+            - ASPNETCORE_URLS=http://identity-service:9001
+        restart: unless-stopped
+
+    profile-service:
+        image: darkmode1012/ticketflow:profile-service
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.ProfileService
+            dockerfile: ./Dockerfile
+        networks:
+            - ticketflow-network
+        depends_on:
+            - db
+            - consul
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker
+            - ASPNETCORE_URLS=http://profile-service:9002
+        restart: unless-stopped
+
+    ticket-service:
+        image: darkmode1012/ticketflow:ticket-service
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.TicketService
+            dockerfile: ./Dockerfile
+        networks:
+            - ticketflow-network
+        depends_on:
+            - db
+            - consul
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker
+            - ASPNETCORE_URLS=http://ticket-service:9003
+        restart: unless-stopped
+
+    movie-service:
+        image: darkmode1012/ticketflow:movie-service
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.MovieService
+            dockerfile: ./Dockerfile
+        networks:
+            - ticketflow-network
+        depends_on:
+            - db
+            - consul
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker     
+            - ASPNETCORE_URLS=http://movie-service:9004
+        restart: unless-stopped            
+
+    api-gateway:
+        image: darkmode1012/ticketflow:api-gateway
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.ApiGateway
+            dockerfile: ./Dockerfile
+        networks:
+            - ticketflow-network
+        depends_on:
+            - consul
+            - identity-service
+            - profile-service
+            - ticket-service
+            - movie-service
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Docker   
+            - ASPNETCORE_URLS=http://host.docker.internal:8080
+        restart: unless-stopped        
+        ports:
+            - "8080:8080"
+                    
+    web-client:
+        image: darkmode1012/ticketflow:web-clinet
+        build:
+            context: .
+            dockerfile: ./docker/WebClientDockerfile
+        networks:
+            - ticketflow-network
+        depends_on:
+            - api-gateway
+        ports:
+            - 3000:3000
+        stdin_open: true
+
+networks: 
+  ticketflow-network:
+    driver: bridge
