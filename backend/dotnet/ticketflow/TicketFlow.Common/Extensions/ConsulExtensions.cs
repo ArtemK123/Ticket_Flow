@@ -13,19 +13,22 @@ namespace TicketFlow.Common.Extensions
     {
         public static void RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
         {
-            AgentServiceRegistration registration = GetServiceRegistration(configuration);
-            ILogger<IConsulClient> logger = app.ApplicationServices.GetRequiredService<ILogger<IConsulClient>>();
-            IConsulClient consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>();
-
-            logger.LogInformation("Registering with Consul");
-            consulClient.Agent.ServiceDeregister(registration.ID).Wait();
-            consulClient.Agent.ServiceRegister(registration).Wait();
-
-            lifetime.ApplicationStopping.Register(() =>
+            if (configuration.GetValue<bool>("Consul:RegisterInConsul"))
             {
+                AgentServiceRegistration registration = GetServiceRegistration(configuration);
+                ILogger<IConsulClient> logger = app.ApplicationServices.GetRequiredService<ILogger<IConsulClient>>();
+                IConsulClient consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>();
+
+                logger.LogInformation("Registering with Consul");
                 consulClient.Agent.ServiceDeregister(registration.ID).Wait();
-                logger.LogInformation("Deregistered from Consul");
-            });
+                consulClient.Agent.ServiceRegister(registration).Wait();
+
+                lifetime.ApplicationStopping.Register(() =>
+                {
+                    consulClient.Agent.ServiceDeregister(registration.ID).Wait();
+                    logger.LogInformation("Deregistered from Consul");
+                });
+            }
         }
 
         public static void AddConsul(this IServiceCollection services, IConfiguration configuration)
