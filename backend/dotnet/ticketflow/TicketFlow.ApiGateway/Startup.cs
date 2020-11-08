@@ -57,7 +57,7 @@ namespace TicketFlow.ApiGateway
             services.AddTransient(typeof(ICinemaHallsSeeder), typeof(CinemaHallsSeeder));
             services.AddTransient(typeof(IFilmsSeeder), typeof(FilmsSeeder));
             services.AddTransient(typeof(IMoviesSeeder), typeof(MoviesSeeder));
-            services.AddTransient(typeof(ISeederRunner), typeof(SeederRunner));
+            services.AddTransient(typeof(IApiGatewayStartupSeeder), typeof(ApiGatewayStartupSeeder));
         }
 
         public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime, IServiceProvider serviceProvider)
@@ -79,8 +79,8 @@ namespace TicketFlow.ApiGateway
 
             app.RegisterWithConsul(lifetime, Configuration);
 
-            ISeederRunner seederRunner = serviceProvider.GetService<ISeederRunner>();
-            seederRunner.RunSeedersAsync().Wait();
+            IApiGatewayStartupSeeder apiGatewayStartupSeeder = serviceProvider.GetService<IApiGatewayStartupSeeder>();
+            apiGatewayStartupSeeder.SeedAsync().Wait();
         }
     }
 }
