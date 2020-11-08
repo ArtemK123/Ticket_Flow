@@ -46,6 +46,7 @@ namespace TicketFlow.ApiGateway
                     });
             });
             services.AddConsul(Configuration);
+            services.AddSwaggerGen();
 
             services.AddTransient(typeof(ITicketWithMovieService), typeof(TicketWithMovieService));
             services.AddTransient(typeof(ITicketWithMovieConverter), typeof(TicketWithMovieConverter));
@@ -62,6 +63,13 @@ namespace TicketFlow.ApiGateway
         public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime, IServiceProvider serviceProvider)
         {
             app.UseExceptionHandler("/error");
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseRouting();
 
