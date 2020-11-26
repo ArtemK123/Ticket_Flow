@@ -103,7 +103,7 @@ services:
             - "8080:8080"
                     
     web-client:
-        image: darkmode1012/ticketflow:web-clinet
+        image: darkmode1012/ticketflow:web-client
         build:
             context: .
             dockerfile: ./docker/WebClientDockerfile
