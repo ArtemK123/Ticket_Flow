@@ -1,7 +1,10 @@
 version: '3.7'
 services:
     db:
-        image: darkmode1012/ticketflow:db-1
+        image: darkmode1012/ticketflow:db
+        build:
+            context: .
+            dockerfile: ./docker/PostgresDockerfile
         environment:
             - POSTGRES_USER=postgres
             - POSTGRES_DB=postgres
@@ -20,7 +23,10 @@ services:
             - "8500:8500"
 
     identity-service:
-        image: darkmode1012/ticketflow:identity-service-1
+        image: darkmode1012/ticketflow:identity-service
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.IdentityService
+            dockerfile: ./Dockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -32,7 +38,10 @@ services:
         restart: unless-stopped
 
     profile-service:
-        image: darkmode1012/ticketflow:profile-service-2
+        image: darkmode1012/ticketflow:profile-service
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.ProfileService
+            dockerfile: ./Dockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -44,7 +53,10 @@ services:
         restart: unless-stopped
 
     ticket-service:
-        image: darkmode1012/ticketflow:ticket-service-1
+        image: darkmode1012/ticketflow:ticket-service
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.TicketService
+            dockerfile: ./Dockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -56,7 +68,10 @@ services:
         restart: unless-stopped
 
     movie-service:
-        image: darkmode1012/ticketflow:movie-service-1
+        image: darkmode1012/ticketflow:movie-service
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.MovieService
+            dockerfile: ./Dockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -68,7 +83,10 @@ services:
         restart: unless-stopped            
 
     api-gateway:
-        image: darkmode1012/ticketflow:api-gateway-2
+        image: darkmode1012/ticketflow:api-gateway
+        build:
+            context: ./backend/dotnet/TicketFlow/TicketFlow.ApiGateway
+            dockerfile: ./Dockerfile
         networks:
             - ticketflow-network
         depends_on:
@@ -85,7 +103,10 @@ services:
             - "8080:8080"
                     
     web-client:
-        image: darkmode1012/ticketflow:web-client-1
+        image: darkmode1012/ticketflow:web-client
+        build:
+            context: .
+            dockerfile: ./docker/WebClientDockerfile
         networks:
             - ticketflow-network
         depends_on:
