@@ -1,4 +1,5 @@
 const backendLink = "http://localhost:8080";
+const referrerPolicy = "no-referrer-when-downgrade";
 
 const createBackendService = () => ({
     async login(loginRequestModel) {
@@ -7,7 +8,8 @@ const createBackendService = () => ({
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(loginRequestModel)
+            body: JSON.stringify(loginRequestModel),
+            referrerPolicy: referrerPolicy
         });
     },
     async register(registerRequestModel) {
@@ -16,7 +18,8 @@ const createBackendService = () => ({
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(registerRequestModel)
+            body: JSON.stringify(registerRequestModel),
+            referrerPolicy: referrerPolicy
         });
     },
     async logout(token) {
@@ -25,7 +28,8 @@ const createBackendService = () => ({
             headers: {
                 "Content-Type": "text/plain"
             },
-            body: token
+            body: token,
+            referrerPolicy: referrerPolicy
         });
     },
     async getProfile(token) {
@@ -34,12 +38,14 @@ const createBackendService = () => ({
             headers: {
                 "Content-Type": "text/plain"
             },
-            body: token
+            body: token,
+            referrerPolicy: referrerPolicy
         });
     },
     async getTicketsByMovie(movieId) {
         return fetch(`${backendLink}/tickets/by-movie/${movieId}`, {
-            method: "GET"
+            method: "GET",
+            referrerPolicy: referrerPolicy
         });
     },
     async getTicketsByUser(token) {
@@ -48,7 +54,8 @@ const createBackendService = () => ({
             headers: {
                 "Content-Type": "text/plain"
             },
-            body: token
+            body: token,
+            referrerPolicy: referrerPolicy
         });
     },
     async order(orderModel) {
@@ -57,17 +64,20 @@ const createBackendService = () => ({
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(orderModel)
+            body: JSON.stringify(orderModel),
+            referrerPolicy: referrerPolicy
         });
     },
     async getMovies() {
         return fetch(`${backendLink}/movies`, {
-            method: "GET"
+            method: "GET",
+            referrerPolicy: referrerPolicy
         });
     },
     async getMovieById(id) {
         return fetch(`${backendLink}/movies/${id}`, {
-            method: "GET"
+            method: "GET",
+            referrerPolicy: referrerPolicy
         });
     }
 });
