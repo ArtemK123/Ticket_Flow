@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using TicketFlow.ApiGateway.StartupServices.Seeders;
@@ -38,7 +39,15 @@ namespace TicketFlow.ApiGateway.StartupServices
                 await Task.WhenAll(
                         cinemaHallsSeeder.SeedAsync(),
                         filmsSeeder.SeedAsync())
-                    .ContinueWith(_ => moviesSeeder.SeedAsync());
+                    .ContinueWith(task =>
+                    {
+                        if (task.IsFaulted && task.Exception != null)
+                        {
+                            throw task.Exception.InnerExceptions.First();
+                        }
+
+                        return moviesSeeder.SeedAsync();
+                    });
             }
         }
     }
