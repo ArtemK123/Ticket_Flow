@@ -5,11 +5,13 @@
 
     <ItemGroup>
         <PackageReference Include="Consul" Version="1.6.1.1" />
-        <PackageReference Include="TicketFlow.Common" Version="1.8.0" />
+        <PackageReference Include="TicketFlow.Common" Version="1.8.2" />
         <PackageReference Include="TicketFlow.IdentityService.Client" Version="1.2.2" />
         <PackageReference Include="TicketFlow.ProfileService.Client" Version="1.2.1" />
         <PackageReference Include="TicketFlow.TicketService.Client" Version="1.2.0" />
         <PackageReference Include="TicketFlow.MovieService.Client" Version="1.2.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.6.3" />
     </ItemGroup>
 
     <ItemGroup>

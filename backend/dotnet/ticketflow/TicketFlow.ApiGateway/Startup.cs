@@ -24,7 +24,7 @@ namespace TicketFlow.ApiGateway
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -42,10 +42,13 @@ namespace TicketFlow.ApiGateway
                     FrontendAppCorsPolicyName,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000");
+                        builder.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
             });
             services.AddConsul(Configuration);
+            services.AddSwaggerGen();
 
             services.AddTransient(typeof(ITicketWithMovieService), typeof(TicketWithMovieService));
             services.AddTransient(typeof(ITicketWithMovieConverter), typeof(TicketWithMovieConverter));
@@ -56,12 +59,19 @@ namespace TicketFlow.ApiGateway
             services.AddTransient(typeof(ICinemaHallsSeeder), typeof(CinemaHallsSeeder));
             services.AddTransient(typeof(IFilmsSeeder), typeof(FilmsSeeder));
             services.AddTransient(typeof(IMoviesSeeder), typeof(MoviesSeeder));
-            services.AddTransient(typeof(ISeederRunner), typeof(SeederRunner));
+            services.AddTransient(typeof(IApiGatewayStartupSeeder), typeof(ApiGatewayStartupSeeder));
         }
 
         public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime, IServiceProvider serviceProvider)
         {
             app.UseExceptionHandler("/error");
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi endpoints");
+            });
 
             app.UseRouting();
 
@@ -71,8 +81,8 @@ namespace TicketFlow.ApiGateway
 
             app.RegisterWithConsul(lifetime, Configuration);
 
-            ISeederRunner seederRunner = serviceProvider.GetService<ISeederRunner>();
-            seederRunner.RunSeedersAsync().Wait();
+            IApiGatewayStartupSeeder apiGatewayStartupSeeder = serviceProvider.GetService<IApiGatewayStartupSeeder>();
+            apiGatewayStartupSeeder.SeedAsync().Wait();
         }
     }
 }

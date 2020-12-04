@@ -9,6 +9,7 @@ using TicketFlow.TicketService.Client.Extensibility.Exceptions;
 
 namespace TicketFlow.ApiGateway.WebApi.ExceptionHandling
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("/error")]
     public class ExceptionHandlerController : ExceptionHandlerControllerBase
     {

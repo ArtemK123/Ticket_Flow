@@ -36,10 +36,10 @@ namespace TicketFlow.Common.ServiceUrl.Scenarios
                 consulServiceName = serviceName;
             }
 
-            QueryResult<Dictionary<string, AgentService>> allServices = await consulClient.Agent.Services();
+            QueryResult<Dictionary<string, AgentService>> allServicesQueryResult = await consulClient.Agent.Services();
 
             IReadOnlyCollection<AgentService> suitableServices =
-                allServices.Response?.Where(s => s.Value.Service.Equals(consulServiceName, StringComparison.Ordinal)).Select(x => x.Value).ToList();
+                allServicesQueryResult?.Response?.Where(s => s.Value.Service.Equals(consulServiceName, StringComparison.Ordinal)).Select(x => x.Value).ToList();
 
             if (suitableServices == null || suitableServices.Count == 0)
             {
