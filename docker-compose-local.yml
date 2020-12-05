@@ -1,7 +1,7 @@
 version: '3.7'
 services:
     db:
-        image: darkmode1012/ticketflow:db
+        image: darkmode1012/ticketflow_db:local
         build:
             context: .
             dockerfile: ./docker/PostgresDockerfile
@@ -23,7 +23,7 @@ services:
             - "8500:8500"
 
     identity-service:
-        image: darkmode1012/ticketflow:identity-service
+        image: darkmode1012/ticketflow_identity-service:local
         build:
             context: ./backend/dotnet/TicketFlow/TicketFlow.IdentityService
             dockerfile: ./Dockerfile
@@ -38,7 +38,7 @@ services:
         restart: unless-stopped
 
     profile-service:
-        image: darkmode1012/ticketflow:profile-service
+        image: darkmode1012/ticketflow_profile-service:local
         build:
             context: ./backend/dotnet/TicketFlow/TicketFlow.ProfileService
             dockerfile: ./Dockerfile
@@ -53,7 +53,7 @@ services:
         restart: unless-stopped
 
     ticket-service:
-        image: darkmode1012/ticketflow:ticket-service
+        image: darkmode1012/ticketflow_ticket-service:local
         build:
             context: ./backend/dotnet/TicketFlow/TicketFlow.TicketService
             dockerfile: ./Dockerfile
@@ -68,7 +68,7 @@ services:
         restart: unless-stopped
 
     movie-service:
-        image: darkmode1012/ticketflow:movie-service
+        image: darkmode1012/ticketflow_movie-service:local
         build:
             context: ./backend/dotnet/TicketFlow/TicketFlow.MovieService
             dockerfile: ./Dockerfile
@@ -83,7 +83,7 @@ services:
         restart: unless-stopped            
 
     api-gateway:
-        image: darkmode1012/ticketflow:api-gateway
+        image: darkmode1012/ticketflow_api-gateway:local
         build:
             context: ./backend/dotnet/TicketFlow/TicketFlow.ApiGateway
             dockerfile: ./Dockerfile
@@ -103,7 +103,7 @@ services:
             - "8080:8080"
                     
     web-client:
-        image: darkmode1012/ticketflow:web-client
+        image: darkmode1012/ticketflow_web-client:local
         build:
             context: .
             dockerfile: ./docker/WebClientDockerfile
