@@ -13,7 +13,7 @@ import NotFoundPage from "components/not_found_page/NotFoundPage";
 import useProfileModel from "services/hooks/useProfileModel";
 import Box from "@material-ui/core/Box";
 import useMovies from "services/hooks/useMovies";
-import createBackendService from "services/backend_service/createBackendService";
+import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 import RedirectComponent from "components/common/RedirectComponent";
 
 function App() {
@@ -42,11 +42,13 @@ function App() {
 
     const cachedLogoutCallback = useCallback(() => {
         if (rootState) {
-            createBackendService().logout(rootState.token).then(() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("username");
-                changeRootUserState(undefined);
-            });
+            createBackendServiceAsync()
+                .then(backendService => backendService.logout(rootState.token))
+                .then(() => {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("username");
+                    changeRootUserState(undefined);
+                });
         }
     }, [rootState]);
 

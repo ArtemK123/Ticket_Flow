@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import PasswordInput from "components/common/PasswordInput";
 import EmailInput from "components/common/EmailInput";
 import BirthdayInput from "components/register_page/BirthdayInput";
-import createBackendService from "services/backend_service/createBackendService";
+import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 
 function RegisterPage(props) {
     const styles = useStyles();
-    const backendService = createBackendService();
 
     const [registerState, changeRegisterState] = useState({
         email: "",
@@ -51,7 +50,7 @@ function RegisterPage(props) {
     useEffect(() => {
         if (registerState.submitCalled) {
             registerState.submitCalled = false;
-            makeRegisterRequest();
+            makeRegisterRequestAsync();
         }
     });
 
@@ -68,7 +67,7 @@ function RegisterPage(props) {
         updateRegisterState({ [targetName]: event.target.value });
     };
 
-    const makeRegisterRequest = async() => {
+    const makeRegisterRequestAsync = async() => {
         if (registerState.password !== registerState.passwordAgain) {
             updateRegisterState({passwordsDontMatch: true});
             return;
@@ -77,21 +76,22 @@ function RegisterPage(props) {
             updateRegisterState({dateInvalid: true});
             return;
         } 
-        await backendService.register({
-            email: registerState.email,
-            password: registerState.password,
-            profile: {
-                phoneNumber: parseInt(registerState.phoneNumber),
-                birthday: registerState.birthday
-            }
-        }).then(response => {
-            if (response.ok) {
-                props.redirectCallback("/login");
-            }
-            else if (response.status === 400){
-                updateRegisterState({emailAlreadyTaken: true});
-            }
-        });
+        await createBackendServiceAsync()
+            .then(backendService => backendService.register({
+                email: registerState.email,
+                password: registerState.password,
+                profile: {
+                    phoneNumber: parseInt(registerState.phoneNumber),
+                    birthday: registerState.birthday
+                }})
+            ).then(response => {
+                if (response.ok) {
+                    props.redirectCallback("/login");
+                }
+                else if (response.status === 400){
+                    updateRegisterState({emailAlreadyTaken: true});
+                }
+            });
     };
 
     return (

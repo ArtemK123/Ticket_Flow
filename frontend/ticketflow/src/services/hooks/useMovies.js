@@ -1,20 +1,19 @@
 import { useState, useEffect } from "react";
-import createBackendService from "services/backend_service/createBackendService";
+import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 
 const useMovies = () => {
     const [movies, setMovies] = useState(null);
-    const backendService = createBackendService();
 
     useEffect(() => {
         if (movies === null) {
-            backendService
-                .getMovies()
+            createBackendServiceAsync()
+                .then(backendService => backendService.getMovies())
                 .then(response => response.json())
                 .then(fetchedMovies => {
                     setMovies(fetchedMovies);
                 });
         }
-    }, [movies, backendService]);
+    }, [movies]);
 
     return movies !== null ? movies : [];
 };

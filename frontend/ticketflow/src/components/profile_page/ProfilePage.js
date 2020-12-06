@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ReadonlyTextInput from "components/common/ReadonlyTextInput";
 import { Typography, Button, Grid, Box, TextField } from "@material-ui/core";
 import getTimeFromDate from "services/utils/getTimeFromDate";
-import createBackendService from "services/backend_service/createBackendService";
+import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 
 ProfilePage.propTypes = {
     token: PropTypes.string,
@@ -41,8 +41,8 @@ function ProfilePage(props) {
     const [userTickets, changePageState] = useState(undefined);
 
     const updateUserTickets = () => {
-        createBackendService()
-            .getTicketsByUser(props.token)
+        createBackendServiceAsync()
+            .then(backendService => backendService.getTicketsByUser(props.token))
             .then(response => response.json())
             .then(tickets => {
                 changePageState(tickets);

@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import HeaderUserPart from "components/header/HeaderUserPart";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import createBackendService from "services/backend_service/createBackendService";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
@@ -32,7 +31,6 @@ const useStyles = makeStyles(() => ({
 
 function Header(props) {
     const styles = useStyles();
-    const backendService = createBackendService();
 
     const [actionState, changeActionState] = useState("");
 
@@ -50,7 +48,7 @@ function Header(props) {
             props.logoutCallback();
         }
         changeActionState("");
-    }, [actionState, backendService, props]);
+    }, [actionState, props]);
 
     return (
         <div className={styles.root}>

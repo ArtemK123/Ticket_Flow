@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import createBackendService from "services/backend_service/createBackendService";
+import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 
 const useMovieById = (id) => {
     const [movie, setMovie] = useState(undefined);
@@ -26,8 +26,8 @@ const useMovieById = (id) => {
     };
 
     useEffect(() => {
-        createBackendService()
-            .getMovieById(id)
+        createBackendServiceAsync()
+            .then(backendService => backendService.getMovieById(id))
             .then(response => {
                 if (response.ok) {
                     return response.json();
