@@ -1,6 +1,7 @@
+import getEnvVariable from "services/utils/getEnvVariable";
+
 const createSettingsBasedBackendService = (referrer_policy) => {
-    // eslint-disable-next-line no-undef
-    const backendLink = process.env.REACT_APP_API_GATEWAY_URL;
+    const backendLink = getEnvVariable("REACT_APP_API_GATEWAY_URL");
 
     return {
         async login(loginRequestModel) {
