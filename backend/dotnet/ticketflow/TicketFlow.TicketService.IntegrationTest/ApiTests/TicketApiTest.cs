@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -22,14 +21,6 @@ namespace TicketFlow.TicketService.IntegrationTest.ApiTests
 {
     public class TicketApiTest : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private static readonly IReadOnlyCollection<TicketCreationApiModel> InitialTicketCreationApiModels = new[]
-        {
-            new TicketCreationApiModel { MovieId = 1, Row = 1, Seat = 1, Price = 100 },
-            new TicketCreationApiModel { MovieId = 1, Row = 1, Seat = 2, Price = 100 },
-            new TicketCreationApiModel { MovieId = 1, Row = 1, Seat = 3, Price = 100 },
-            new TicketCreationApiModel { MovieId = 2, Row = 1, Seat = 3, Price = 50 }
-        };
-
         private readonly WebApplicationFactory<Startup> webApplicationFactory;
 
         public TicketApiTest(WebApplicationFactory<Startup> webApplicationFactory)
@@ -45,30 +36,26 @@ namespace TicketFlow.TicketService.IntegrationTest.ApiTests
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Theory]
-        [InlineData(1)] // with tickets
-        [InlineData(101)] // without tickets
-        public async Task GetByMovieId_ShouldReturnTicketsWithGivenMovieId(int movieId)
+        [Fact]
+        public async Task Add_ThenGetByMovieId_ShouldReturnTicketsWithGivenMovieId()
         {
+            const int movieId = 1;
+            const int anotherMovieId = 100;
             HttpClient client = CreateServiceClient();
 
-            List<Task> initializeTasks = new List<Task>();
-            foreach (TicketCreationApiModel ticket in InitialTicketCreationApiModels)
+            IReadOnlyCollection<TicketCreationApiModel> ticketCreationApiModelsToAdd = new[]
             {
-                string serializedTicket = JsonSerializer.Serialize(ticket);
-                initializeTasks.Add(client.PostAsync("/tickets", new StringContent(serializedTicket, Encoding.UTF8, "application/json")));
-            }
+                new TicketCreationApiModel { MovieId = movieId, Row = 1, Seat = 1, Price = 70 },
+                new TicketCreationApiModel { MovieId = movieId, Row = 2, Seat = 2, Price = 90 },
+                new TicketCreationApiModel { MovieId = movieId, Row = 3, Seat = 5, Price = 100 },
+                new TicketCreationApiModel { MovieId = anotherMovieId, Row = 3, Seat = 5, Price = 150 }
+            };
+            await Task.WhenAll(ticketCreationApiModelsToAdd.Select(model => AddTicketAsync(client, model)));
 
-            await Task.WhenAll(initializeTasks);
+            IReadOnlyCollection<TicketSerializationModel> tickets = await GetTicketsByMovieAsync(client, movieId);
 
-            HttpResponseMessage response = await client.GetAsync($"/tickets/by-movie/{movieId}");
-
-            string responseJson = await response.Content.ReadAsStringAsync();
-            IReadOnlyCollection<TicketSerializationModel> tickets =
-                JsonSerializer.Deserialize<TicketSerializationModel[]>(responseJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-            Assert.True(tickets.All(ticket => ticket.MovieId == movieId && InitialTicketCreationApiModels.Any(creationModel => SameTicket(creationModel, ticket))));
-            Assert.Equal(InitialTicketCreationApiModels.Count(ticket => ticket.MovieId == movieId), tickets.Count);
+            IReadOnlyCollection<TicketCreationApiModel> ticketCreationApiModelsWithGivenMovieId = ticketCreationApiModelsToAdd.Where(model => model.MovieId == movieId).ToArray();
+            Assert.True(ticketCreationApiModelsWithGivenMovieId.All(ticketCreationModel => tickets.Any(ticket => SameTicket(ticketCreationModel, ticket))));
         }
 
         private static bool SameTicket(TicketCreationApiModel creationModel, TicketSerializationModel serializationModel)
@@ -77,13 +64,19 @@ namespace TicketFlow.TicketService.IntegrationTest.ApiTests
                && creationModel.Seat == serializationModel.Seat
                && creationModel.Price == serializationModel.Price;
 
+        private static Task AddTicketAsync(HttpClient httpClient, TicketCreationApiModel ticketCreationApiModel)
+        {
+            string serializedTicket = JsonSerializer.Serialize(ticketCreationApiModel);
+            return httpClient.PostAsync("/tickets", new StringContent(serializedTicket, Encoding.UTF8, "application/json"));
+        }
 
-        // [Theory]
-        // [InlineData("with.tickets@test.com")]
-        // [InlineData("no.tickets@test.com")]
-        // public async Task GetByUserEmail_ShouldReturnTicketsWithGivenUserEmail(string userEmail)
-        // {
-        // }
+        private async Task<IReadOnlyCollection<TicketSerializationModel>> GetTicketsByMovieAsync(HttpClient client, int movieId)
+        {
+            HttpResponseMessage response = await client.GetAsync($"/tickets/by-movie/{movieId}");
+
+            string responseJson = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<TicketSerializationModel[]>(responseJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
 
         private HttpClient CreateServiceClient()
             => webApplicationFactory
