@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +61,7 @@ namespace TicketFlow.ApiGateway
             services.AddTransient(typeof(IApiGatewayStartupSeeder), typeof(ApiGatewayStartupSeeder));
         }
 
-        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
             app.UseExceptionHandler("/error");
 
@@ -81,8 +80,7 @@ namespace TicketFlow.ApiGateway
 
             app.UseConsul(lifetime, Configuration);
 
-            IApiGatewayStartupSeeder apiGatewayStartupSeeder = serviceProvider.GetService<IApiGatewayStartupSeeder>();
-            apiGatewayStartupSeeder.SeedAsync().Wait();
+            app.UseApiGatewaySeeders(lifetime);
         }
     }
 }
