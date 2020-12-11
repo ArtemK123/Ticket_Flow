@@ -11,7 +11,7 @@ namespace TicketFlow.Common.Extensions
 {
     public static class ConsulExtensions
     {
-        public static void RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
+        public static void UseConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
         {
             if (configuration.GetValue<bool>("Consul:RegisterInConsul"))
             {
