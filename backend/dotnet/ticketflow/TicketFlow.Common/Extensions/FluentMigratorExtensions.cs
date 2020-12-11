@@ -24,7 +24,7 @@ namespace TicketFlow.Common.Extensions
                         .ScanIn(assemblyWithMigrations).For.Migrations());
         }
 
-        public static void UseFluentMigrator(this IApplicationBuilder app, IHostApplicationLifetime lifetime)
+        public static IApplicationBuilder UseFluentMigrator(this IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
             try
             {
@@ -38,6 +38,8 @@ namespace TicketFlow.Common.Extensions
                 lifetime.StopApplication();
                 throw;
             }
+
+            return app;
         }
     }
 }
