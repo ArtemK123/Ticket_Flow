@@ -1,5 +1,3 @@
-using System;
-using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +32,7 @@ namespace TicketFlow.TicketService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
             app.UseExceptionHandler("/error");
 
@@ -42,10 +40,9 @@ namespace TicketFlow.TicketService
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-            app.RegisterWithConsul(lifetime, Configuration);
+            app.UseConsul(lifetime, Configuration);
 
-            var migrationRunner = serviceProvider.GetRequiredService<IMigrationRunner>();
-            migrationRunner.MigrateUp();
+            app.UseFluentMigrator(lifetime);
         }
     }
 }

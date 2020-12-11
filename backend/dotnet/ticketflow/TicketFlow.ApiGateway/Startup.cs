@@ -79,7 +79,7 @@ namespace TicketFlow.ApiGateway
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-            app.RegisterWithConsul(lifetime, Configuration);
+            app.UseConsul(lifetime, Configuration);
 
             IApiGatewayStartupSeeder apiGatewayStartupSeeder = serviceProvider.GetService<IApiGatewayStartupSeeder>();
             apiGatewayStartupSeeder.SeedAsync().Wait();
