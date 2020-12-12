@@ -12,11 +12,15 @@ COPY ./frontend/ticketflow/package.json ./
 COPY ./frontend/ticketflow/package-lock.json ./
 RUN npm install --silent
 RUN npm install react-scripts@3.4.1 -g --silent
+RUN npm install -g serve
 
 # add app
 COPY ./frontend/ticketflow/ ./
 
+# build app
+CMD ["npm", "run", "build"]
+
 # start app
-CMD ["npm", "start"]
+CMD ["serve", "-l", "3000", "-s", "build"]
 
 EXPOSE 3000
