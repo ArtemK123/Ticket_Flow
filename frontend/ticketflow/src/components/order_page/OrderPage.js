@@ -7,7 +7,7 @@ import Seat from "components/order_page/Seat";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import getTimeFromDate from "services/utils/getTimeFromDate";
-import createBackendService from "services/backend_service/createBackendService";
+import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
@@ -67,7 +67,7 @@ function OrderPage(props) {
     useEffect(() => {
         if (pageState.makeOrderCalled) {
             const makeOrder = async () => {
-                const backendService = createBackendService();
+                const backendService = await createBackendServiceAsync();
                 const newTicketsState = Object.assign({}, pageState.ticketsState);
 
                 for (let ticketId in newTicketsState) {

@@ -1,0 +1,1 @@
+az appservice plan create --name TicketFlowComposeAppServicePlan --resource-group TicketFlowAppServiceResourceGroup --sku F1 --is-linux

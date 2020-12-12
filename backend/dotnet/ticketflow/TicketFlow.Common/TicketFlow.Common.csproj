@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Version>1.8.2</Version>
+        <Version>1.9.2</Version>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <PackageId>TicketFlow.Common</PackageId>
         <Authors>darkmode1012@gmail.com</Authors>
@@ -15,7 +15,7 @@
 
     <ItemGroup>
         <PackageReference Include="Consul" Version="1.6.1.1" />
-        <PackageReference Include="Npgsql" Version="4.1.4" />
+        <PackageReference Include="Npgsql" Version="5.0.0" />
         <PackageReference Include="Dapper" Version="2.0.35" />
         <PackageReference Include="FluentMigrator" Version="3.2.8" />
         <PackageReference Include="FluentMigrator.Runner" Version="3.2.8" />

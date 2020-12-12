@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import createBackendService from "services/backend_service/createBackendService";
+import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 
 const useTicketsByMovie = (movieId) => {
     const [tickets, setTickets] = useState(undefined);
 
     useEffect(() => {
-        createBackendService()
-            .getTicketsByMovie(movieId)
+        createBackendServiceAsync()
+            .then(backendService => backendService.getTicketsByMovie(movieId))
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -15,7 +15,7 @@ const useTicketsByMovie = (movieId) => {
                     return new Promise(resolve => resolve(null));
                 }
             })
-            .then(tickets => setTickets(tickets));
+            .then(ticketsArg => setTickets(ticketsArg));
     }, [movieId]);
 
     return tickets !== undefined 

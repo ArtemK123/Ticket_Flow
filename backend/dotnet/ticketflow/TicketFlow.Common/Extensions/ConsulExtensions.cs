@@ -11,7 +11,7 @@ namespace TicketFlow.Common.Extensions
 {
     public static class ConsulExtensions
     {
-        public static void RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
+        public static IApplicationBuilder UseConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
         {
             if (configuration.GetValue<bool>("Consul:RegisterInConsul"))
             {
@@ -29,6 +29,8 @@ namespace TicketFlow.Common.Extensions
                     logger.LogInformation("Deregistered from Consul");
                 });
             }
+
+            return app;
         }
 
         public static void AddConsul(this IServiceCollection services, IConfiguration configuration)

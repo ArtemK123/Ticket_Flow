@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import createBackendService from "services/backend_service/createBackendService";
+import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 
 const defaultProfileModel = {
     email: "default",
@@ -14,8 +14,8 @@ const useProfileModel = (token) => {
 
     useEffect(() => {
         if (token !== null) {
-            createBackendService()
-                .getProfile(token)
+            createBackendServiceAsync()
+                .then(backendService => backendService.getProfile(token))
                 .then(response => {
                     if (response.ok) {
                         return response.json();
