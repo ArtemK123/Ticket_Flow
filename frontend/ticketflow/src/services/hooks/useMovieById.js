@@ -11,7 +11,7 @@ const useMovieById = (id) => {
             "id": 1,
             "title": "Terminator",
             "description": "",
-            "premiereDate": "1980-01-01",
+            "premiereDate": "1980-01-01T00:00",
             "creator": "May be a studio or a single director",
             "duration": "202",
             "ageLimit": "18"

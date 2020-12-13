@@ -12,6 +12,12 @@ MoviePage.propTypes = {
     })
 };
 
+function parseDate(stringDate) {
+    const date = new Date(stringDate);
+    const month = date.toLocaleString("default", { month: "long" });
+    return `${date.getDate()} ${month} ${date.getFullYear()}`;
+}
+
 function MoviePage(props) {
     const movieId = props.location.state !== undefined ? props.location.state.id : -1;
     const [redirectToOrder, changeRedirectToOrderState] = useState(false);
@@ -46,7 +52,7 @@ function MoviePage(props) {
                                 <Typography>Creator: {`${movie.film.creator}`}</Typography>
                             </Grid>
                             <Grid item>
-                                <Typography>Premiere date: {`${movie.film.premiereDate}`}</Typography>
+                                <Typography>Premiere date: {`${parseDate(movie.film.premiereDate)}`}</Typography>
                             </Grid>
                             <Grid item>
                                 <Typography>Age limit: {`${movie.film.ageLimit}+`}</Typography>
