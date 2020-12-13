@@ -49,6 +49,9 @@ function MoviePage(props) {
                                 <Typography>Duration: {`${movie.film.duration} min`}</Typography>
                             </Grid>
                             <Grid item>
+                                <Typography>Start time: {`${new Date(movie.startTime).toLocaleString()} min`}</Typography>
+                            </Grid>
+                            <Grid item>
                                 <Typography>Creator: {`${movie.film.creator}`}</Typography>
                             </Grid>
                             <Grid item>
