@@ -54,7 +54,7 @@ function OrderPage(props) {
     });
 
     useEffect(() => {
-        if (Object.keys(pageState.ticketsState).length === 0) {
+        if (Object.keys(pageState.ticketsState).length === 0 && tickets.length > 0) {
             const newTicketsState = {};
             tickets.forEach(ticket => {
                 newTicketsState[ticket.id] = ticket.buyerEmail === null ? "available" : "taken";
