@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Net.Http;
+using Microsoft.Extensions.DependencyInjection;
 using TicketFlow.Common.Providers;
 using TicketFlow.Common.Readers;
 using TicketFlow.Common.Serializers;
@@ -19,6 +21,7 @@ namespace TicketFlow.Common.Extensions
             services.AddTransient(typeof(IJsonSerializer), typeof(JsonSerializer));
             services.AddTransient(typeof(IDateTimeProvider), typeof(DateTimeProvider));
             services.AddHttpClient();
+            services.AddTransient(serviceProvider => new Lazy<IHttpClientFactory>(serviceProvider.GetService<IHttpClientFactory>));
             BindServiceUrl(services);
         }
 
