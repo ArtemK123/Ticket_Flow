@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace TicketFlow.IdentityService.Client.Test.Senders.IdentityServiceMessageS
             httpClientFactoryMock = CreateHttpClientFactoryMock();
             jsonSerializerMock = Substitute.For<IJsonSerializer>();
 
-            identityServiceMessageSender = new IdentityServiceMessageSender(identityServiceResponseValidatorMock, httpClientFactoryMock, jsonSerializerMock);
+            identityServiceMessageSender = new IdentityServiceMessageSender(identityServiceResponseValidatorMock, new Lazy<IHttpClientFactory>(() => httpClientFactoryMock), jsonSerializerMock);
         }
 
         [Fact]
