@@ -12,9 +12,16 @@ MoviePage.propTypes = {
     })
 };
 
-function parseDate(stringDate) {
+function parseStartTime(stringDate) {
     const date = new Date(stringDate);
-    const month = date.toLocaleString("default", { month: "long" });
+    const month = date.toLocaleString("default", { month: "short" });
+    return `${date.getDate()} ${month} at ${date.getHours()}:${date.getMinutes()}`;
+
+}
+
+function parsePremiereDate(stringDate) {
+    const date = new Date(stringDate);
+    const month = date.toLocaleString("default", { month: "short" });
     return `${date.getDate()} ${month} ${date.getFullYear()}`;
 }
 
@@ -49,13 +56,13 @@ function MoviePage(props) {
                                 <Typography>Duration: {`${movie.film.duration} min`}</Typography>
                             </Grid>
                             <Grid item>
-                                <Typography>Start time: {`${new Date(movie.startTime).toLocaleString()} min`}</Typography>
+                                <Typography>Start time: {`${parseStartTime(movie.startTime)}`}</Typography>
                             </Grid>
                             <Grid item>
                                 <Typography>Creator: {`${movie.film.creator}`}</Typography>
                             </Grid>
                             <Grid item>
-                                <Typography>Premiere date: {`${parseDate(movie.film.premiereDate)}`}</Typography>
+                                <Typography>Premiere date: {`${parsePremiereDate(movie.film.premiereDate)}`}</Typography>
                             </Grid>
                             <Grid item>
                                 <Typography>Age limit: {`${movie.film.ageLimit}+`}</Typography>
