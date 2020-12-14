@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using FluentMigrator.Runner;
 using Microsoft.AspNetCore.Hosting;
@@ -18,8 +15,6 @@ using TicketFlow.TicketService.Client.Extensibility.Models;
 using TicketFlow.TicketService.Client.Extensibility.Proxies;
 using TicketFlow.TicketService.IntegrationTest.Fakes;
 using TicketFlow.TicketService.Persistence;
-using TicketFlow.TicketService.Service;
-using TicketFlow.TicketService.WebApi.ClientModels;
 using Xunit;
 
 namespace TicketFlow.TicketService.IntegrationTest.ApiTests
@@ -29,55 +24,60 @@ namespace TicketFlow.TicketService.IntegrationTest.ApiTests
         [Fact]
         public async Task ClientTest()
         {
+            using WebApplicationFactory<Startup> webApplicationFactory = SetupWebApplicationFactory();
+            ITicketApiProxy proxy = webApplicationFactory.Services.GetService<ITicketApiProxy>();
+
+            const int movieId = 1;
+            const int anotherMovieId = 100;
+
+            IReadOnlyCollection<TicketCreationModel> ticketCreationModelsToAdd = new[]
+            {
+                new TicketCreationModel(movieId, 1, 1, 70),
+                new TicketCreationModel(movieId, 2, 2, 90),
+                new TicketCreationModel(movieId, 3, 5, 100),
+                new TicketCreationModel(anotherMovieId, 3, 5, 150),
+            };
+            await Task.WhenAll(ticketCreationModelsToAdd.Select(model => proxy.AddAsync(model)));
+
+            IReadOnlyCollection<ITicket> tickets = await proxy.GetByMovieIdAsync(movieId);
+
+            IReadOnlyCollection<TicketCreationModel> ticketCreationApiModelsWithGivenMovieId = ticketCreationModelsToAdd.Where(model => model.MovieId == movieId).ToArray();
+            Assert.True(ticketCreationApiModelsWithGivenMovieId.All(ticketCreationModel => tickets.Any(ticket => SameTicket(ticketCreationModel, ticket))));
+        }
+
+        private static bool SameTicket(TicketCreationModel creationModel, ITicket ticket)
+            => creationModel.MovieId == ticket.MovieId
+               && creationModel.Row == ticket.Row
+               && creationModel.Seat == ticket.Seat
+               && creationModel.Price == ticket.Price;
+
+        private WebApplicationFactory<Startup> SetupWebApplicationFactory()
+        {
             HttpClient client = default;
 
             WebApplicationFactory<Startup> webApplicationFactory = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(builder =>
-            {
-                builder.UseEnvironment("Test");
-                builder.ConfigureTestServices(services =>
                 {
-                    services.AddSingleton(serviceProvider => Substitute.For<IMigrationRunner>());
-                    services.AddSingleton<ITicketRepository, FakeTicketRepository>();
-                    services.AddSingleton(serviceProvider => new Lazy<IHttpClientFactory>(() =>
+                    builder.UseEnvironment("Test");
+                    builder.ConfigureTestServices(services =>
                     {
-                        var mock = Substitute.For<IHttpClientFactory>();
-                        mock.CreateClient(default).ReturnsForAnyArgs(client);
-                        return mock;
-                    }));
-                    services.AddTicketService();
+                        services.AddSingleton(serviceProvider => Substitute.For<IMigrationRunner>());
+                        services.AddSingleton<ITicketRepository, FakeTicketRepository>();
+                        services.AddSingleton(serviceProvider => new Lazy<IHttpClientFactory>(() =>
+                        {
+                            var mock = Substitute.For<IHttpClientFactory>();
+
+                            // ReSharper disable once AccessToModifiedClosure - It is expected closure, which is used for testing service proxy
+                            mock.CreateClient(default).ReturnsForAnyArgs(client);
+                            return mock;
+                        }));
+                        services.AddTicketService();
+                    });
                 });
-            });
 
             client = webApplicationFactory.CreateClient();
-            const int movieId = 1;
-            var creationApiModel = new TicketCreationApiModel { MovieId = movieId, Row = 1, Seat = 1, Price = 70 };
 
-            ITicketApiProxy proxy = webApplicationFactory.Services.GetService<ITicketApiProxy>();
-
-            await proxy.AddAsync(new TicketCreationModel(movieId, 1, 1, 70));
-
-            Task<IReadOnlyCollection<ITicket>> tickets = proxy.GetByMovieIdAsync(movieId);
-        }
-
-        private static bool SameTicket(TicketCreationApiModel creationModel, TicketSerializationModel serializationModel)
-            => creationModel.MovieId == serializationModel.MovieId
-               && creationModel.Row == serializationModel.Row
-               && creationModel.Seat == serializationModel.Seat
-               && creationModel.Price == serializationModel.Price;
-
-        private static Task AddTicketAsync(HttpClient httpClient, TicketCreationApiModel ticketCreationApiModel)
-        {
-            string serializedTicket = JsonSerializer.Serialize(ticketCreationApiModel);
-            return httpClient.PostAsync("/tickets", new StringContent(serializedTicket, Encoding.UTF8, "application/json"));
-        }
-
-        private async Task<IReadOnlyCollection<TicketSerializationModel>> GetTicketsByMovieAsync(HttpClient client, int movieId)
-        {
-            HttpResponseMessage response = await client.GetAsync($"/tickets/by-movie/{movieId}");
-
-            string responseJson = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<TicketSerializationModel[]>(responseJson, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return webApplicationFactory;
         }
     }
 }
