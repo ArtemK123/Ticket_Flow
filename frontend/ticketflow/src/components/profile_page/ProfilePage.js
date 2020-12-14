@@ -60,6 +60,10 @@ function ProfilePage(props) {
         );
     }
 
+    const formatBirthdayDate = (stringBirthdayDate) => {
+        return stringBirthdayDate.slice(0, 10);
+    };
+
     return (
         <Box w={1}>
             <Grid container direction="row">
@@ -86,7 +90,7 @@ function ProfilePage(props) {
                             <Grid item>
                                 <ReadonlyTextInput
                                     label="Birthday"
-                                    value={props.profileModel.profile.birthday}
+                                    value={formatBirthdayDate(props.profileModel.profile.birthday)}
                                 />
                             </Grid>
                             <Grid item container direction="column" spacing={1}>

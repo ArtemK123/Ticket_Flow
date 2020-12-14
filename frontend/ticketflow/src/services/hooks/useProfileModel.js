@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import createBackendServiceAsync from "services/backend_service/createBackendServiceAsync";
 
 const defaultProfileModel = {
-    email: "default",
+    email: "default@gmail.com",
     profile: {
         phoneNumber: 111,
-        birthday: "default"
+        birthday: "1900-01-01T00:00:00"
     }
 };
 
