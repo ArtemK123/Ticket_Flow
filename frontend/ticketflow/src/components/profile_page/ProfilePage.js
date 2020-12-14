@@ -34,6 +34,10 @@ const getTicketsValue = (tickets) => {
     tickets.forEach(ticket => {
         ticketsInputValue = ticketsInputValue + formatTicketValue(ticket) + "\n";
     });
+    if (tickets.length === 0) {
+        ticketsInputValue += "No tickets";
+    }
+
     return ticketsInputValue;
 };
 
@@ -59,6 +63,10 @@ function ProfilePage(props) {
             </Box>
         );
     }
+
+    const formatBirthdayDate = (stringBirthdayDate) => {
+        return stringBirthdayDate.slice(0, 10);
+    };
 
     return (
         <Box w={1}>
@@ -86,7 +94,7 @@ function ProfilePage(props) {
                             <Grid item>
                                 <ReadonlyTextInput
                                     label="Birthday"
-                                    value={props.profileModel.profile.birthday}
+                                    value={formatBirthdayDate(props.profileModel.profile.birthday)}
                                 />
                             </Grid>
                             <Grid item container direction="column" spacing={1}>

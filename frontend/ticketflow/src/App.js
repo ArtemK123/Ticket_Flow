@@ -41,13 +41,17 @@ function App() {
     };
 
     const cachedLogoutCallback = useCallback(() => {
-        if (rootState) {
+        if (rootState && rootState.token) {
             createBackendServiceAsync()
                 .then(backendService => backendService.logout(rootState.token))
                 .then(() => {
                     localStorage.removeItem("token");
                     localStorage.removeItem("username");
-                    changeRootUserState(undefined);
+                    changeRootUserState(Object.assign({}, rootState, {
+                        username: "",
+                        token: null,
+                        redirect: undefined
+                    }));
                 });
         }
     }, [rootState]);
@@ -72,7 +76,7 @@ function App() {
             <Router>
                 <RedirectComponent link={rootState ? rootState.redirect : undefined} redirectCallback={redirectCallback}/>
                 <Header
-                    isUserLoggedIn={rootState && rootState.token !== null}
+                    isUserLoggedIn={rootState && rootState.token != null}
                     username={rootState ? rootState.username : ""}
                     redirectCallback={redirectCallback}
                     logoutCallback={cachedLogoutCallback}

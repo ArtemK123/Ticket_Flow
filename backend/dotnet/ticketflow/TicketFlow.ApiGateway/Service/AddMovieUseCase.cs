@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
 using TicketFlow.MovieService.Client.Extensibility.Models.MovieModels;
 using TicketFlow.MovieService.Client.Extensibility.Proxies;
@@ -25,16 +24,13 @@ namespace TicketFlow.ApiGateway.Service
         {
             int createdMovieId = await movieApiProxy.AddAsync(new MovieCreationIdReferencedModel(movie.StartTime, movie.Film.Id, movie.CinemaHall.Id));
 
-            var tasks = new List<Task>();
             for (int row = 1; row <= movie.CinemaHall.SeatRows; row++)
             {
                 for (int seat = 1; seat <= movie.CinemaHall.SeatsInRow; seat++)
                 {
-                    tasks.Add(ticketApiProxy.AddAsync(new TicketCreationModel(createdMovieId, row, seat, DefaultTicketPrice)));
+                    await ticketApiProxy.AddAsync(new TicketCreationModel(createdMovieId, row, seat, DefaultTicketPrice));
                 }
             }
-
-            await Task.WhenAll(tasks);
         }
     }
 }
