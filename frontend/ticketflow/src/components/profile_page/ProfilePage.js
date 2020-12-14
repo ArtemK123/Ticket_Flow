@@ -34,6 +34,10 @@ const getTicketsValue = (tickets) => {
     tickets.forEach(ticket => {
         ticketsInputValue = ticketsInputValue + formatTicketValue(ticket) + "\n";
     });
+    if (tickets.length === 0) {
+        ticketsInputValue += "No tickets";
+    }
+
     return ticketsInputValue;
 };
 
