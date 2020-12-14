@@ -10,15 +10,15 @@ namespace TicketFlow.Common.Senders
     public abstract class ServiceApiMessageSenderBase : IServiceApiMessageSender
     {
         private readonly IServiceResponseValidator responseValidator;
-        private readonly IHttpClientFactory httpClientFactory;
+        private readonly Lazy<IHttpClientFactory> httpClientFactoryLazy;
         private readonly IJsonSerializer jsonSerializer;
 
         private readonly string httpClientName;
 
-        protected ServiceApiMessageSenderBase(IServiceResponseValidator responseValidator, IHttpClientFactory httpClientFactory, IJsonSerializer jsonSerializer)
+        protected ServiceApiMessageSenderBase(IServiceResponseValidator responseValidator, Lazy<IHttpClientFactory> httpClientFactoryLazy, IJsonSerializer jsonSerializer)
         {
             this.responseValidator = responseValidator;
-            this.httpClientFactory = httpClientFactory;
+            this.httpClientFactoryLazy = httpClientFactoryLazy;
             this.jsonSerializer = jsonSerializer;
 
             httpClientName = GetType().ToString();
@@ -26,7 +26,7 @@ namespace TicketFlow.Common.Senders
 
         public async Task<T> SendAsync<T>(HttpRequestMessage httpRequestMessage, Func<string, T> convertFunc = null)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient(httpClientName);
+            HttpClient httpClient = httpClientFactoryLazy.Value.CreateClient(httpClientName);
             HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequestMessage);
 
             await responseValidator.ValidateAsync(httpResponse);
@@ -39,7 +39,7 @@ namespace TicketFlow.Common.Senders
 
         public async Task SendAsync(HttpRequestMessage httpRequestMessage)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient(httpClientName);
+            HttpClient httpClient = httpClientFactoryLazy.Value.CreateClient(httpClientName);
             HttpResponseMessage httpResponse = await httpClient.SendAsync(httpRequestMessage);
 
             await responseValidator.ValidateAsync(httpResponse);

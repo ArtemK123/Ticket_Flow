@@ -48,9 +48,9 @@ namespace TicketFlow.ApiGateway.WebApi.TicketsApi
         }
 
         [HttpPost("order")]
-        public string Order([FromBody] TicketOrderRequest ticketOrderRequest)
+        public async Task<string> Order([FromBody] TicketOrderRequest ticketOrderRequest)
         {
-            orderTicketUseCase.OrderAsync(ticketOrderRequest.TicketId, ticketOrderRequest.Token);
+            await orderTicketUseCase.OrderAsync(ticketOrderRequest.TicketId, ticketOrderRequest.Token);
             return "Ordered successfully";
         }
     }

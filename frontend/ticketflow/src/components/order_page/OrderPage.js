@@ -54,7 +54,7 @@ function OrderPage(props) {
     });
 
     useEffect(() => {
-        if (Object.keys(pageState.ticketsState).length === 0) {
+        if (Object.keys(pageState.ticketsState).length === 0 && tickets.length > 0) {
             const newTicketsState = {};
             tickets.forEach(ticket => {
                 newTicketsState[ticket.id] = ticket.buyerEmail === null ? "available" : "taken";
@@ -71,15 +71,17 @@ function OrderPage(props) {
                 const newTicketsState = Object.assign({}, pageState.ticketsState);
 
                 for (let ticketId in newTicketsState) {
-                    if (newTicketsState[ticketId] === "selected") {
+                    const numericTicketId = parseInt(ticketId, 10);
+
+                    if (newTicketsState[ticketId] === "selected" && numericTicketId > 0) {
                         const response = await backendService.order({
-                            ticketId: ticketId,
+                            ticketId: numericTicketId,
                             token: props.token
                         });
                         if (response.status === 401) {
                             props.logoutCallback();
                         }
-                        newTicketsState[ticketId] = response.status === 202 ? "taken" : "error";
+                        newTicketsState[ticketId] = response.status === 202 || response.status === 200 ? "taken" : "error";
                     }
                 }
                 changePageState(Object.assign({}, pageState, {

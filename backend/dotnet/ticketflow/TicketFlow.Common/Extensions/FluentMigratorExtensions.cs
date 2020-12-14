@@ -28,7 +28,8 @@ namespace TicketFlow.Common.Extensions
         {
             try
             {
-                IMigrationRunner migrationRunner = app.ApplicationServices.GetRequiredService<IMigrationRunner>();
+                using var serviceScope = app.ApplicationServices.CreateScope();
+                IMigrationRunner migrationRunner = serviceScope.ServiceProvider.GetService<IMigrationRunner>();
                 migrationRunner.MigrateUp();
             }
             catch (Exception)
