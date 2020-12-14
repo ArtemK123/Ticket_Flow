@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
 using TicketFlow.MovieService.Client.Extensibility.Models.CinemaHallModels;
@@ -28,7 +27,10 @@ namespace TicketFlow.ApiGateway.StartupServices.Seeders
             IReadOnlyCollection<ICinemaHall> storedCinemaHalls = await cinemaHallApiProxy.GetAllAsync();
             if (storedCinemaHalls.Count == 0)
             {
-                await Task.WhenAll(cinemaHallsToSeed.Select(cinemaHall => cinemaHallApiProxy.AddAsync(cinemaHall)));
+                foreach (var cinemaHall in cinemaHallsToSeed)
+                {
+                    await cinemaHallApiProxy.AddAsync(cinemaHall);
+                }
             }
         }
     }

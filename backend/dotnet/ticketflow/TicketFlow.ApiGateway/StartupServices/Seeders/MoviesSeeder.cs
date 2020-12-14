@@ -67,7 +67,6 @@ namespace TicketFlow.ApiGateway.StartupServices.Seeders
             IReadOnlyCollection<ICinemaHall> storedCinemaHalls = await cinemaHallApiProxy.GetAllAsync();
             IReadOnlyCollection<IFilm> storedFilms = await filmApiProxy.GetAllAsync();
 
-            var tasks = new List<Task>();
             for (int i = 0; i < MoviesCount; i++)
             {
                 ICinemaHall cinemaHall = storedCinemaHalls.ElementAt(randomValueProvider.GetRandomInt(0, storedCinemaHalls.Count));
@@ -77,10 +76,8 @@ namespace TicketFlow.ApiGateway.StartupServices.Seeders
 
                 var dateTime = new DateTime(date.Item1, date.Item2, date.Item3, time.Item1, time.Item2, 0);
                 IMovie movie = movieFactory.Create(new MovieCreationModel(dateTime, film, cinemaHall));
-                tasks.Add(addMovieUseCase.AddAsync(movie));
+                await addMovieUseCase.AddAsync(movie);
             }
-
-            await Task.WhenAll(tasks);
         }
     }
 }
