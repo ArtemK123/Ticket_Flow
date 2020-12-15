@@ -19,10 +19,10 @@ using Xunit;
 
 namespace TicketFlow.TicketService.IntegrationTest.ApiTests
 {
-    public class TicketApiViaClientTest
+    public class TicketApiViaProxyTest
     {
         [Fact]
-        public async Task ClientTest()
+        public async Task Add_ThenGetByMovieId_ShouldReturnTicketsWithGivenMovieId()
         {
             using WebApplicationFactory<Startup> webApplicationFactory = SetupWebApplicationFactory();
             ITicketApiProxy proxy = webApplicationFactory.Services.GetService<ITicketApiProxy>();
@@ -43,6 +43,23 @@ namespace TicketFlow.TicketService.IntegrationTest.ApiTests
 
             IReadOnlyCollection<TicketCreationModel> ticketCreationApiModelsWithGivenMovieId = ticketCreationModelsToAdd.Where(model => model.MovieId == movieId).ToArray();
             Assert.True(ticketCreationApiModelsWithGivenMovieId.All(ticketCreationModel => tickets.Any(ticket => SameTicket(ticketCreationModel, ticket))));
+        }
+
+        [Fact]
+        public async Task Order_ShouldUpdateTicketWithUserEmail() {
+            using WebApplicationFactory<Startup> webApplicationFactory = SetupWebApplicationFactory();
+            ITicketApiProxy proxy = webApplicationFactory.Services.GetService<ITicketApiProxy>();
+
+            TicketCreationModel ticketCreationModel = new TicketCreationModel(1, 1, 1, 70);
+            await proxy.AddAsync(ticketCreationModel);
+            ITicket ticket = (await proxy.GetByMovieIdAsync(ticketCreationModel.MovieId)).First();
+
+            const string userEmail = "test@gmail.com";
+            await proxy.OrderAsync(new OrderModel(ticket.Id, userEmail));
+
+            // IOrderedTicket orderedTicket = (await proxy.GetByUserEmailAsync(userEmail)).First();
+            //
+            // Assert.True(orderedTicket.)
         }
 
         private static bool SameTicket(TicketCreationModel creationModel, ITicket ticket)

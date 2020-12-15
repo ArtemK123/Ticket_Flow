@@ -9,7 +9,7 @@ namespace TicketFlow.TicketService.Client.Extensibility.Proxies
     {
         Task<IReadOnlyCollection<ITicket>> GetByMovieIdAsync(int movieId);
 
-        Task<IReadOnlyCollection<ITicket>> GetByUserEmailAsync(string userEmail);
+        Task<IReadOnlyCollection<IOrderedTicket>> GetByUserEmailAsync(string userEmail);
 
         Task<int> AddAsync(TicketCreationModel ticketCreationModel);
 
