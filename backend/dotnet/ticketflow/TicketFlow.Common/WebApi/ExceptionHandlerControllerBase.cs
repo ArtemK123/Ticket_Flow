@@ -27,17 +27,17 @@ namespace TicketFlow.Common.WebApi
                 return new NotFoundResult();
             }
 
-            IReadOnlyDictionary<Type, Func<Exception, IActionResult>> exceptionMappings = GetAllowedExceptionMappings();
-            if (exceptionMappings.TryGetValue(exception.GetType(), out Func<Exception, IActionResult> exceptionMapping))
+            IReadOnlyDictionary<Type, Func<Exception, HttpContext, IActionResult>> exceptionMappings = GetAllowedExceptionMappings();
+            if (exceptionMappings.TryGetValue(exception.GetType(), out Func<Exception, HttpContext, IActionResult> exceptionMapping))
             {
                 logger.LogError(exception.Message, "Error handled by exception handler");
-                return exceptionMapping(exception);
+                return exceptionMapping(exception, HttpContext);
             }
 
             logger.LogCritical(exception, "Internal server error");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
-        protected abstract IReadOnlyDictionary<Type, Func<Exception, IActionResult>> GetAllowedExceptionMappings();
+        protected abstract IReadOnlyDictionary<Type, Func<Exception, HttpContext, IActionResult>> GetAllowedExceptionMappings();
     }
 }
