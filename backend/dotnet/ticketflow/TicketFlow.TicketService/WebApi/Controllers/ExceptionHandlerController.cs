@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TicketFlow.Common.Exceptions;
@@ -18,7 +19,7 @@ namespace TicketFlow.TicketService.WebApi.Controllers
 
         protected override IReadOnlyDictionary<Type, Func<Exception, IActionResult>> GetAllowedExceptionMappings() => new Dictionary<Type, Func<Exception, IActionResult>>
         {
-            { typeof(NotFoundException), _ => new NotFoundResult() },
+            { typeof(NotFoundException), exception => new ContentResult { StatusCode = (int)HttpStatusCode.NotFound, Content = exception.Message } },
             { typeof(TicketAlreadyOrderedException), exception => new BadRequestObjectResult(exception.Message) }
         };
     }
