@@ -7,6 +7,7 @@ using TicketFlow.Common.Serializers;
 using TicketFlow.Common.ServiceUrl.Providers;
 using TicketFlow.Common.ServiceUrl.Resolvers;
 using TicketFlow.Common.ServiceUrl.Scenarios;
+using TicketFlow.Common.WebApi.Handlers;
 
 namespace TicketFlow.Common.Extensions
 {
@@ -20,6 +21,7 @@ namespace TicketFlow.Common.Extensions
             services.AddTransient(typeof(IStringFromStreamReader), typeof(StringFromStreamReader));
             services.AddTransient(typeof(IJsonSerializer), typeof(JsonSerializer));
             services.AddTransient(typeof(IDateTimeProvider), typeof(DateTimeProvider));
+            services.AddTransient(typeof(IExceptionHeaderHandler), typeof(ExceptionHeaderHandler));
             services.AddHttpClient();
             services.AddTransient(serviceProvider => new Lazy<IHttpClientFactory>(serviceProvider.GetService<IHttpClientFactory>));
             BindServiceUrl(services);
