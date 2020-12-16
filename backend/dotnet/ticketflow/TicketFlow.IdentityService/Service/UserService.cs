@@ -42,6 +42,12 @@ namespace TicketFlow.IdentityService.Service
         {
             IUser user = GetByEmail(loginRequest.Email);
 
+            if (user is IAuthorizedUser alreadyAuthorizedUser)
+            {
+                Logout(alreadyAuthorizedUser.Token);
+                return Login(loginRequest);
+            }
+
             if (!user.TryAuthorize(loginRequest.Password, out IAuthorizedUser authorizedUser))
             {
                 throw new WrongPasswordException($"Wrong password for user with email=${loginRequest.Email}");

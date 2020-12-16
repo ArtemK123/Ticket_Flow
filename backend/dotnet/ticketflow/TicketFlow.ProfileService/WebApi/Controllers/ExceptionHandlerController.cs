@@ -24,12 +24,12 @@ namespace TicketFlow.ProfileService.WebApi.Controllers
         protected override IReadOnlyDictionary<Type, Func<Exception, HttpContext, IActionResult>> GetAllowedExceptionMappings()
             => new Dictionary<Type, Func<Exception, HttpContext, IActionResult>>
         {
-            { typeof(ProfileNotFoundByIdException), HandleNotFoundException },
-            { typeof(ProfileNotFoundByUserEmailException), HandleNotFoundException },
+            { typeof(ProfileNotFoundByIdException), (exception, context) => HandleNotFoundException(exception as ProfileNotFoundByIdException, context) },
+            { typeof(ProfileNotFoundByUserEmailException), (exception, context) => HandleNotFoundException(exception as ProfileNotFoundByUserEmailException, context) },
             {
-                typeof(ProfileNotFoundByUserEmailException), (exception, context) =>
+                typeof(NotUniqueUserProfileException), (exception, context) =>
                 {
-                    exceptionHeaderHandler.WriteExceptionHeader(context.Response.Headers, exception);
+                    exceptionHeaderHandler.WriteExceptionHeader(context.Response.Headers, exception as NotUniqueUserProfileException);
                     return new BadRequestObjectResult(exception.Message);
                 }
             }

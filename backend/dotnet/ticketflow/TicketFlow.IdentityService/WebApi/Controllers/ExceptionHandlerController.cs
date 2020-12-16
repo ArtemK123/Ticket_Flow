@@ -26,8 +26,8 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         {
             { typeof(UserNotUniqueException), (exception, _) => new BadRequestObjectResult(exception.Message) },
             { typeof(WrongPasswordException), (exception, _) => new ContentResult { StatusCode = (int)HttpStatusCode.Unauthorized, Content = exception.Message } },
-            { typeof(UserNotFoundByTokenException), HandleNotFoundException },
-            { typeof(UserNotFoundByEmailException), HandleNotFoundException }
+            { typeof(UserNotFoundByTokenException), (exception, context) => HandleNotFoundException(exception as UserNotFoundByTokenException, context) },
+            { typeof(UserNotFoundByEmailException), (exception, context) => HandleNotFoundException(exception as UserNotFoundByEmailException, context) }
         };
 
         private IActionResult HandleNotFoundException<TException>(TException exception, HttpContext httpContext)
