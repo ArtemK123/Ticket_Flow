@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net.Http;
+using Microsoft.AspNetCore.Http;
 using TicketFlow.Common.Exceptions;
 using TicketFlow.Common.WebApi.Handlers;
 using Xunit;
@@ -29,7 +30,7 @@ namespace TicketFlow.Common.Test.WebApi.Handlers
         }
 
         [Fact]
-        public void IsExceptionInHeader_Found_ShouldReturnTrueWhenHeadersContainExceptionType()
+        public void IsExceptionInHeader_HeaderDictionary_Found_ShouldReturnTrueWhenHeadersContainExceptionType()
         {
             IHeaderDictionary headers = new HeaderDictionary();
             headers[ExceptionHeaderName] = "NotFoundException";
@@ -40,7 +41,28 @@ namespace TicketFlow.Common.Test.WebApi.Handlers
         }
 
         [Fact]
-        public void NotExceptionInHeader_NotFound_ShouldReturnFalseWhenHeadersDoesNotContainExceptionType()
+        public void IsExceptionInHeader_HeaderDictionary_NotFound_ShouldReturnFalseWhenHeadersDoesNotContainExceptionType()
+        {
+            IHeaderDictionary headers = new HeaderDictionary();
+
+            var actual = exceptionHeaderHandler.IsExceptionInHeader<NotFoundException>(headers);
+
+            Assert.False(actual);
+        }
+
+        [Fact]
+        public void IsExceptionInHeader_HttpResponseHeaders_Found_ShouldReturnTrueWhenHeadersContainExceptionType()
+        {
+            HttpResponseMessage testResponse = new HttpResponseMessage();
+            testResponse.Headers.Add(ExceptionHeaderName, "NotFoundException");
+
+            var actual = exceptionHeaderHandler.IsExceptionInHeader<NotFoundException>(testResponse.Headers);
+
+            Assert.True(actual);
+        }
+
+        [Fact]
+        public void NotExceptionInHeader_HttpResponseHeaders_NotFound_ShouldReturnFalseWhenHeadersDoesNotContainExceptionType()
         {
             IHeaderDictionary headers = new HeaderDictionary();
 

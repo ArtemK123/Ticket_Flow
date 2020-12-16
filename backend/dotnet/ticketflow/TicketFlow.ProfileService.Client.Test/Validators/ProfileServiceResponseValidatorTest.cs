@@ -17,7 +17,7 @@ namespace TicketFlow.ProfileService.Client.Test.Validators
 
         public ProfileServiceResponseValidatorTest()
         {
-            profileServiceResponseValidator = new ProfileServiceResponseValidator();
+            // profileServiceResponseValidator = new ProfileServiceResponseValidator();
         }
 
         [Fact]
