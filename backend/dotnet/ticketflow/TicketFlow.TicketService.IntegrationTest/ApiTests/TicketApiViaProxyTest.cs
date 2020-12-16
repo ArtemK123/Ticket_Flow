@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using TicketFlow.Common.Exceptions;
 using TicketFlow.TicketService.Client.Extensibility.DependencyInjection;
 using TicketFlow.TicketService.Client.Extensibility.Entities;
 using TicketFlow.TicketService.Client.Extensibility.Exceptions;
@@ -90,10 +89,10 @@ namespace TicketFlow.TicketService.IntegrationTest.ApiTests
         }
 
         [Fact]
-        public async Task Order_WrongTicketId_ShouldThrowNotFoundException()
+        public async Task Order_WrongTicketId_ShouldThrowTicketNotFoundByIdException()
         {
             const int notFoundTicketId = 1;
-            NotFoundException exception = await Assert.ThrowsAsync<NotFoundException>(
+            TicketNotFoundByIdException exception = await Assert.ThrowsAsync<TicketNotFoundByIdException>(
                 async () => await proxy.OrderAsync(new OrderModel(notFoundTicketId, UserEmail)));
 
             Assert.Equal($"Ticket with id={notFoundTicketId} is not found", exception.Message);
