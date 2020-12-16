@@ -24,10 +24,10 @@ namespace TicketFlow.IdentityService.WebApi.Controllers
         protected override IReadOnlyDictionary<Type, Func<Exception, HttpContext, IActionResult>> GetAllowedExceptionMappings()
             => new Dictionary<Type, Func<Exception, HttpContext, IActionResult>>
         {
-            { typeof(UserNotFoundByTokenException), HandleNotFoundException },
-            { typeof(UserNotFoundByEmailException), HandleNotFoundException },
+            { typeof(UserNotUniqueException), (exception, _) => new BadRequestObjectResult(exception.Message) },
             { typeof(WrongPasswordException), (exception, _) => new ContentResult { StatusCode = (int)HttpStatusCode.Unauthorized, Content = exception.Message } },
-            { typeof(UserNotUniqueException), (exception, _) => new BadRequestObjectResult(exception.Message) }
+            { typeof(UserNotFoundByTokenException), HandleNotFoundException },
+            { typeof(UserNotFoundByEmailException), HandleNotFoundException }
         };
 
         private IActionResult HandleNotFoundException<TException>(TException exception, HttpContext httpContext)
