@@ -1,5 +1,4 @@
-﻿using TicketFlow.Common.Exceptions;
-using TicketFlow.IdentityService.Client.Entities;
+﻿using TicketFlow.IdentityService.Client.Entities;
 using TicketFlow.IdentityService.Client.Extensibility.Entities;
 using TicketFlow.IdentityService.Client.Extensibility.Exceptions;
 using TicketFlow.IdentityService.Client.Extensibility.Factories;
@@ -26,7 +25,7 @@ namespace TicketFlow.IdentityService.Service
                 return user;
             }
 
-            throw new NotFoundException($"User with token={token} is not found");
+            throw new UserNotFoundByTokenException($"User with token={token} is not found");
         }
 
         public IUser GetByEmail(string email)
@@ -36,7 +35,7 @@ namespace TicketFlow.IdentityService.Service
                 return user;
             }
 
-            throw new NotFoundException($"User with email={email} is not found");
+            throw new UserNotFoundByEmailException($"User with email={email} is not found");
         }
 
         public string Login(LoginRequest loginRequest)
