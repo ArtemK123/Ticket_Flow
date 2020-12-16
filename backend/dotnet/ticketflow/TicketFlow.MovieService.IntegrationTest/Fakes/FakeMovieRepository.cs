@@ -1,34 +1,61 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
+using TicketFlow.MovieService.Client.Extensibility.Models.MovieModels;
+using TicketFlow.MovieService.Client.Extensibility.Serializers;
 using TicketFlow.MovieService.Persistence;
 
 namespace TicketFlow.MovieService.IntegrationTest.Fakes
 {
     internal class FakeMovieRepository : IMovieRepository
     {
+        private readonly IMovieSerializer movieSerializer;
+        private readonly List<MovieSerializationModel> storedMovieModels;
+
+        public FakeMovieRepository(IMovieSerializer movieSerializer)
+        {
+            this.movieSerializer = movieSerializer;
+            storedMovieModels = new List<MovieSerializationModel>();
+        }
+
         public bool TryGet(int identifier, out IMovie entity)
         {
-            throw new System.NotImplementedException();
+            MovieSerializationModel movieModel = storedMovieModels.FirstOrDefault(model => model.Id == identifier);
+            if (movieModel != null)
+            {
+                entity = movieSerializer.Deserialize(movieModel);
+                return true;
+            }
+
+            entity = default;
+            return false;
         }
 
         public IReadOnlyCollection<IMovie> GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
+            => storedMovieModels.Select(movie => movieSerializer.Deserialize(movie)).ToArray();
 
         public void Add(IMovie entity)
         {
-            throw new System.NotImplementedException();
+            MovieSerializationModel model = movieSerializer.Serialize(entity);
+            storedMovieModels.Add(model);
         }
 
         public void Update(IMovie entity)
         {
-            throw new System.NotImplementedException();
+            if (TryGet(entity.Id, out IMovie _))
+            {
+                Delete(entity.Id);
+                Add(entity);
+            }
         }
 
         public void Delete(int identifier)
         {
-            throw new System.NotImplementedException();
+            MovieSerializationModel movieModel = storedMovieModels.FirstOrDefault(model => model.Id == identifier);
+            if (movieModel != null)
+            {
+                storedMovieModels.Remove(movieModel);
+            }
         }
     }
 }
