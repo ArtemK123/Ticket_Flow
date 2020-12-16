@@ -49,9 +49,13 @@ namespace TicketFlow.TicketService.IntegrationTest.ApiTests
                 new TicketCreationModel(MovieId, 1, 1, 70),
                 new TicketCreationModel(MovieId, 2, 2, 90),
                 new TicketCreationModel(MovieId, 3, 5, 100),
-                new TicketCreationModel(AnotherMovieId, 3, 5, 150),
+                new TicketCreationModel(AnotherMovieId, 3, 5, 150)
             };
-            await Task.WhenAll(ticketCreationModelsToAdd.Select(model => proxy.AddAsync(model)));
+
+            foreach (var creationModel in ticketCreationModelsToAdd)
+            {
+                await proxy.AddAsync(creationModel);
+            }
 
             IReadOnlyCollection<ITicket> tickets = await proxy.GetByMovieIdAsync(MovieId);
 
