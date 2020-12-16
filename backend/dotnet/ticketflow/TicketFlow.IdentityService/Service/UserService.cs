@@ -56,7 +56,7 @@ namespace TicketFlow.IdentityService.Service
         {
             if (userRepository.TryGet(registerRequest.Email, out _))
             {
-                throw new NotUniqueEntityException($"User with email={registerRequest.Email} already exists");
+                throw new UserNotUniqueException($"User with email={registerRequest.Email} already exists");
             }
 
             IUser user = userFactory.Create(new UserCreationModel(registerRequest.Email, registerRequest.Password, Role.User));

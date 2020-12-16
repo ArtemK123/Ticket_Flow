@@ -2,9 +2,9 @@
 
 namespace TicketFlow.IdentityService.Client.Extensibility.Exceptions
 {
-    public class UserNotFoundByIdException : NotFoundException
+    public class UserNotFoundByTokenException : NotFoundException
     {
-        public UserNotFoundByIdException(string message)
+        public UserNotFoundByTokenException(string message)
             : base(message)
         {
         }
