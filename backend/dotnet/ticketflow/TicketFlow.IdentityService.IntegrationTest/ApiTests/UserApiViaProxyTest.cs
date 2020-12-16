@@ -131,6 +131,28 @@ namespace TicketFlow.IdentityService.IntegrationTest.ApiTests
             Assert.Equal($"User with token={token} is not found", exception.Message);
         }
 
+        [Fact]
+        public async Task Logout_ValidToken_ShouldUpdateUserRecord()
+        {
+            RegisterRequest registerRequest = new RegisterRequest(UserEmail, Password);
+            await proxy.RegisterAsync(registerRequest);
+            string token = await proxy.LoginAsync(new LoginRequest(UserEmail, Password));
+
+            string responseFromProxy = await proxy.LogoutAsync(token);
+
+            Assert.Equal("Logout successful", responseFromProxy);
+            await Assert.ThrowsAsync<UserNotFoundByTokenException>(async () => await proxy.GetByTokenAsync(token));
+        }
+
+        [Fact]
+        public async Task Logout_InvalidToken_ShouldThrowUserNotFoundByTokenException()
+        {
+            const string token = "jwt";
+
+            UserNotFoundByTokenException exception = await Assert.ThrowsAsync<UserNotFoundByTokenException>(async () => await proxy.LogoutAsync(token));
+            Assert.Equal($"User with token={token} is not found", exception.Message);
+        }
+
         private static bool ValidUser(IUser user, RegisterRequest registerRequest)
             => user.Email == registerRequest.Email
                && user.Password == registerRequest.Password
