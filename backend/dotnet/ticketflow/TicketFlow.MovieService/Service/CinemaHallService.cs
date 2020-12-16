@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.Common.Exceptions;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
+using TicketFlow.MovieService.Client.Extensibility.Exceptions;
 using TicketFlow.MovieService.Client.Extensibility.Factories;
 using TicketFlow.MovieService.Client.Extensibility.Models.CinemaHallModels;
 using TicketFlow.MovieService.Persistence;
@@ -24,7 +24,7 @@ namespace TicketFlow.MovieService.Service
         public ICinemaHall GetById(int id)
             => cinemaHallRepository.TryGet(id, out ICinemaHall cinemaHall)
                 ? cinemaHall
-                : throw new NotFoundException($"Cinema hall with id=${id} is not found");
+                : throw new CinemaHallNotFoundByIdException($"Cinema hall with id=${id} is not found");
 
         public ICinemaHall Add(CinemaHallCreationModel cinemaHallCreationModel)
         {

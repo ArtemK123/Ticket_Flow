@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.Common.Exceptions;
 using TicketFlow.TicketService.Client.Extensibility.Entities;
 using TicketFlow.TicketService.Client.Extensibility.Exceptions;
 using TicketFlow.TicketService.Client.Extensibility.Factories;
@@ -40,7 +39,7 @@ namespace TicketFlow.TicketService.Service
         {
             if (!ticketRepository.TryGet(orderModel.TicketId, out ITicket ticket))
             {
-                throw new NotFoundException($"Ticket with id={orderModel.TicketId} is not found");
+                throw new TicketNotFoundByIdException($"Ticket with id={orderModel.TicketId} is not found");
             }
 
             if (ticket is IOrderedTicket _)

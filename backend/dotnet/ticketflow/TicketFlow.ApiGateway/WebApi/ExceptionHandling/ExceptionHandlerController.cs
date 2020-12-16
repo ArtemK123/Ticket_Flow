@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TicketFlow.Common.Exceptions;
@@ -18,12 +19,13 @@ namespace TicketFlow.ApiGateway.WebApi.ExceptionHandling
         {
         }
 
-        protected override IReadOnlyDictionary<Type, Func<Exception, IActionResult>> GetAllowedExceptionMappings() => new Dictionary<Type, Func<Exception, IActionResult>>
+        protected override IReadOnlyDictionary<Type, Func<Exception, HttpContext, IActionResult>> GetAllowedExceptionMappings()
+            => new Dictionary<Type, Func<Exception, HttpContext, IActionResult>>
         {
-            { typeof(NotFoundException), _ => new NotFoundResult() },
-            { typeof(WrongPasswordException), _ => new UnauthorizedResult() },
-            { typeof(NotUniqueEntityException), exception => new BadRequestObjectResult(exception.Message) },
-            { typeof(TicketAlreadyOrderedException), exception => new BadRequestObjectResult(exception.Message) }
+            { typeof(NotFoundException), (_, __) => new NotFoundResult() },
+            { typeof(WrongPasswordException), (_, __) => new UnauthorizedResult() },
+            { typeof(NotUniqueEntityException), (exception, _) => new BadRequestObjectResult(exception.Message) },
+            { typeof(TicketAlreadyOrderedException), (exception, _) => new BadRequestObjectResult(exception.Message) }
         };
     }
 }

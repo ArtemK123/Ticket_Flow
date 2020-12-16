@@ -12,7 +12,7 @@ namespace TicketFlow.TicketService.Client.Validators
         {
             switch (httpResponse.StatusCode)
             {
-                case HttpStatusCode.NotFound: throw new NotFoundException(await httpResponse.Content.ReadAsStringAsync());
+                case HttpStatusCode.NotFound: throw new TicketNotFoundByIdException(await httpResponse.Content.ReadAsStringAsync());
                 case HttpStatusCode.BadRequest: throw new TicketAlreadyOrderedException(await httpResponse.Content.ReadAsStringAsync());
                 case HttpStatusCode.InternalServerError: throw new InternalServiceException("Internal error in Ticket service");
             }

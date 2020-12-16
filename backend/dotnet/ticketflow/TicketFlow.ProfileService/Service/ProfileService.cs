@@ -1,5 +1,5 @@
-﻿using TicketFlow.Common.Exceptions;
-using TicketFlow.ProfileService.Client.Extensibility.Entities;
+﻿using TicketFlow.ProfileService.Client.Extensibility.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Exceptions;
 using TicketFlow.ProfileService.Persistence.Repositories;
 
 namespace TicketFlow.ProfileService.Service
@@ -14,16 +14,20 @@ namespace TicketFlow.ProfileService.Service
         }
 
         public IProfile GetById(int id)
-            => profileRepository.TryGet(id, out IProfile profile) ? profile : throw new NotFoundException($"Profile with id={id} is not found");
+            => profileRepository.TryGet(id, out IProfile profile)
+                ? profile
+                : throw new ProfileNotFoundByIdException($"Profile with id={id} is not found");
 
         public IProfile GetByUserEmail(string email)
-            => profileRepository.TryGetByUserEmail(email, out IProfile profile) ? profile : throw new NotFoundException($"Profile for user with email={email} is not found");
+            => profileRepository.TryGetByUserEmail(email, out IProfile profile)
+                ? profile
+                : throw new ProfileNotFoundByUserEmailException($"Profile for user with email={email} is not found");
 
         public void Add(IProfile profile)
         {
             if (profileRepository.TryGetByUserEmail(profile.UserEmail, out IProfile _))
             {
-                throw new NotUniqueEntityException($"Profile for user with email={profile.UserEmail} already exists");
+                throw new NotUniqueUserProfileException($"Profile for user with email={profile.UserEmail} already exists");
             }
 
             profileRepository.Add(profile);

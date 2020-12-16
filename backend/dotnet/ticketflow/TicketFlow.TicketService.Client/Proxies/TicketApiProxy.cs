@@ -43,14 +43,20 @@ namespace TicketFlow.TicketService.Client.Proxies
             return serializationModels.Select(ticketSerializer.Deserialize).ToList();
         }
 
-        public async Task<IReadOnlyCollection<ITicket>> GetByUserEmailAsync(string userEmail)
+        public async Task<IReadOnlyCollection<IOrderedTicket>> GetByUserEmailAsync(string userEmail)
         {
             string requestUrl = $"{await GetTicketApiUrlAsync()}/by-user";
             HttpRequestMessage httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUrl);
             httpRequest.Content = new StringContent(userEmail);
 
             TicketSerializationModel[] serializationModels = await serviceMessageSender.SendAsync<TicketSerializationModel[]>(httpRequest);
-            return serializationModels.Select(ticketSerializer.Deserialize).ToList();
+
+            IReadOnlyCollection<IOrderedTicket> convertedTickets =
+                serializationModels
+                    .Select(ticketSerializer.Deserialize)
+                    .OfType<IOrderedTicket>()
+                    .ToList();
+            return convertedTickets;
         }
 
         public async Task<int> AddAsync(TicketCreationModel ticketCreationModel)
