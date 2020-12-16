@@ -10,6 +10,7 @@ using NSubstitute;
 using TicketFlow.Common.Exceptions;
 using TicketFlow.ProfileService.Client.Extensibility.DependencyInjection;
 using TicketFlow.ProfileService.Client.Extensibility.Entities;
+using TicketFlow.ProfileService.Client.Extensibility.Exceptions;
 using TicketFlow.ProfileService.Client.Extensibility.Models;
 using TicketFlow.ProfileService.Client.Extensibility.Proxies;
 using TicketFlow.ProfileService.IntegrationTest.Fakes;
@@ -21,6 +22,7 @@ namespace TicketFlow.ProfileService.IntegrationTest.ApiTests
     public class ProfileApiViaProxyTest : IDisposable
     {
         private const string ValidUserEmail = "test@gmail.com";
+        private const string InvalidUserEmail = "not an email!";
         private const long ValidPhoneNumber = 380971234567;
         private static readonly DateTime ValidBirthday = new DateTime(2000, 1, 1);
 
@@ -50,31 +52,40 @@ namespace TicketFlow.ProfileService.IntegrationTest.ApiTests
         }
 
         [Fact]
-        public async Task Add_EmptyFieldsInModel_ShouldThrowBadRequestException()
+        public async Task Add_EmptyFieldsInModel_ShouldThrowInvalidRequestModelException()
         {
-            throw new NotImplementedException();
+            var creationModel = new ProfileCreationModel(default, default, default);
+
+            await Assert.ThrowsAsync<InvalidRequestModelException>(async () => await proxy.AddAsync(creationModel));
         }
 
         [Fact]
-        public async Task Add_InvalidEmail_ShouldThrowBadRequestException()
+        public async Task Add_InvalidEmail_ShouldThrowInvalidRequestModelException()
         {
-            throw new NotImplementedException();
+            var creationModel = new ProfileCreationModel(InvalidUserEmail, ValidPhoneNumber, ValidBirthday);
+
+            await Assert.ThrowsAsync<InvalidRequestModelException>(async () => await proxy.AddAsync(creationModel));
         }
 
         [Fact]
         public async Task Add_DefaultPhoneNumber_ShouldAddProfile()
         {
-            throw new NotImplementedException();
+            var creationModel = new ProfileCreationModel(ValidUserEmail, default, ValidBirthday);
+
+            IProfile addedProfile = await proxy.AddAsync(creationModel);
+
+            Assert.True(addedProfile.Id > 0);
+            Assert.True(SameProfile(addedProfile, creationModel));
         }
 
         [Fact]
-        public async Task Add_ProfileWithGivenUserEmailAlreadyExists_ShouldThrowNotUniqueEntityException()
+        public async Task Add_ProfileWithGivenUserEmailAlreadyExists_ShouldThrowNotUniqueUserProfileException()
         {
             var creationModel = new ProfileCreationModel(ValidUserEmail, ValidPhoneNumber, ValidBirthday);
 
             await proxy.AddAsync(creationModel);
 
-            NotUniqueEntityException exception = await Assert.ThrowsAsync<NotUniqueEntityException>(async () => await proxy.AddAsync(creationModel));
+            NotUniqueUserProfileException exception = await Assert.ThrowsAsync<NotUniqueUserProfileException>(async () => await proxy.AddAsync(creationModel));
             Assert.Equal($"Profile for user with email={ValidUserEmail} already exists", exception.Message);
         }
 
@@ -91,9 +102,9 @@ namespace TicketFlow.ProfileService.IntegrationTest.ApiTests
         }
 
         [Fact]
-        public async Task GetById_NotFound_ShouldThrowProfileNotFoundException()
+        public async Task GetById_NotFound_ShouldThrowProfileNotFoundByIdException()
         {
-            throw new NotImplementedException();
+            await Assert.ThrowsAsync<ProfileNotFoundByIdException>(async () => await proxy.GetByIdAsync(1));
         }
 
         [Fact]
@@ -108,9 +119,9 @@ namespace TicketFlow.ProfileService.IntegrationTest.ApiTests
         }
 
         [Fact]
-        public async Task GetByUserEmail_NotFound_ShouldThrowProfileNotFoundException()
+        public async Task GetByUserEmail_NotFound_ShouldThrowProfileNotFoundByUserEmailException()
         {
-            throw new NotImplementedException();
+            await Assert.ThrowsAsync<ProfileNotFoundByUserEmailException>(async () => await proxy.GetByUserEmailAsync(ValidUserEmail));
         }
 
         private static bool SameProfile(IProfile profile, ProfileCreationModel profileCreationModel)
