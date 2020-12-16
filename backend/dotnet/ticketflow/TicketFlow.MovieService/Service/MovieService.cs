@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using TicketFlow.Common.Exceptions;
 using TicketFlow.MovieService.Client.Extensibility.Entities;
+using TicketFlow.MovieService.Client.Extensibility.Exceptions;
 using TicketFlow.MovieService.Client.Extensibility.Factories;
 using TicketFlow.MovieService.Client.Extensibility.Models.MovieModels;
 using TicketFlow.MovieService.Persistence;
@@ -30,7 +30,7 @@ namespace TicketFlow.MovieService.Service
         public IMovie GetById(int id)
             => movieRepository.TryGet(id, out IMovie movie)
                 ? movie
-                : throw new NotFoundException($"Movie with id=${id} is not found");
+                : throw new MovieNotFoundByIdException($"Movie with id=${id} is not found");
 
         public IMovie Add(MovieCreationIdReferencedModel creationIdReferencedModel)
         {
