@@ -24,6 +24,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Go to frontend app
+      run: cd ./frontend/ticketflow
+
     - name: Install dependencies
       run: npm install
 
