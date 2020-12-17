@@ -7,7 +7,8 @@ const createConsulService = () => {
     const consulUrlSplitted = consulUrl.split(":");
     const consulHost = `${consulUrlSplitted[0]}:${consulUrlSplitted[1]}`;
     const consulPort = consulUrlSplitted[2];
-    return createConsulServiceExternal({ host: consulHost, port: consulPort });
+    // return createConsulServiceExternal({ host: consulHost, port: consulPort });
+    return undefined;
 };
 
 const consulService = createConsulService();
