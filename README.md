@@ -5,8 +5,8 @@ This is a service with frontend/backend API architecture. The backend part is cr
 
 Checks:
 
-https://github.com/ArtemK123/Ticket_Flow/workflows/NET-Core-CI/badge.svg
-https://github.com/ArtemK123/Ticket_Flow/workflows/React-CI/badge.svg
+![.NET-Core]https://github.com/ArtemK123/Ticket_Flow/workflows/NET-Core-CI/badge.svg
+![Create-React-App]https://github.com/ArtemK123/Ticket_Flow/workflows/React-CI/badge.svg
 
 Dependencies:
 
