@@ -1,0 +1,3123 @@
+{
+	"info": {
+		"_postman_id": "38302687-ca51-4bc7-a43b-20d0c952db62",
+		"name": "TicketFlow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Api_tests",
+			"item": [
+				{
+					"name": "User_identity_workflow_test",
+					"item": [
+						{
+							"name": "Healthcheck",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200 test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Api_Home",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080"
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 18 Dec 2020 19:28:53 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "Hello from TicketFlow API"
+								}
+							]
+						},
+						{
+							"name": "TestSetup",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// 1000 * 1000\r",
+											"const randomEmailPart = pm.variables.replaceIn('{{$randomInt}}') * pm.variables.replaceIn('{{$randomInt}}') \r",
+											"const userEmail = \"test\" + randomEmailPart + \"@gmail.com\";\r",
+											"pm.environment.set(\"userEmail\", userEmail);\r",
+											"pm.environment.set(\"userPassword\", \"123aaDd321\");\r",
+											"pm.environment.set(\"phoneNumber\", 380971234567);\r",
+											"pm.environment.set(\"birthday\", \"2000-01-20\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const requestData = {\r",
+											"\t\"email\": pm.environment.get(\"userEmail\"),\r",
+											"\t\"password\": pm.environment.get(\"userPassword\"),\r",
+											"\t\"profile\": {\r",
+											"\t\t\"phoneNumber\": parseInt(pm.environment.get(\"phoneNumber\")),\r",
+											"\t\t\"birthday\": pm.environment.get(\"birthday\")\r",
+											"\t}\r",
+											"};\r",
+											"\r",
+											"pm.environment.set(\"registerRequest\", JSON.stringify(requestData));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.unset(\"registerRequest\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{registerRequest}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/register",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterAgain_Error",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const requestData = {\r",
+											"\t\"email\": pm.environment.get(\"userEmail\"),\r",
+											"\t\"password\": pm.environment.get(\"userPassword\"),\r",
+											"\t\"profile\": {\r",
+											"\t\t\"phoneNumber\": parseInt(pm.environment.get(\"phoneNumber\")),\r",
+											"\t\t\"birthday\": pm.environment.get(\"birthday\")\r",
+											"\t}\r",
+											"};\r",
+											"\r",
+											"pm.environment.set(\"registerRequest\", JSON.stringify(requestData));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"400 status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response message\", function () {\r",
+											"    const expectedResponseMessage = `User with email=${pm.environment.get(\"userEmail\")} already exists`;\r",
+											"    pm.expect(pm.response.text()).to.eql(expectedResponseMessage);\r",
+											"});\r",
+											"\r",
+											"pm.environment.unset(\"registerRequest\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{registerRequest}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/register",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login_WrongEmail",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"\",\n\t\"password\": \"{{userPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/login",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login_WrongPassword",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"401 status code\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"{{userEmail}}\",\n\t\"password\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/login",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login_Valid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const userToken = pm.response.text();\r",
+											"\r",
+											"pm.test(\"Not empty token\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    pm.expect(userToken).to.have.lengthOf.above(0);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"userToken\", userToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"{{userEmail}}\",\n\t\"password\": \"{{userPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/login",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetProfile_UserNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "invalid.jwt.data",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/profile",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetProfile_UserFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response content\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    pm.expect(responseJson.userEmail).to.eql(pm.environment.get(\"userEmail\"));\r",
+											"    pm.expect(responseJson.profile.phoneNumber).to.eql(parseInt(pm.environment.get(\"phoneNumber\")));\r",
+											"    const expectedBirthdayDate = new Date(pm.environment.get(\"birthday\"));\r",
+											"    const actualBirthdayDate = new Date(responseJson.profile.birthday + \".000Z\");\r",
+											"    pm.expect(actualBirthdayDate.toISOString()).to.eql(expectedBirthdayDate.toISOString());\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{userToken}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/profile",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout_UserNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "invalid.jwt.data",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/logout",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout_UserFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{userToken}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/logout",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetProfile_TokenAfterLogout_UserNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{userToken}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/profile",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TestTearDown",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.unset(\"userEmail\");\r",
+											"pm.environment.unset(\"userPassword\");\r",
+											"pm.environment.unset(\"phoneNumber\");\r",
+											"pm.environment.unset(\"birthday\");\r",
+											"pm.environment.unset(\"userToken\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Order_ticket_test",
+					"item": [
+						{
+							"name": "Healthcheck",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200 test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Api_Home",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080"
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 18 Dec 2020 19:28:53 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "Hello from TicketFlow API"
+								}
+							]
+						},
+						{
+							"name": "RegisterUser",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// 1000 * 1000\r",
+											"const randomEmailPart = pm.variables.replaceIn('{{$randomInt}}') * pm.variables.replaceIn('{{$randomInt}}') \r",
+											"const userEmail = \"test\" + randomEmailPart + \"@gmail.com\";\r",
+											"pm.environment.set(\"userEmail\", userEmail);\r",
+											"pm.environment.set(\"userPassword\", \"777asdasdasdJHG\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"email\": \"{{userEmail}}\",\r\n\t\"password\": \"{{userPassword}}\",\r\n\t\"profile\": {\r\n\t\t\"phoneNumber\": 380971234567,\r\n\t\t\"birthday\": \"2020-02-02\"\r\n\t}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/register",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoginUser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"userToken\", pm.response.text());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"{{userEmail}}\",\n\t\"password\": \"{{userPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/login",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const movies = pm.response.json();\r",
+											"const randomMovieIndex = Math.floor(Math.random() * Math.floor(movies.length));\r",
+											"\r",
+											"const takenMovie = movies[randomMovieIndex];\r",
+											"pm.environment.set(\"movie\", JSON.stringify(takenMovie));\r",
+											"pm.environment.set(\"movieId\", takenMovie.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTicket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const tickets = pm.response.json();\r",
+											"const randomTicketIndex = Math.floor(Math.random() * Math.floor(tickets.length));\r",
+											"\r",
+											"const ticket = tickets[randomTicketIndex];\r",
+											"\r",
+											"pm.environment.set(\"ticket\", JSON.stringify(ticket));\r",
+											"pm.environment.set(\"ticketId\", ticket.id);\r",
+											"\r",
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"null as buyer email when ticket is not ordered\", function () {\r",
+											"    pm.expect(ticket.buyerEmail).to.eql(null);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ticket has valid movie model\", function () {\r",
+											"    pm.expect(JSON.stringify(ticket.movie)).to.eql(pm.environment.get(\"movie\"));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-movie/{{movieId}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-movie",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetUserTickets_UserNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "invalid.jwt.data",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-user",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetUserTickets_NoTickets",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty tickets array\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.lengthOf(0);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{userToken}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-user",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OrderTicket_UserNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"invalid.jwt.data\",\r\n\t\"ticketId\": {{ticketId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/order",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OrderTicket_TicketNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0N0BnbWFpbC5jb20iLCJuYmYiOjE2MDM0Nzg1NzcsImV4cCI6MTYwNDA4MzM3NywiaWF0IjoxNjAzNDc4NTc3LCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.NXcHeeT6VXsC9fjJBJysDMxwJOoz1RErVPcyYrAyPAY\",\r\n\t\"ticketId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/order",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OrderTicket_Valid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"{{userToken}}\",\r\n\t\"ticketId\": {{ticketId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/order",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OrderTicketAgain_TicketAlreadyOrdered",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"400 status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response message\", function () {\r",
+											"    const expectedResponseMessage = `Ticket with id=${pm.environment.get(\"ticketId\")} is already ordered`;\r",
+											"    pm.expect(pm.response.text()).to.eql(expectedResponseMessage);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"{{userToken}}\",\r\n\t\"ticketId\": {{ticketId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/order",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetUserTickets_GetOrderedTicket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valid ticket model\", function() {\r",
+											"    const expectedTicket = JSON.parse(pm.environment.get(\"ticket\"));\r",
+											"    expectedTicket.buyerEmail = pm.environment.get(\"userEmail\");\r",
+											"    const actualTicket = pm.response.json()[0];\r",
+											"    pm.expect(JSON.stringify(actualTicket)).to.eql(JSON.stringify(expectedTicket));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{userToken}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-user",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TestTearDown",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.unset(\"userEmail\");\r",
+											"pm.environment.unset(\"userPassword\");\r",
+											"pm.environment.unset(\"userToken\");\r",
+											"pm.environment.unset(\"movieId\");\r",
+											"pm.environment.unset(\"movie\");\r",
+											"pm.environment.unset(\"ticketId\");\r",
+											"pm.environment.unset(\"ticket\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Movie_details_test",
+					"item": [
+						{
+							"name": "Healthcheck",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200 test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Api_Home",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080"
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 18 Dec 2020 19:28:53 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "Hello from TicketFlow API"
+								}
+							]
+						},
+						{
+							"name": "GetMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const movies = pm.response.json();\r",
+											"const randomMovieIndex = Math.floor(Math.random() * Math.floor(movies.length));\r",
+											"\r",
+											"const takenMovie = movies[randomMovieIndex];\r",
+											"pm.environment.set(\"movie\", JSON.stringify(takenMovie));\r",
+											"pm.environment.set(\"movieId\", takenMovie.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetMovieDetails_MovieNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies/1",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetMovieDetails_Valid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const expectedShortMovieModel = JSON.parse(pm.environment.get(\"movie\"));\r",
+											"const actualMovieModel = pm.response.json();\r",
+											"const isNotEmpty = str => str !== undefined && str !== null && str.length > 0;\r",
+											"\r",
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valid movie details model\", function () {\r",
+											"    // compare with stored short movie model\r",
+											"    pm.expect(actualMovieModel.id).to.eql(expectedShortMovieModel.id);\r",
+											"    pm.expect(actualMovieModel.startTime).to.eql(expectedShortMovieModel.startTime);\r",
+											"    pm.expect(actualMovieModel.film.title).to.eql(expectedShortMovieModel.title);\r",
+											"    pm.expect(actualMovieModel.cinemaHall.name).to.eql(expectedShortMovieModel.cinemaHallName);\r",
+											"\r",
+											"    // check other fields\r",
+											"    pm.expect(actualMovieModel.film.id).to.above(0);\r",
+											"    pm.expect(isNotEmpty(actualMovieModel.film.description)).to.be.true;\r",
+											"    const premiereDate = new Date(actualMovieModel.film.premiereDate);\r",
+											"    pm.expect(isNotEmpty(premiereDate.toString())).to.be.true;\r",
+											"    pm.expect(isNotEmpty(actualMovieModel.film.creator)).to.be.true;\r",
+											"    pm.expect(actualMovieModel.film.duration).to.above(0);\r",
+											"    pm.expect(actualMovieModel.film.ageLimit).to.above(-1);\r",
+											"    pm.expect(actualMovieModel.cinemaHall.id).to.above(0);\r",
+											"    pm.expect(isNotEmpty(actualMovieModel.cinemaHall.location)).to.be.true;\r",
+											"    pm.expect(actualMovieModel.cinemaHall.seatRows).to.above(0);\r",
+											"    pm.expect(actualMovieModel.cinemaHall.seatsInRow).to.above(0);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies/{{movieId}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TestTearDown",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.unset(\"movieId\");\r",
+											"pm.environment.unset(\"movie\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Seeder_tests",
+					"item": [
+						{
+							"name": "Healthcheck",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200 test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Api_Home",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080"
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 18 Dec 2020 19:28:53 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "Hello from TicketFlow API"
+								}
+							]
+						},
+						{
+							"name": "CheckMoviesCount_AndTakeRandomMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const movies = pm.response.json();\r",
+											"const randomMovieIndex = Math.floor(Math.random() * Math.floor(movies.length));\r",
+											"\r",
+											"pm.environment.set(\"movieId\", movies[randomMovieIndex].id);\r",
+											"\r",
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Movies cound\", function () {\r",
+											"    const expectedMoviesCount = 30;\r",
+											"    pm.expect(movies.length).to.eql(expectedMoviesCount);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetExpectedTicketsCount_ForTakenMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const movieDetails = pm.response.json();\r",
+											"const expectedTicketsCount = movieDetails.cinemaHall.seatRows * movieDetails.cinemaHall.seatsInRow;\r",
+											"\r",
+											"pm.environment.set(\"expectedTicketsCount\", expectedTicketsCount);\r",
+											"\r",
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies/{{movieId}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CheckTicketsCount_ForTakenMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Tickets count\", function () {\r",
+											"    const expectedTicketsCount = parseInt(pm.environment.get(\"expectedTicketsCount\"));\r",
+											"    const actualTicketsCount = pm.response.json().length;\r",
+											"    pm.expect(actualTicketsCount).to.eql(expectedTicketsCount);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-movie/{{movieId}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-movie",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TestTearDown",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.unset(\"movieId\");\r",
+											"pm.environment.unset(\"expectedTicketsCount\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Swagger_test",
+					"item": [
+						{
+							"name": "SwaggerTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/swagger",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"swagger"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Requests",
+			"item": [
+				{
+					"name": "Ticket",
+					"item": [
+						{
+							"name": "Ticket_AddEntity",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "text/plain",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movieId\": 42,\r\n    \"row\": 1,\r\n    \"seat\": 1,\r\n    \"price\": 50\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9003/tickets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9003",
+									"path": [
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ticket_Order",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "text/plain",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"TicketId\": 1871684550,\r\n    \"buyerEmail\": \"test@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9003/tickets/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9003",
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ticket_GetByMovieId",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "text/plain",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:9003/tickets/by-movie/854542696",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9003",
+									"path": [
+										"tickets",
+										"by-movie",
+										"854542696"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ticket_GetByUserEmail",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "text/plain",
+										"disabled": true
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "test@gmail.com",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9003/tickets/by-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9003",
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Movie",
+					"item": [
+						{
+							"name": "CinemaHalls",
+							"item": [
+								{
+									"name": "CinemaHall_Add",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"TestCinemaHall\",\r\n    \"location\": \"Kyiv\",\r\n    \"seatRows\": 5,\r\n    \"seatsInRow\": 10\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9004/cinema-halls",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9004",
+											"path": [
+												"cinema-halls"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "CinemaHall_GetAll",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9004/cinema-halls",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9004",
+											"path": [
+												"cinema-halls"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Films",
+							"item": [
+								{
+									"name": "Film_GetAll",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9004/films",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9004",
+											"path": [
+												"films"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Film_Add",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"title\": \"testTitle\",\r\n    \"description\": \"testDescription\",\r\n\t\"premiereDate\": \"2020-06-10T11:30\",\r\n    \"creator\": \"some guy\",\r\n    \"duration\": 90,\r\n    \"ageLimit\": 3\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9004/films",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9004",
+											"path": [
+												"films"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Movies",
+							"item": [
+								{
+									"name": "Movie_AddEntity",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {}
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "text/plain",
+												"disabled": true
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json",
+												"disabled": true
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"startTime\": \"2020-06-10T11:30\",\r\n\t\"filmId\": 1177970623,\r\n\t\"cinemaHallId\": 1867736294\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:9004/movies",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9004",
+											"path": [
+												"movies"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie_GetAll",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9004/movies",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9004",
+											"path": [
+												"movies"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Movie_GetById",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:9004/movies/687548547",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "9004",
+											"path": [
+												"movies",
+												"687548547"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Configs",
+					"item": [
+						{
+							"name": "Api_bus-refresh",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/actuator/bus-refresh",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"actuator",
+										"bus-refresh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Identity",
+					"item": [
+						{
+							"name": "Identity_Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"test3@email.com\",\n\t\"password\": \"123\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9001/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Identity_Homepage",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9001/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Identity_Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"test3@email.com\",\n\t\"password\": \"123\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:9001/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Identity_GetByEmail",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "test3@email.com"
+								},
+								"url": {
+									"raw": "http://localhost:9001/users/getByEmail",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"users",
+										"getByEmail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Identity_GetByToken",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0M0BlbWFpbC5jb20iLCJuYmYiOjE1OTcxNzQzOTMsImV4cCI6MTU5Nzc3OTE5MywiaWF0IjoxNTk3MTc0MzkzLCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.XT1eZA06VVbrvAOVs1wBlQmPCeuPAFL6WDxZLa8Chhc"
+								},
+								"url": {
+									"raw": "http://localhost:9001/users/getByToken",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"users",
+										"getByToken"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Identity_Logout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0M0BlbWFpbC5jb20iLCJuYmYiOjE1OTcxNzQzOTMsImV4cCI6MTU5Nzc3OTE5MywiaWF0IjoxNTk3MTc0MzkzLCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.XT1eZA06VVbrvAOVs1wBlQmPCeuPAFL6WDxZLa8Chhc"
+								},
+								"url": {
+									"raw": "http://localhost:9001/users/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9001",
+									"path": [
+										"users",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Profile_AddEntity",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "text/plain",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userEmail\": \"test@gmail.com\",\n\t\"phoneNumber\": 380971111111,\n\t\"birthday\": \"2000-01-01\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9002/profiles",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9002",
+									"path": [
+										"profiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile_DeleteEntity",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9002/profiles/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9002",
+									"path": [
+										"profiles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile_UpdateEntity",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"userEmail\": \"test@email.com\",\n\t\"phoneNumber\": \"380972222222\",\n\t\"birthday\": \"2000-01-01\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:9002/profiles/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9002",
+									"path": [
+										"profiles",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile_GetEntityById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9002/profiles/by-id/1860490561",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9002",
+									"path": [
+										"profiles",
+										"by-id",
+										"1860490561"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile_GetAllEntities",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9002/profiles",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9002",
+									"path": [
+										"profiles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile_HomePage",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9002",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9002"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Profile_GetEntityByUser",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept-encoding": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "test6@gmail.com"
+								},
+								"url": {
+									"raw": "http://localhost:9002/profiles/by-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9002",
+									"path": [
+										"profiles",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Api-Aci",
+					"item": [
+						{
+							"name": "Api_Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"test7@gmail.com\",\n\t\"password\": \"aaa\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/login",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_Logout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0N0BnbWFpbC5jb20iLCJuYmYiOjE2MDcyNzIxNzgsImV4cCI6MTYwNzg3Njk3OCwiaWF0IjoxNjA3MjcyMTc4LCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.2PrH5QD0VM5X8mjlueOhEW6LAYiP6xZRCJNjYJQkroQ",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/logout",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_Register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"email\": \"test7@gmail.com\",\r\n\t\"password\": \"aaa\",\r\n\t\"profile\": {\r\n\t\t\"phoneNumber\": 380971234567,\r\n\t\t\"birthday\": \"2000-01-20\"\r\n\t}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/register",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_Home",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080"
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetProfile",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0N0BnbWFpbC5jb20iLCJuYmYiOjE2MDcyNzI0NjgsImV4cCI6MTYwNzg3NzI2OCwiaWF0IjoxNjA3MjcyNDY4LCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.HGAIMkRmkJ46IOQucSMVtOMpbCqS6J85j1qh1KNG8yI",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/profile",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetAllMovies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/movies",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetMovieDetails",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/movies/1820178230",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"movies",
+										"1820178230"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetTicketsByMovie",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/tickets/by-movie/1820178230",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"tickets",
+										"by-movie",
+										"1820178230"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetTicketsByUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0N0BnbWFpbC5jb20iLCJuYmYiOjE2MDcyNzI0NjgsImV4cCI6MTYwNzg3NzI2OCwiaWF0IjoxNjA3MjcyNDY4LCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.HGAIMkRmkJ46IOQucSMVtOMpbCqS6J85j1qh1KNG8yI",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/tickets/by-user",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_OrderTicket",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0N0BnbWFpbC5jb20iLCJuYmYiOjE2MDcyNzI0NjgsImV4cCI6MTYwNzg3NzI2OCwiaWF0IjoxNjA3MjcyNDY4LCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.HGAIMkRmkJ46IOQucSMVtOMpbCqS6J85j1qh1KNG8yI\",\r\n\t\"ticketId\": 380967363\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ticketflow-api-gateway.northeurope.azurecontainer.io:8080/tickets/order",
+									"protocol": "http",
+									"host": [
+										"ticketflow-api-gateway",
+										"northeurope",
+										"azurecontainer",
+										"io"
+									],
+									"port": "8080",
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Api",
+					"item": [
+						{
+							"name": "Api_Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"test7@gmail.com\",\n\t\"password\": \"aaa\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_Logout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0NkBnbWFpbC5jb20iLCJuYmYiOjE1OTkzOTczNDEsImV4cCI6MTYwMDAwMjE0MSwiaWF0IjoxNTk5Mzk3MzQxLCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.GfAs259ttvY_KMQV65O_i_Buq59iZJoB6IelIus0uqY",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_Register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"email\": \"test7@gmail.com\",\r\n\t\"password\": \"aaa\",\r\n\t\"profile\": {\r\n\t\t\"phoneNumber\": 380971234567,\r\n\t\t\"birthday\": \"2000-01-20\"\r\n\t}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_Home",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080"
+								}
+							},
+							"response": [
+								{
+									"name": "Api_Home",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080"
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 18 Dec 2020 19:28:53 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "Hello from TicketFlow API"
+								}
+							]
+						},
+						{
+							"name": "Api_GetProfile",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0N0BnbWFpbC5jb20iLCJuYmYiOjE2MDM0Nzg1NzcsImV4cCI6MTYwNDA4MzM3NywiaWF0IjoxNjAzNDc4NTc3LCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.NXcHeeT6VXsC9fjJBJysDMxwJOoz1RErVPcyYrAyPAY",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/profile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetAllMovies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/movies",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetMovieDetails",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/movies/1022850915",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movies",
+										"1022850915"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetTicketsByMovie",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/tickets/by-movie/1022850915",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tickets",
+										"by-movie",
+										"1022850915"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_GetTicketsByUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0NkBnbWFpbC5jb20iLCJuYmYiOjE1OTk0MDc5MzAsImV4cCI6MTYwMDAxMjczMCwiaWF0IjoxNTk5NDA3OTMwLCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.8dldGUZq471Q5beDc0CYCbglRVRh6ZvEFvlqXG7SiZg",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/tickets/by-user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Api_OrderTicket",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0N0BnbWFpbC5jb20iLCJuYmYiOjE2MDM0Nzg1NzcsImV4cCI6MTYwNDA4MzM3NywiaWF0IjoxNjAzNDc4NTc3LCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.NXcHeeT6VXsC9fjJBJysDMxwJOoz1RErVPcyYrAyPAY\",\r\n\t\"ticketId\": 1572964393\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/tickets/order",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
