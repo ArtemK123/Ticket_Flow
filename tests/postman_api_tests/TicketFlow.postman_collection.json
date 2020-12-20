@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b26f7600-d146-4201-b548-aa7627ce70ae",
+		"_postman_id": "38302687-ca51-4bc7-a43b-20d0c952db62",
 		"name": "TicketFlow",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -631,7 +631,614 @@
 					]
 				},
 				{
-					"name": "Order_tickets",
+					"name": "Order_ticket_test",
+					"item": [
+						{
+							"name": "Healthcheck",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200 test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Api_Home",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080"
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 18 Dec 2020 19:28:53 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "Hello from TicketFlow API"
+								}
+							]
+						},
+						{
+							"name": "RegisterUser",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// 1000 * 1000\r",
+											"const randomEmailPart = pm.variables.replaceIn('{{$randomInt}}') * pm.variables.replaceIn('{{$randomInt}}') \r",
+											"const userEmail = \"test\" + randomEmailPart + \"@gmail.com\";\r",
+											"pm.environment.set(\"userEmail\", userEmail);\r",
+											"pm.environment.set(\"userPassword\", \"777asdasdasdJHG\");"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"email\": \"{{userEmail}}\",\r\n\t\"password\": \"{{userPassword}}\",\r\n\t\"profile\": {\r\n\t\t\"phoneNumber\": 380971234567,\r\n\t\t\"birthday\": \"2020-02-02\"\r\n\t}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/register",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoginUser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"userToken\", pm.response.text());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"{{userEmail}}\",\n\t\"password\": \"{{userPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/login",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const movies = pm.response.json();\r",
+											"const randomMovieIndex = Math.floor(Math.random() * Math.floor(movies.length));\r",
+											"\r",
+											"console.log(randomMovieIndex);\r",
+											"\r",
+											"const takenMovie = movies[randomMovieIndex];\r",
+											"pm.environment.set(\"movie\", JSON.stringify(takenMovie));\r",
+											"pm.environment.set(\"movieId\", takenMovie.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTicket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const tickets = pm.response.json();\r",
+											"const randomTicketIndex = Math.floor(Math.random() * Math.floor(tickets.length));\r",
+											"\r",
+											"const ticket = tickets[randomTicketIndex];\r",
+											"\r",
+											"pm.environment.set(\"ticket\", JSON.stringify(ticket));\r",
+											"pm.environment.set(\"ticketId\", ticket.id);\r",
+											"\r",
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"null as buyer email when ticket is not ordered\", function () {\r",
+											"    pm.expect(ticket.buyerEmail).to.eql(null);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ticket has valid movie model\", function () {\r",
+											"    pm.expect(JSON.stringify(ticket.movie)).to.eql(pm.environment.get(\"movie\"));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-movie/{{movieId}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-movie",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetUserTickets_UserNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "invalid.jwt.data",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-user",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetUserTickets_NoTickets",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Empty tickets array\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.lengthOf(0);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{userToken}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-user",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OrderTicket_UserNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"invalid.jwt.data\",\r\n\t\"ticketId\": {{ticketId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/order",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OrderTicket_TicketNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJ0ZXN0N0BnbWFpbC5jb20iLCJuYmYiOjE2MDM0Nzg1NzcsImV4cCI6MTYwNDA4MzM3NywiaWF0IjoxNjAzNDc4NTc3LCJpc3MiOiJJZGVudGl0eVNlcnZpY2UuSnd0R2VuZXJhdG9yIn0.NXcHeeT6VXsC9fjJBJysDMxwJOoz1RErVPcyYrAyPAY\",\r\n\t\"ticketId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/order",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OrderTicket_Valid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"{{userToken}}\",\r\n\t\"ticketId\": {{ticketId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/order",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OrderTicketAgain_TicketAlreadyOrdered",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"400 status code\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response message\", function () {\r",
+											"    const expectedResponseMessage = `Ticket with id=${pm.environment.get(\"ticketId\")} is already ordered`;\r",
+											"    pm.expect(pm.response.text()).to.eql(expectedResponseMessage);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"token\": \"{{userToken}}\",\r\n\t\"ticketId\": {{ticketId}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/order",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"order"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetUserTickets_GetOrderedTicket",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valid ticket model\", function() {\r",
+											"    const expectedTicket = JSON.parse(pm.environment.get(\"ticket\"));\r",
+											"    expectedTicket.buyerEmail = pm.environment.get(\"userEmail\");\r",
+											"    const actualTicket = pm.response.json()[0];\r",
+											"    pm.expect(JSON.stringify(actualTicket)).to.eql(JSON.stringify(expectedTicket));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{userToken}}",
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-user",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TestTearDown",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.unset(\"userEmail\");\r",
+											"pm.environment.unset(\"userPassword\");\r",
+											"pm.environment.unset(\"userToken\");\r",
+											"pm.environment.unset(\"movieId\");\r",
+											"pm.environment.unset(\"movie\");\r",
+											"pm.environment.unset(\"ticketId\");\r",
+											"pm.environment.unset(\"ticket\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Movie_details_test",
 					"item": [],
 					"event": [
 						{
