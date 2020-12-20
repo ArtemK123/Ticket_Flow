@@ -1487,7 +1487,223 @@
 				},
 				{
 					"name": "Seeder_tests",
-					"item": [],
+					"item": [
+						{
+							"name": "Healthcheck",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200 test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Api_Home",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080"
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 18 Dec 2020 19:28:53 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "Hello from TicketFlow API"
+								}
+							]
+						},
+						{
+							"name": "CheckMoviesCount_AndTakeRandomMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const movies = pm.response.json();\r",
+											"const randomMovieIndex = Math.floor(Math.random() * Math.floor(movies.length));\r",
+											"\r",
+											"pm.environment.set(\"movieId\", movies[randomMovieIndex].id);\r",
+											"\r",
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Movies cound\", function () {\r",
+											"    const expectedMoviesCount = 30;\r",
+											"    pm.expect(movies.length).to.eql(expectedMoviesCount);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetExpectedTicketsCount_ForTakenMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const movieDetails = pm.response.json();\r",
+											"const expectedTicketsCount = movieDetails.cinemaHall.seatRows * movieDetails.cinemaHall.seatsInRow;\r",
+											"\r",
+											"pm.environment.set(\"expectedTicketsCount\", expectedTicketsCount);\r",
+											"\r",
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies/{{movieId}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CheckTicketsCount_ForTakenMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Tickets count\", function () {\r",
+											"    const expectedTicketsCount = parseInt(pm.environment.get(\"expectedTicketsCount\"));\r",
+											"    const actualTicketsCount = pm.response.json().length;\r",
+											"    pm.expect(actualTicketsCount).to.eql(expectedTicketsCount);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/tickets/by-movie/{{movieId}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"tickets",
+										"by-movie",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TestTearDown",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.unset(\"movieId\");\r",
+											"pm.environment.unset(\"expectedTicketsCount\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
 					"event": [
 						{
 							"listen": "prerequest",
