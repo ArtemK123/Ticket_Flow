@@ -1724,6 +1724,41 @@
 							}
 						}
 					]
+				},
+				{
+					"name": "Swagger_test",
+					"item": [
+						{
+							"name": "SwaggerTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/swagger",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"swagger"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"event": [
