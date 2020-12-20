@@ -806,8 +806,6 @@
 											"const movies = pm.response.json();\r",
 											"const randomMovieIndex = Math.floor(Math.random() * Math.floor(movies.length));\r",
 											"\r",
-											"console.log(randomMovieIndex);\r",
-											"\r",
 											"const takenMovie = movies[randomMovieIndex];\r",
 											"pm.environment.set(\"movie\", JSON.stringify(takenMovie));\r",
 											"pm.environment.set(\"movieId\", takenMovie.id);"
@@ -1239,7 +1237,233 @@
 				},
 				{
 					"name": "Movie_details_test",
-					"item": [],
+					"item": [
+						{
+							"name": "Healthcheck",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status 200 test\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Api_Home",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8080",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080"
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Fri, 18 Dec 2020 19:28:53 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "text/plain; charset=utf-8"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "Hello from TicketFlow API"
+								}
+							]
+						},
+						{
+							"name": "GetMovie",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const movies = pm.response.json();\r",
+											"const randomMovieIndex = Math.floor(Math.random() * Math.floor(movies.length));\r",
+											"\r",
+											"const takenMovie = movies[randomMovieIndex];\r",
+											"pm.environment.set(\"movie\", JSON.stringify(takenMovie));\r",
+											"pm.environment.set(\"movieId\", takenMovie.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetMovieDetails_MovieNotFound",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"404 status code\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies/1",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetMovieDetails_Valid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const expectedShortMovieModel = JSON.parse(pm.environment.get(\"movie\"));\r",
+											"const actualMovieModel = pm.response.json();\r",
+											"const isNotEmpty = str => str !== undefined && str !== null && str.length > 0;\r",
+											"\r",
+											"pm.test(\"200 status code\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Valid movie details model\", function () {\r",
+											"    // compare with stored short movie model\r",
+											"    pm.expect(actualMovieModel.id).to.eql(expectedShortMovieModel.id);\r",
+											"    pm.expect(actualMovieModel.startTime).to.eql(expectedShortMovieModel.startTime);\r",
+											"    pm.expect(actualMovieModel.film.title).to.eql(expectedShortMovieModel.title);\r",
+											"    pm.expect(actualMovieModel.cinemaHall.name).to.eql(expectedShortMovieModel.cinemaHallName);\r",
+											"\r",
+											"    // check other fields\r",
+											"    pm.expect(actualMovieModel.film.id).to.above(0);\r",
+											"    pm.expect(isNotEmpty(actualMovieModel.film.description)).to.be.true;\r",
+											"    const premiereDate = new Date(actualMovieModel.film.premiereDate);\r",
+											"    pm.expect(isNotEmpty(premiereDate.toString())).to.be.true;\r",
+											"    pm.expect(isNotEmpty(actualMovieModel.film.creator)).to.be.true;\r",
+											"    pm.expect(actualMovieModel.film.duration).to.above(0);\r",
+											"    pm.expect(actualMovieModel.film.ageLimit).to.above(-1);\r",
+											"    pm.expect(actualMovieModel.cinemaHall.id).to.above(0);\r",
+											"    pm.expect(isNotEmpty(actualMovieModel.cinemaHall.location)).to.be.true;\r",
+											"    pm.expect(actualMovieModel.cinemaHall.seatRows).to.above(0);\r",
+											"    pm.expect(actualMovieModel.cinemaHall.seatsInRow).to.above(0);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}/movies/{{movieId}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									],
+									"path": [
+										"movies",
+										"{{movieId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TestTearDown",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.unset(\"movieId\");\r",
+											"pm.environment.unset(\"movie\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ticketflow_baseurl}}",
+									"host": [
+										"{{ticketflow_baseurl}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
 					"event": [
 						{
 							"listen": "prerequest",
